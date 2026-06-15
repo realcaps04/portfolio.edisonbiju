@@ -80,7 +80,7 @@
   letter-spacing: -0.02em;
   color: var(--text-primary);
   margin-bottom: 1.25rem;
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 .hero__title--highlight {

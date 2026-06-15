@@ -113,11 +113,30 @@
   width: 100%;
 }
 
-/* CTA — right */
+/* Actions — right */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-left: auto;
+}
+
+.navbar__resume-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.navbar__resume-icon:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
 .navbar__cta {
   font-size: 0.875rem;
-  padding: 0.5rem 1.25rem;
-  margin-left: auto;
+  padding: 0.45rem 1.25rem;
 }
 
 /* Buttons */
@@ -227,7 +246,7 @@
 
 @media (max-width: 768px) {
   .navbar__links,
-  .navbar__cta {
+  .navbar__actions {
     display: none;
   }
   .navbar__hamburger {
