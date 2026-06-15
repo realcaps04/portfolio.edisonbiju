@@ -1,0 +1,44 @@
+/* Global utility overrides used across components */
+
+/* Ensure btn class resolves even when defined in Navbar.css */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--green-dark) 100%);
+  color: #fff;
+  padding: 0.75rem 1.75rem;
+  box-shadow: 0 4px 14px var(--glow-green);
+}
+
+.btn--primary:hover {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glow-green);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-light);
+  padding: 0.5rem 1.25rem;
+}
+
+.btn--outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(22, 163, 74, 0.06);
+}

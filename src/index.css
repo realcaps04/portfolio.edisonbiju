@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-primary: #f8fdf4;
+  --bg-secondary: #f0f9e8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f5fdf0;
+
+  /* Brand accent — vivid yellow-green */
+  --green: #4ade80;
+  --green-dark: #22c55e;
+  --yellow: #facc15;
+  --yellow-dark: #eab308;
+  --accent: #16a34a;
+  --accent-hover: #15803d;
+
+  /* Gradient accent used for highlight text */
+  --gradient-accent: linear-gradient(135deg, #16a34a 0%, #4ade80 50%, #facc15 100%);
+
+  /* Text */
+  --text-primary: #1a2e1a;
+  --text-secondary: #3d5c3d;
+  --text-muted: #6b8f6b;
+
+  /* Borders */
+  --border: #c8e6c9;
+  --border-light: #a5d6a7;
+
+  /* Glow / shadow tints */
+  --glow-green: rgba(22, 163, 74, 0.15);
+  --glow-yellow: rgba(250, 204, 21, 0.2);
+
+  /* Legacy alias kept for compatibility */
+  --orange: var(--accent);
+  --orange-hover: var(--accent-hover);
+  --glow-orange: var(--glow-green);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(74, 222, 128, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(250, 204, 21, 0.08) 0%, transparent 60%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}

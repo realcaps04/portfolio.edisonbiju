@@ -1,0 +1,131 @@
+.testimonials {
+  padding: 7rem 2rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #1e1e22 0%, #22222a 100%);
+  border-top: 1px solid var(--border);
+}
+
+.testimonials::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  left: -200px;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.testimonials__inner {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.testimonials__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  gap: 0.5rem;
+}
+
+.testimonials__title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.testimonials__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3rem;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.testimonials__card:hover {
+  border-color: rgba(249, 115, 22, 0.2);
+}
+
+.testimonials__quote-mark {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  font-size: 6rem;
+  line-height: 1;
+  color: rgba(249, 115, 22, 0.12);
+  font-family: Georgia, serif;
+  pointer-events: none;
+  user-select: none;
+}
+
+.testimonials__text {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-style: normal;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonials__author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.testimonials__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.testimonials__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.testimonials__role {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+.testimonials__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.testimonials__dot {
+  width: 28px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border-light);
+  transition: background 0.25s, width 0.25s;
+  cursor: pointer;
+}
+
+.testimonials__dot.active {
+  background: var(--orange);
+  width: 40px;
+}
+
+@media (max-width: 600px) {
+  .testimonials__card {
+    padding: 2rem 1.5rem;
+  }
+}
