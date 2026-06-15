@@ -10,12 +10,10 @@ export default function Hero() {
       <div className="hero__content">
         <p className="hero__eyebrow">Available for freelance work</p>
         <h1 className="hero__title">
-          Adaptive Logo Design<br />
-          <span className="hero__title--highlight">for Your Brand</span>
+          Adaptive Branding for Your Business —<br />
+          <span className="hero__title--highlight">Web Development &amp; Beyond</span>
         </h1>
-        <p className="hero__sub">
-          Adaptive Branding for Your Business — Web Development &amp; Beyond
-        </p>
+
         <div className="hero__actions">
           <a href="#projects" className="btn btn--primary hero__cta">
             View Projects

@@ -42,7 +42,7 @@
 .hero__content {
   position: relative;
   z-index: 1;
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
   animation: fadeUp 0.8s ease both;
 }
@@ -73,13 +73,14 @@
 }
 
 .hero__title {
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-family: 'Gropled', 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
   margin-bottom: 1.25rem;
+  white-space: nowrap;
 }
 
 .hero__title--highlight {
