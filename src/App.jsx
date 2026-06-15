@@ -7,6 +7,7 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AboutPage from './pages/AboutPage';
+import ProjectsPage from './pages/ProjectsPage';
 import './App.css';
 
 function HomePage() {
@@ -29,6 +30,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/projects" element={<ProjectsPage />} />
     </Routes>
   );
 }

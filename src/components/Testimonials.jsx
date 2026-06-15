@@ -8,7 +8,7 @@ const TESTIMONIALS = [
       "Edison completely transformed how our brand looks and feels. The logo he created is iconic — clients constantly compliment it. The whole process was smooth, professional, and genuinely enjoyable.",
     name: 'Sarah Mitchell',
     role: 'CEO, Lumora Studio',
-    initials: 'SM',
+    avatar: '/sarah.png',
     color: '#f97316',
   },
   {
@@ -17,7 +17,7 @@ const TESTIMONIALS = [
       "Working with Edison was one of the best design decisions we made. He understood our vision immediately and delivered an identity system that's both beautiful and functional across all touchpoints.",
     name: 'James Carter',
     role: 'Co-founder, Arcline',
-    initials: 'JC',
+    avatar: '/james.png',
     color: '#8b5cf6',
   },
   {
@@ -26,7 +26,7 @@ const TESTIMONIALS = [
       "The attention to detail is unreal. Every asset he delivered was pixel-perfect and came with thorough usage guidelines. We had our full brand kit in under two weeks.",
     name: 'Priya Okafor',
     role: 'Marketing Director, Velo',
-    initials: 'PO',
+    avatar: '/priya.png',
     color: '#06b6d4',
   },
 ];
@@ -54,10 +54,13 @@ export default function Testimonials() {
           <div className="testimonials__author">
             <div
               className="testimonials__avatar"
-              style={{ background: `${current.color}22`, border: `2px solid ${current.color}44` }}
-              aria-hidden="true"
+              style={{ border: `2.5px solid ${current.color}` }}
             >
-              <span style={{ color: current.color }}>{current.initials}</span>
+              <img
+                src={current.avatar}
+                alt={current.name}
+                className="testimonials__avatar-img"
+              />
             </div>
             <div>
               <p className="testimonials__name">{current.name}</p>
