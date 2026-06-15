@@ -1,5 +1,5 @@
 .footer {
-  background: #111113;
+  background: #f0f9e8;
   border-top: 1px solid var(--border);
   padding: 4rem 2rem 2rem;
 }
@@ -29,7 +29,7 @@
 }
 
 .footer__logo:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .footer__tagline {
@@ -61,7 +61,7 @@
 }
 
 .footer__nav-link:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .footer__email {
@@ -73,7 +73,7 @@
 }
 
 .footer__email:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .footer__socials {
@@ -87,16 +87,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-light);
+  border: 1.5px solid var(--border-light);
   border-radius: 8px;
   color: var(--text-muted);
   transition: all 0.2s;
+  background: var(--bg-card);
 }
 
 .footer__social:hover {
-  border-color: var(--orange);
-  color: var(--orange);
-  background: rgba(249, 115, 22, 0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(22, 163, 74, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--glow-green);
 }
 
 .footer__bottom {

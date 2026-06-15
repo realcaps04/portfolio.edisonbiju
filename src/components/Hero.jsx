@@ -14,8 +14,7 @@ export default function Hero() {
           <span className="hero__title--highlight">for Your Brand</span>
         </h1>
         <p className="hero__sub">
-          Crafting bold, timeless identities that make brands impossible to ignore.
-          Let&apos;s build something that lasts.
+          Adaptive Branding for Your Business — Web Development &amp; Beyond
         </p>
         <div className="hero__actions">
           <a href="#projects" className="btn btn--primary hero__cta">

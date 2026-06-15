@@ -9,10 +9,11 @@
 }
 
 .navbar--scrolled {
-  background: rgba(22, 22, 24, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(248, 253, 244, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 20px rgba(22, 163, 74, 0.08);
 }
 
 .navbar__inner {
@@ -37,7 +38,7 @@
 }
 
 .navbar__logo:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 /* Nav links — absolutely centered in the bar */
@@ -66,12 +67,13 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--orange);
+  background: var(--gradient-accent);
   transition: width 0.25s ease;
+  border-radius: 2px;
 }
 
 .navbar__link:hover {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 .navbar__link:hover::after {
@@ -91,7 +93,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.25s ease;
@@ -99,28 +101,29 @@
 }
 
 .btn--primary {
-  background: var(--orange);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--green-dark) 100%);
   color: #fff;
   padding: 0.75rem 1.75rem;
+  box-shadow: 0 4px 14px var(--glow-green);
 }
 
 .btn--primary:hover {
-  background: var(--orange-hover);
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px var(--glow-orange);
+  box-shadow: 0 8px 24px var(--glow-green);
 }
 
 .btn--outline {
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid var(--border-light);
   padding: 0.5rem 1.25rem;
 }
 
 .btn--outline:hover {
-  border-color: var(--orange);
-  color: var(--orange);
-  box-shadow: 0 0 0 1px var(--orange);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(22, 163, 74, 0.06);
 }
 
 /* Hamburger */
@@ -156,10 +159,11 @@
 
 /* Mobile menu */
 .navbar__mobile {
-  background: rgba(22, 22, 24, 0.97);
+  background: rgba(248, 253, 244, 0.98);
   backdrop-filter: blur(16px);
   padding: 1.5rem 2rem 2rem;
   border-top: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.1);
 }
 
 .navbar__mobile ul {
@@ -179,7 +183,7 @@
 }
 
 .navbar__mobile-link:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .navbar__mobile-cta {
