@@ -8,9 +8,9 @@ export default function Contact() {
 
         <span className="section-eyebrow contact__eyebrow">Get in touch with me</span>
 
-        <h2 className="contact__email" id="contact-title">
-          <a href="mailto:info@edison.com" aria-label="Send email to info@edison.com">
-            info@edison.com
+        <h2 className="contact__email font-gropled" id="contact-title">
+          <a href="mailto:edisonbijumullappallil@gmail.com" aria-label="Send email to edisonbijumullappallil@gmail.com">
+            edisonbijumullappallil@gmail.com
           </a>
         </h2>
 
@@ -19,7 +19,7 @@ export default function Contact() {
           creative ideas, or just having a chat.
         </p>
 
-        <a href="mailto:info@edison.com" className="btn btn--primary contact__btn">
+        <a href="mailto:edisonbijumullappallil@gmail.com" className="btn btn--primary contact__btn">
           Say hello
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

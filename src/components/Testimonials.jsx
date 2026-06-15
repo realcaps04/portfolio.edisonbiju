@@ -40,7 +40,7 @@ export default function Testimonials() {
       <div className="testimonials__inner">
         <div className="testimonials__header">
           <span className="section-eyebrow">Kind words</span>
-          <h2 className="testimonials__title" id="testimonials-title">Testimonial</h2>
+          <h2 className="testimonials__title font-gropled" id="testimonials-title">Testimonial</h2>
         </div>
 
         <div className="testimonials__card">

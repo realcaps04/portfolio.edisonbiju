@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Home', href: '/', isRoute: false },
+  { label: 'About', href: '/about', isRoute: true },
+  { label: 'Projects', href: '#projects', isRoute: false },
+  { label: 'Testimonials', href: '#testimonials', isRoute: false },
 ];
 
 export default function Navbar() {
@@ -38,9 +39,12 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <ul className="navbar__links" role="list">
-          {NAV_LINKS.map(({ label, href }) => (
+          {NAV_LINKS.map(({ label, href, isRoute }) => (
             <li key={label}>
-              <a href={href} className="navbar__link">{label}</a>
+              {isRoute
+                ? <Link to={href} className="navbar__link">{label}</Link>
+                : <a href={href} className="navbar__link">{label}</a>
+              }
             </li>
           ))}
         </ul>
@@ -67,9 +71,12 @@ export default function Navbar() {
       {menuOpen && (
         <div className="navbar__mobile" role="dialog" aria-modal="true" aria-label="Mobile menu">
           <ul role="list">
-            {NAV_LINKS.map(({ label, href }) => (
+            {NAV_LINKS.map(({ label, href, isRoute }) => (
               <li key={label}>
-                <a href={href} className="navbar__mobile-link" onClick={handleLinkClick}>{label}</a>
+                {isRoute
+                  ? <Link to={href} className="navbar__mobile-link" onClick={handleLinkClick}>{label}</Link>
+                  : <a href={href} className="navbar__mobile-link" onClick={handleLinkClick}>{label}</a>
+                }
               </li>
             ))}
             <li>

@@ -16,7 +16,7 @@ export default function About() {
         {/* Text side */}
         <div className="about__text">
           <span className="section-eyebrow">About me</span>
-          <h2 className="about__title" id="about-title">
+          <h2 className="about__title font-gropled" id="about-title">
             Let&apos;s get know<br />
             about me closer
           </h2>
