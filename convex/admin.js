@@ -6,44 +6,20 @@ const DEFAULT_EMAIL = "edisonbiju45@gmail.com";
 const DEFAULT_PASSWORD = "Edison@3455";
 const SESSION_MS = 1000 * 60 * 60 * 24 * 7;
 
-function bytesToHex(bytes) {
-  return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-function randomHex(size = 16) {
-  const bytes = new Uint8Array(size);
+function randomToken() {
+  const bytes = new Uint8Array(32);
   crypto.getRandomValues(bytes);
-  return bytesToHex(bytes);
-}
-
-async function hashPassword(password, saltHex) {
-  const encoded = new TextEncoder().encode(`${saltHex}:${password}:eb-admin`);
-  const digest = await crypto.subtle.digest("SHA-256", encoded);
-  return bytesToHex(digest);
-}
-
-function hashesMatch(left, right) {
-  if (left.length !== right.length) return false;
-  let next = 0;
-  for (let i = 0; i < left.length; i += 1) {
-    next |= left.charCodeAt(i) ^ right.charCodeAt(i);
-  }
-  return next === 0;
+  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 async function ensureDefaultAdmin(ctx) {
   const email = DEFAULT_EMAIL.toLowerCase();
   const rows = await ctx.db.query("admins").take(50);
   const existing = rows.find((row) => (row.email || "").toLowerCase() === email) ?? null;
-
-  const salt = existing?.salt || randomHex(16);
-  const passwordHash = await hashPassword(DEFAULT_PASSWORD, salt);
   const fields = {
     name: DEFAULT_NAME,
     email,
-    salt,
-    passwordHash,
-    createdAt: existing?.createdAt ?? Date.now(),
+    password: DEFAULT_PASSWORD,
   };
 
   if (existing) {
@@ -55,10 +31,8 @@ async function ensureDefaultAdmin(ctx) {
 }
 
 async function requireSession(ctx, token) {
-  const session = await ctx.db
-    .query("adminSessions")
-    .withIndex("by_token", (q) => q.eq("token", token))
-    .unique();
+  const sessions = await ctx.db.query("adminSessions").take(100);
+  const session = sessions.find((row) => row.token === token) ?? null;
 
   if (!session || session.expiresAt < Date.now()) {
     if (session) await ctx.db.delete(session._id);
@@ -85,8 +59,7 @@ export const seed = mutation({
   args: {},
   handler: async (ctx) => {
     const id = await ensureDefaultAdmin(ctx);
-    const admin = await ctx.db.get(id);
-    return { id, email: admin?.email ?? DEFAULT_EMAIL };
+    return { id, email: DEFAULT_EMAIL };
   },
 });
 
@@ -96,46 +69,31 @@ export const login = mutation({
     password: v.string(),
   },
   handler: async (ctx, args) => {
-    try {
-      await ensureDefaultAdmin(ctx);
+    const id = await ensureDefaultAdmin(ctx);
+    const admin = await ctx.db.get(id);
+    const email = args.email.trim().toLowerCase();
 
-      const email = args.email.trim().toLowerCase();
-      const rows = await ctx.db.query("admins").take(50);
-      const admin = rows.find((row) => (row.email || "").toLowerCase() === email) ?? null;
-
-      if (!admin) {
-        throw new Error("Invalid email or password.");
-      }
-
-      const passwordHash = await hashPassword(args.password, admin.salt);
-      if (!hashesMatch(admin.passwordHash, passwordHash)) {
-        throw new Error("Invalid email or password.");
-      }
-
-      const token = randomHex(32);
-      await ctx.db.insert("adminSessions", {
-        adminId: admin._id,
-        token,
-        createdAt: Date.now(),
-        expiresAt: Date.now() + SESSION_MS,
-      });
-
-      return { token, email: admin.email };
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not sign in.";
-      if (message === "Invalid email or password.") throw err;
-      throw new Error(message);
+    if (!admin || admin.email !== email || admin.password !== args.password) {
+      throw new Error("Invalid email or password.");
     }
+
+    const token = randomToken();
+    await ctx.db.insert("adminSessions", {
+      adminId: admin._id,
+      token,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + SESSION_MS,
+    });
+
+    return { token, email: admin.email };
   },
 });
 
 export const logout = mutation({
   args: { token: v.string() },
   handler: async (ctx, args) => {
-    const session = await ctx.db
-      .query("adminSessions")
-      .withIndex("by_token", (q) => q.eq("token", args.token))
-      .unique();
+    const sessions = await ctx.db.query("adminSessions").take(100);
+    const session = sessions.find((row) => row.token === args.token);
     if (session) await ctx.db.delete(session._id);
   },
 });

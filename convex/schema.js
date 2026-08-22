@@ -38,9 +38,7 @@ export default defineSchema({
   admins: defineTable({
     name: v.string(),
     email: v.string(),
-    passwordHash: v.string(),
-    salt: v.string(),
-    createdAt: v.number(),
+    password: v.string(),
   }).index("by_email", ["email"]),
 
   adminSessions: defineTable({
