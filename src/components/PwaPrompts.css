@@ -1,0 +1,210 @@
+.pwa-chip {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.15rem;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.28rem 0.28rem 0.28rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(8, 10, 16, 0.94);
+  border: 1px solid rgba(204, 255, 0, 0.28);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.pwa-chip__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.15rem;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #ccff00;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.pwa-chip__x {
+  position: relative;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.pwa-chip__x span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: 0.7rem;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.35rem;
+  background: #a1a1aa;
+}
+
+.pwa-chip__x span:first-child {
+  transform: rotate(45deg);
+}
+
+.pwa-chip__x span:last-child {
+  transform: rotate(-45deg);
+}
+
+.pwa-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.pwa-modal__card {
+  position: relative;
+  width: min(100%, 28.5rem);
+  padding: 2rem 1.7rem 1.6rem;
+  border-radius: 1.35rem;
+  background: #0c1018;
+  border: 1px solid rgba(204, 255, 0, 0.18);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(37, 99, 235, 0.12);
+}
+
+.pwa-modal__icon {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 0 1rem;
+  border-radius: 0.85rem;
+  background: #000;
+}
+
+.pwa-modal__close {
+  position: absolute;
+  top: 0.95rem;
+  right: 0.95rem;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+}
+
+.pwa-modal__close span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: 0.95rem;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.475rem;
+  background: #d4d4d8;
+}
+
+.pwa-modal__close span:first-child {
+  transform: rotate(45deg);
+}
+
+.pwa-modal__close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.pwa-modal__eyebrow {
+  margin: 0 0 0.7rem;
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pwa-modal__title {
+  margin: 0 0 0.85rem;
+  font-family: 'Gropled', 'Space Grotesk', sans-serif;
+  font-size: clamp(1.7rem, 4vw, 2.15rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.pwa-modal__title span {
+  color: #ccff00;
+}
+
+.pwa-modal__copy {
+  margin: 0 0 1.5rem;
+  color: #a1a1aa;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.pwa-modal__steps {
+  margin: 0 0 1.5rem;
+  padding-left: 1.15rem;
+  color: #a1a1aa;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.pwa-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pwa-modal__cta,
+.pwa-modal__ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.7rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.pwa-modal__cta {
+  border: 0;
+  background: #2563eb;
+  color: #fff;
+}
+
+.pwa-modal__cta:hover {
+  background: #1d4ed8;
+}
+
+.pwa-modal__ghost {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.pwa-modal__ghost:hover {
+  border-color: rgba(204, 255, 0, 0.45);
+  color: #ccff00;
+}
+
+@media (max-width: 899px) {
+  .pwa-chip {
+    left: 0.75rem;
+    right: auto;
+    bottom: calc(4.85rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 900px) {
+  .pwa-chip {
+    display: none;
+  }
+}

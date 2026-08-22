@@ -57,6 +57,25 @@
   margin-left: auto;
 }
 
+.hp-bar__install {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.55rem;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(204, 255, 0, 0.35);
+  background: transparent;
+  color: #ccff00;
+  font-size: 0.84rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hp-bar__install:hover {
+  background: rgba(204, 255, 0, 0.08);
+}
+
 .hp-bar__connect {
   display: inline-flex;
   align-items: center;
@@ -105,6 +124,12 @@
 @media (min-width: 720px) {
   .hp-bar {
     padding: 1.35rem 3.5rem 1.1rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .hp-bar__install {
+    display: inline-flex;
   }
 }
 

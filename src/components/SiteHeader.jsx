@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useContactModal } from './ContactModal';
+import { usePwa } from './PwaPrompts';
 import './SiteHeader.css';
 
 const NAV_LINKS = [
@@ -14,6 +15,7 @@ export default function SiteHeader() {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const { openContact } = useContactModal();
+  const { canInstall, promptInstall } = usePwa();
 
   return (
     <header className={`hp-bar${menuOpen ? ' is-open' : ''}`}>
@@ -34,6 +36,11 @@ export default function SiteHeader() {
       </nav>
 
       <div className="hp-bar__end">
+        {canInstall ? (
+          <button type="button" className="hp-bar__install" onClick={promptInstall}>
+            Install app
+          </button>
+        ) : null}
         <button
           type="button"
           className="hp-bar__connect"
