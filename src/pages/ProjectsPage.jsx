@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SiteHeader from '../components/SiteHeader';
 import ProjectCard from '../components/ProjectCard';
+import { useContactModal } from '../components/ContactModal';
 import { PROJECTS } from '../data/projects';
 import './ProjectsPage.css';
 
@@ -8,6 +9,7 @@ const CATEGORIES = ['All', ...new Set(PROJECTS.map((p) => p.category))];
 
 export default function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const { openContact } = useContactModal();
 
   const filtered =
     activeCategory === 'All'
@@ -32,9 +34,9 @@ export default function ProjectsPage() {
             performance, design, and user experience at the core.
           </p>
           <div className="pp-hero__actions">
-            <a className="pp-cta" href="mailto:edisonbijumullappallil@gmail.com">
+            <button type="button" className="pp-cta" onClick={() => openContact('projects-hero')}>
               Get in Touch
-            </a>
+            </button>
             <p className="pp-status">
               <span className="pp-status__dot" aria-hidden="true" />
               Available for Hire
@@ -75,9 +77,9 @@ export default function ProjectsPage() {
         <p className="pp-bottom__sub">
           I&apos;d love to hear about it. Let&apos;s build something that actually feels good to use.
         </p>
-        <a className="pp-cta" href="mailto:edisonbijumullappallil@gmail.com">
+        <button type="button" className="pp-cta" onClick={() => openContact('projects-cta')}>
           Get in Touch
-        </a>
+        </button>
       </section>
     </div>
   );

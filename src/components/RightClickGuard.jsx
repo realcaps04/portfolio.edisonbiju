@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useContactModal } from './ContactModal';
 import './RightClickGuard.css';
 
 // Set to false to turn this off. Do not comment out the whole file —
 // App.jsx still needs the default export.
 const ENABLED = false;
 
-const EMAIL = 'mailto:edisonbijumullappallil@gmail.com';
-
 export default function RightClickGuard() {
   const [open, setOpen] = useState(false);
+  const { openContact } = useContactModal();
 
   useEffect(() => {
     if (!ENABLED) return undefined;
@@ -68,9 +68,16 @@ export default function RightClickGuard() {
         </p>
 
         <div className="rcg__actions">
-          <a className="rcg__cta" href={EMAIL} onClick={() => setOpen(false)}>
+          <button
+            type="button"
+            className="rcg__cta"
+            onClick={() => {
+              setOpen(false);
+              openContact('right-click');
+            }}
+          >
             Connect with me
-          </a>
+          </button>
           <button type="button" className="rcg__ghost" onClick={() => setOpen(false)}>
             Keep exploring
           </button>

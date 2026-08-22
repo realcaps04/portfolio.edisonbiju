@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useContactModal } from './ContactModal';
 import './SiteHeader.css';
 
 const NAV_LINKS = [
@@ -11,6 +12,7 @@ const NAV_LINKS = [
 export default function SiteHeader() {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openContact } = useContactModal();
 
   return (
     <header className={`hp-bar${menuOpen ? ' is-open' : ''}`}>
@@ -31,9 +33,16 @@ export default function SiteHeader() {
       </nav>
 
       <div className="hp-bar__end">
-        <a className="hp-bar__connect" href="mailto:edisonbijumullappallil@gmail.com">
+        <button
+          type="button"
+          className="hp-bar__connect"
+          onClick={() => {
+            setMenuOpen(false);
+            openContact('connect');
+          }}
+        >
           Connect with me
-        </a>
+        </button>
         <button
           type="button"
           className={`hp-bar__menu${menuOpen ? ' is-open' : ''}`}

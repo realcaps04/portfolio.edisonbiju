@@ -1,4 +1,5 @@
 import SiteHeader from '../components/SiteHeader';
+import { useContactModal } from '../components/ContactModal';
 import './AboutPage.css';
 
 const CONTACT = [
@@ -123,6 +124,8 @@ const LANGUAGES = [
 const RESUME = '/Resume_EDISON_BIJU.pdf';
 
 export default function AboutPage() {
+  const { openContact } = useContactModal();
+
   return (
     <div className="hp ab">
       <SiteHeader />
@@ -146,9 +149,9 @@ export default function AboutPage() {
               developer or designer role where I can ship real product.
             </p>
             <div className="ab-hero__actions">
-              <a className="ab-btn" href="mailto:edisonbijumullappallil@gmail.com">
+              <button type="button" className="ab-btn" onClick={() => openContact('about-hero')}>
                 Get in Touch
-              </a>
+              </button>
               <a className="ab-btn ab-btn--ghost" href={RESUME} download="Edison_Biju_Resume.pdf">
                 Download Resume
               </a>
@@ -300,9 +303,9 @@ export default function AboutPage() {
           I&apos;m looking for a software developer or designer seat. Send a note — I&apos;ll reply fast.
         </p>
         <div className="ab-hero__actions">
-          <a className="ab-btn" href="mailto:edisonbijumullappallil@gmail.com">
+          <button type="button" className="ab-btn" onClick={() => openContact('about-cta')}>
             Get in Touch
-          </a>
+          </button>
           <a className="ab-btn ab-btn--ghost" href={RESUME} download="Edison_Biju_Resume.pdf">
             Download Resume
           </a>
