@@ -64,11 +64,6 @@ export default function HomePage() {
               <br />
               based on India
             </h2>
-            <p className="hp-intro__bio">
-              I build fast, clean web apps with React, Node, and a strong eye for UI.
-              From landing pages to full dashboards, I care about performance, clarity,
-              and shipping work that actually feels good to use. Always up for a new build.
-            </p>
           </div>
 
           <div className="hp-intro__visual">
@@ -130,6 +125,12 @@ export default function HomePage() {
               <CursorIcon />
             </span>
           </div>
+
+          <p className="hp-intro__bio">
+            I build fast, clean web apps with React, Node, and a strong eye for UI.
+            From landing pages to full dashboards, I care about performance, clarity,
+            and shipping work that actually feels good to use. Always up for a new build.
+          </p>
         </div>
       </section>
 
