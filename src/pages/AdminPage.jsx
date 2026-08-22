@@ -43,6 +43,7 @@ export default function AdminPage() {
 
   const inbox = useQuery(api.admin.inbox, token ? { token } : 'skip');
   const login = useMutation(api.admin.login);
+  const seedAdmin = useMutation(api.admin.seed);
   const logoutSession = useMutation(api.admin.logout);
   const removeContact = useMutation(api.admin.removeContact);
   const removeWork = useMutation(api.admin.removeWorkInquiry);
@@ -73,6 +74,10 @@ export default function AdminPage() {
       else appleTitle.content = previousApple;
     };
   }, []);
+
+  useEffect(() => {
+    seedAdmin({}).catch(() => {});
+  }, [seedAdmin]);
 
   useEffect(() => {
     if (!token) return undefined;

@@ -1,6 +1,7 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+const DEFAULT_NAME = "Edison Biju";
 const DEFAULT_EMAIL = "edisonbiju45@gmail.com";
 const DEFAULT_PASSWORD = "Edison@3455";
 const SESSION_MS = 1000 * 60 * 60 * 24 * 7;
@@ -32,30 +33,25 @@ function hashesMatch(left, right) {
 
 async function ensureDefaultAdmin(ctx) {
   const email = DEFAULT_EMAIL.toLowerCase();
-  const existing = await ctx.db
-    .query("admins")
-    .withIndex("by_email", (q) => q.eq("email", email))
-    .unique();
+  const rows = await ctx.db.query("admins").take(50);
+  const existing = rows.find((row) => (row.email || "").toLowerCase() === email) ?? null;
+
+  const salt = existing?.salt || randomHex(16);
+  const passwordHash = await hashPassword(DEFAULT_PASSWORD, salt);
+  const fields = {
+    name: DEFAULT_NAME,
+    email,
+    salt,
+    passwordHash,
+    createdAt: existing?.createdAt ?? Date.now(),
+  };
 
   if (existing) {
-    const passwordHash = await hashPassword(DEFAULT_PASSWORD, existing.salt);
-    if (!hashesMatch(existing.passwordHash, passwordHash)) {
-      const salt = randomHex(16);
-      await ctx.db.patch(existing._id, {
-        salt,
-        passwordHash: await hashPassword(DEFAULT_PASSWORD, salt),
-      });
-    }
+    await ctx.db.patch(existing._id, fields);
     return existing._id;
   }
 
-  const salt = randomHex(16);
-  return await ctx.db.insert("admins", {
-    email,
-    salt,
-    passwordHash: await hashPassword(DEFAULT_PASSWORD, salt),
-    createdAt: Date.now(),
-  });
+  return await ctx.db.insert("admins", fields);
 }
 
 async function requireSession(ctx, token) {
@@ -85,6 +81,15 @@ function stamp(doc) {
   };
 }
 
+export const seed = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const id = await ensureDefaultAdmin(ctx);
+    const admin = await ctx.db.get(id);
+    return { id, email: admin?.email ?? DEFAULT_EMAIL };
+  },
+});
+
 export const login = mutation({
   args: {
     email: v.string(),
@@ -95,10 +100,8 @@ export const login = mutation({
       await ensureDefaultAdmin(ctx);
 
       const email = args.email.trim().toLowerCase();
-      const admin = await ctx.db
-        .query("admins")
-        .withIndex("by_email", (q) => q.eq("email", email))
-        .unique();
+      const rows = await ctx.db.query("admins").take(50);
+      const admin = rows.find((row) => (row.email || "").toLowerCase() === email) ?? null;
 
       if (!admin) {
         throw new Error("Invalid email or password.");
