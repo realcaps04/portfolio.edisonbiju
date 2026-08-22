@@ -60,27 +60,20 @@ export default function CustomCursor() {
       const originY = -CELL + (shiftY % CELL);
 
       ctx.clearRect(0, 0, w, h);
-      ctx.lineWidth = 1.15;
+      ctx.lineWidth = 1;
 
       for (let x = originX; x < w + CELL; x += CELL) {
         for (let y = originY; y < h + CELL; y += CELL) {
           const cx = x + CELL / 2;
           const cy = y + CELL / 2;
           const dist = Math.hypot(look.current.x - cx, look.current.y - cy);
-          const glow = Math.max(0, 1 - dist / 420);
-          const alpha = 0.07 + glow * (hover ? 0.38 : 0.28);
+          const glow = Math.max(0, 1 - dist / 480);
+          const alpha = 0.035 + glow * (hover ? 0.1 : 0.07);
 
           ctx.strokeStyle = hover
             ? `rgba(139, 92, 246, ${alpha})`
             : `rgba(204, 255, 0, ${alpha})`;
           ctx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
-
-          if (glow > 0.55) {
-            ctx.fillStyle = hover
-              ? `rgba(139, 92, 246, ${(glow - 0.55) * 0.12})`
-              : `rgba(204, 255, 0, ${(glow - 0.55) * 0.1})`;
-            ctx.fillRect(x + 1, y + 1, CELL - 2, CELL - 2);
-          }
         }
       }
     };

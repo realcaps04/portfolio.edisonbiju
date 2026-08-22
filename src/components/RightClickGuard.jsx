@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 import './RightClickGuard.css';
 
+// Set to false to turn this off. Do not comment out the whole file —
+// App.jsx still needs the default export.
+const ENABLED = true;
+
 const EMAIL = 'mailto:edisonbijumullappallil@gmail.com';
 
 export default function RightClickGuard() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (!ENABLED) return undefined;
+
     const onContextMenu = (event) => {
       event.preventDefault();
       setOpen(true);
@@ -26,13 +32,13 @@ export default function RightClickGuard() {
   }, []);
 
   useEffect(() => {
-    if (!open) return undefined;
+    if (!ENABLED || !open) return undefined;
 
     const timer = window.setTimeout(() => setOpen(false), 6500);
     return () => window.clearTimeout(timer);
   }, [open]);
 
-  if (!open) return null;
+  if (!ENABLED || !open) return null;
 
   return (
     <div
