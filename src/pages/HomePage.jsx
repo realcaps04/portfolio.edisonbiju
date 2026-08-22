@@ -162,9 +162,9 @@ function ProfileSection() {
 
   const facts = [
     "I'm based in Idukki, Kerala, India",
-    "I've been building in this field for 5+ years",
-    'I build fast web apps with React and Node',
-    "I'm a designer, programmer, and web developer",
+    'Recent BCA graduate from JPM Arts and Science College, Labbakkada',
+    'I build with MERN, Python, PHP, and MySQL',
+    "I'm a full stack developer and designer",
     'My phone number in India +91 79079 51080',
   ];
 
