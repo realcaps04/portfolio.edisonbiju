@@ -42,7 +42,7 @@ export default function SiteHeader() {
             openContact('connect');
           }}
         >
-          Connect with me
+          Connect<span className="hp-bar__connect-rest"> with me</span>
         </button>
         <button
           type="button"

@@ -114,19 +114,29 @@
   }
 }
 
-@media (max-width: 719px) {
+@media (max-width: 899px) {
   .hp-bar {
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    padding: 0.85rem 1.1rem 0.8rem;
-    background: rgba(0, 0, 0, 0.82);
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 100%;
+    padding: 0.5rem 0.65rem max(0.5rem, env(safe-area-inset-bottom));
+    background: rgba(8, 10, 16, 0.94);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  .hp-bar__mark {
+    height: 1.7rem;
   }
 
   .hp-bar__connect {
-    min-height: 2.3rem;
-    padding: 0.45rem 0.85rem;
-    font-size: 0.78rem;
+    min-height: 2.15rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.72rem;
   }
 
   .hp-bar__menu {
@@ -134,23 +144,24 @@
   }
 
   .hp-bar__links {
-    position: fixed;
-    left: 0.7rem;
-    right: 0.7rem;
-    bottom: max(0.7rem, env(safe-area-inset-bottom));
+    position: static;
+    left: auto;
+    right: auto;
     top: auto;
+    bottom: auto;
     transform: none;
-    z-index: 40;
+    flex: 1;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    gap: 0.15rem;
-    padding: 0.55rem 0.35rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 1.15rem;
-    background: rgba(8, 10, 16, 0.94);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    gap: 0.1rem;
+    margin: 0 0.35rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .hp-bar.is-open .hp-bar__links {
@@ -161,10 +172,10 @@
     flex: 1;
     display: grid;
     place-items: center;
-    min-height: 2.35rem;
-    padding: 0.2rem 0.3rem;
-    border-radius: 0.75rem;
-    font-size: 0.78rem;
+    min-height: 2.2rem;
+    padding: 0.15rem 0.2rem;
+    border-radius: 0.7rem;
+    font-size: 0.7rem;
     opacity: 0.7;
   }
 
@@ -173,10 +184,18 @@
     color: #111;
     background: #ccff00;
   }
-}
 
-@media (max-width: 719px) {
   .hp {
-    padding-bottom: 5.25rem;
+    padding-bottom: 4.75rem;
+  }
+
+  @media (max-width: 420px) {
+    .hp-bar__connect-rest {
+      display: none;
+    }
+
+    .hp-bar__mark {
+      height: 1.45rem;
+    }
   }
 }
