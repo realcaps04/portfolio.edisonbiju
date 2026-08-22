@@ -46,13 +46,15 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,jpg,webp}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,jpg,webp,webmanifest}'],
         navigateFallback: '/index.html',
+        navigateFallbackAllowlist: [/^\/(?!api).*/],
         navigateFallbackDenylist: [/^\/api/, /convex\.cloud/],
       },
       devOptions: {
         enabled: true,
         type: 'module',
+        navigateFallbackAllowlist: [/^\/$/, /^\/admin/, /^\/about/, /^\/projects/, /^\/builds/],
       },
     }),
   ],
