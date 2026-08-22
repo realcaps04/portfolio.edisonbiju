@@ -89,7 +89,7 @@ export default function HomePage() {
         <div className="hp-intro__inner">
           <div className="hp-intro__copy">
             <p className="hp-intro__label">Introduction</p>
-            <h2 className="hp-intro__title" id="intro-title">
+            <h2 className="hp-intro__title font-gropled" id="intro-title">
               Hello!, I&apos;m Edison Biju
               <br />
               <span className="hp-intro__role">Programmer</span>

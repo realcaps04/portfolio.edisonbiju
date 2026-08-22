@@ -301,9 +301,10 @@ body:has(.hp) {
 .hp-intro__title {
   margin: 0 0 1.45rem;
   color: #fff;
+  font-family: 'Gropled', 'Space Grotesk', sans-serif;
   font-size: clamp(2.15rem, 5.6vw, 3.45rem);
-  font-weight: 700;
-  letter-spacing: -0.038em;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   line-height: 1.16;
 }
 

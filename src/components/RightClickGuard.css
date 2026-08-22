@@ -1,0 +1,138 @@
+.rcg {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(8px);
+  animation: rcg-fade 0.22s ease;
+}
+
+.rcg__card {
+  position: relative;
+  width: min(100%, 28.5rem);
+  padding: 2rem 1.7rem 1.6rem;
+  border-radius: 1.35rem;
+  background: #0c1018;
+  border: 1px solid rgba(204, 255, 0, 0.18);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(37, 99, 235, 0.12);
+  animation: rcg-up 0.28s ease;
+}
+
+.rcg__close {
+  position: absolute;
+  top: 0.95rem;
+  right: 0.95rem;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+}
+
+.rcg__close span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: 0.95rem;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.475rem;
+  background: #d4d4d8;
+}
+
+.rcg__close span:first-child {
+  transform: rotate(45deg);
+}
+
+.rcg__close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.rcg__eyebrow {
+  margin: 0 0 0.7rem;
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rcg__title {
+  margin: 0 0 0.85rem;
+  font-family: 'Gropled', 'Space Grotesk', sans-serif;
+  font-size: clamp(1.7rem, 4vw, 2.15rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.rcg__title span {
+  color: #ccff00;
+}
+
+.rcg__copy {
+  margin: 0 0 1.5rem;
+  color: #a1a1aa;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.rcg__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rcg__cta,
+.rcg__ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.7rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.rcg__cta {
+  background: #2563eb;
+  color: #fff;
+}
+
+.rcg__cta:hover {
+  background: #1d4ed8;
+}
+
+.rcg__ghost {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.rcg__ghost:hover {
+  border-color: rgba(204, 255, 0, 0.45);
+  color: #ccff00;
+}
+
+@keyframes rcg-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes rcg-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
