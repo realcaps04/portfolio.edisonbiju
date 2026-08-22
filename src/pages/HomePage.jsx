@@ -73,11 +73,13 @@ export default function HomePage() {
             <span className="hp-hero__outline" aria-hidden="true" />
             <span className="hp-hero__pill" aria-hidden="true" />
             <span className="hp-hero__slab" aria-hidden="true" />
-            <img
-              src="/profile.png"
-              alt="Edison Biju, web developer"
-              className="hp-hero__photo"
-            />
+            <div className="hp-hero__photo-wrap">
+              <img
+                src="/profile.png"
+                alt="Edison Biju, web developer"
+                className="hp-hero__photo"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -90,7 +92,7 @@ export default function HomePage() {
           <div className="hp-intro__copy">
             <p className="hp-intro__label">Introduction</p>
             <h2 className="hp-intro__title font-gropled" id="intro-title">
-              Hello!, I&apos;m Edison Biju
+              Hello!, I&apos;m <span className="hp-intro__name">Edison Biju</span>
               <br />
               <span className="hp-intro__role">Programmer</span>
               <br />

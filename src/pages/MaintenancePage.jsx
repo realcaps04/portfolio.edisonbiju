@@ -85,11 +85,13 @@ export default function MaintenancePage() {
             <span className="maintenance__outline" aria-hidden="true" />
             <span className="maintenance__pill" aria-hidden="true" />
             <span className="maintenance__slab" aria-hidden="true" />
-            <img
-              src="/profile.png"
-              alt="Edison Biju, web developer"
-              className="maintenance__photo"
-            />
+            <div className="maintenance__photo-wrap">
+              <img
+                src="/profile.png"
+                alt="Edison Biju, web developer"
+                className="maintenance__photo"
+              />
+            </div>
           </div>
         </div>
       </main>
