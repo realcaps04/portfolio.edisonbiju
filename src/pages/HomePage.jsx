@@ -6,7 +6,6 @@ const NAV_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Projects', to: '/projects' },
   { label: 'About', to: '/about' },
-  { label: 'Content', to: '#intro' },
 ];
 
 export default function HomePage() {
