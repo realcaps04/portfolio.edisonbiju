@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
 import BuildsPage from './pages/BuildsPage';
+import AdminPage from './pages/AdminPage';
 import RightClickGuard from './components/RightClickGuard';
 import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/builds" element={<BuildsPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </WorkProvider>
       </ContactProvider>

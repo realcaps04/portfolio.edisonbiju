@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useContactModal } from './ContactModal';
 import { usePwa } from './pwaContext';
+import { scrollToTop } from '../lib/scrollTop';
 import './SiteHeader.css';
 
 const NAV_LINKS = [
@@ -19,7 +20,7 @@ export default function SiteHeader() {
 
   return (
     <header className={`hp-bar${menuOpen ? ' is-open' : ''}`}>
-      <Link to="/" className="hp-bar__logo" aria-label="Edison — home">
+      <Link to="/" className="hp-bar__logo" aria-label="Edison — home" onClick={scrollToTop}>
         <img src="/logo.png" alt="EB" className="hp-bar__mark" />
       </Link>
 
@@ -28,7 +29,15 @@ export default function SiteHeader() {
           const active = pathname === to;
           const className = `hp-bar__link${active ? ' is-active' : ''}`;
           return (
-            <Link key={label} to={to} className={className} onClick={() => setMenuOpen(false)}>
+            <Link
+              key={label}
+              to={to}
+              className={className}
+              onClick={() => {
+                setMenuOpen(false);
+                scrollToTop();
+              }}
+            >
               {label}
             </Link>
           );
