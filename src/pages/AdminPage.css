@@ -83,6 +83,34 @@
   font-family: inherit;
 }
 
+.ad-password {
+  position: relative;
+  display: block;
+}
+
+.ad-password input {
+  padding-right: 2.8rem;
+}
+
+.ad-eye {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #a1a1aa;
+}
+
+.ad-eye:hover {
+  color: #ccff00;
+}
+
 .ad-error {
   margin: 0 0 0.85rem;
   color: #fca5a5;

@@ -9,14 +9,6 @@ function bytesToHex(bytes) {
   return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-function hexToBytes(hex) {
-  const bytes = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < bytes.length; i += 1) {
-    bytes[i] = Number.parseInt(hex.slice(i * 2, i * 2 + 2), 16);
-  }
-  return bytes;
-}
-
 function randomHex(size = 16) {
   const bytes = new Uint8Array(size);
   crypto.getRandomValues(bytes);
@@ -24,19 +16,9 @@ function randomHex(size = 16) {
 }
 
 async function hashPassword(password, saltHex) {
-  const encoded = new TextEncoder().encode(password);
-  const keyMaterial = await crypto.subtle.importKey("raw", encoded, "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits(
-    {
-      name: "PBKDF2",
-      hash: "SHA-256",
-      iterations: 100000,
-      salt: hexToBytes(saltHex),
-    },
-    keyMaterial,
-    256,
-  );
-  return bytesToHex(bits);
+  const encoded = new TextEncoder().encode(`${saltHex}:${password}:eb-admin`);
+  const digest = await crypto.subtle.digest("SHA-256", encoded);
+  return bytesToHex(digest);
 }
 
 function hashesMatch(left, right) {
@@ -109,32 +91,38 @@ export const login = mutation({
     password: v.string(),
   },
   handler: async (ctx, args) => {
-    await ensureDefaultAdmin(ctx);
+    try {
+      await ensureDefaultAdmin(ctx);
 
-    const email = args.email.trim().toLowerCase();
-    const admin = await ctx.db
-      .query("admins")
-      .withIndex("by_email", (q) => q.eq("email", email))
-      .unique();
+      const email = args.email.trim().toLowerCase();
+      const admin = await ctx.db
+        .query("admins")
+        .withIndex("by_email", (q) => q.eq("email", email))
+        .unique();
 
-    if (!admin) {
-      throw new Error("Invalid email or password.");
+      if (!admin) {
+        throw new Error("Invalid email or password.");
+      }
+
+      const passwordHash = await hashPassword(args.password, admin.salt);
+      if (!hashesMatch(admin.passwordHash, passwordHash)) {
+        throw new Error("Invalid email or password.");
+      }
+
+      const token = randomHex(32);
+      await ctx.db.insert("adminSessions", {
+        adminId: admin._id,
+        token,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + SESSION_MS,
+      });
+
+      return { token, email: admin.email };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not sign in.";
+      if (message === "Invalid email or password.") throw err;
+      throw new Error(message);
     }
-
-    const passwordHash = await hashPassword(args.password, admin.salt);
-    if (!hashesMatch(admin.passwordHash, passwordHash)) {
-      throw new Error("Invalid email or password.");
-    }
-
-    const token = randomHex(32);
-    await ctx.db.insert("adminSessions", {
-      adminId: admin._id,
-      token,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + SESSION_MS,
-    });
-
-    return { token, email: admin.email };
   },
 });
 
