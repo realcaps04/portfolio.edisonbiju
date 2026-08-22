@@ -1,8 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { PwaContext } from './pwaContext';
 import './PwaPrompts.css';
 
 const DISMISS_INSTALL = 'eb-pwa-install-dismissed';
-const PwaContext = createContext(null);
 
 function isStandaloneMode() {
   return (
@@ -15,14 +15,6 @@ function isStandaloneMode() {
 function isIosDevice() {
   const ua = window.navigator.userAgent || '';
   return /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-}
-
-export function usePwa() {
-  const context = useContext(PwaContext);
-  if (!context) {
-    throw new Error('usePwa must be used inside PwaProvider');
-  }
-  return context;
 }
 
 export function PwaProvider({ children }) {

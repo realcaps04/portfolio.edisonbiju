@@ -143,15 +143,16 @@
   .hp-bar {
     position: fixed;
     top: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: 0.7rem;
+    right: 0.7rem;
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
     z-index: 50;
-    width: 100%;
-    padding: 0.5rem 0.65rem max(0.5rem, env(safe-area-inset-bottom));
+    width: auto;
+    padding: 0.5rem 0.55rem;
+    border-radius: 1.15rem;
     background: rgba(8, 10, 16, 0.94);
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   }
 
   .hp-bar__mark {
@@ -211,7 +212,7 @@
   }
 
   .hp {
-    padding-bottom: 4.75rem;
+    padding-bottom: 5.75rem;
   }
 
   @media (max-width: 420px) {

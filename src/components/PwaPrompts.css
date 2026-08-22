@@ -199,7 +199,7 @@
   .pwa-chip {
     left: 0.75rem;
     right: auto;
-    bottom: calc(4.85rem + env(safe-area-inset-bottom));
+    bottom: calc(5.85rem + env(safe-area-inset-bottom));
   }
 }
 

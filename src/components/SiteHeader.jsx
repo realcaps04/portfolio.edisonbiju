@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useContactModal } from './ContactModal';
-import { usePwa } from './PwaPrompts';
+import { usePwa } from './pwaContext';
 import './SiteHeader.css';
 
 const NAV_LINKS = [
