@@ -562,7 +562,7 @@ body:has(.hp) {
   .hp-hero {
     min-height: 0;
     align-items: start;
-    margin-top: 1.35rem;
+    margin-top: 0.35rem;
     padding: 0.1rem 1.1rem 0.35rem;
   }
 

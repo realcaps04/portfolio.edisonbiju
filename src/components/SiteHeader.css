@@ -141,28 +141,28 @@
 
 @media (max-width: 899px) {
   .hp-bar {
-    position: fixed;
-    top: auto;
-    left: 0.7rem;
-    right: 0.7rem;
-    bottom: max(0.85rem, env(safe-area-inset-bottom));
-    z-index: 50;
-    width: auto;
-    padding: 0.5rem 0.55rem;
-    border-radius: 1.15rem;
-    background: rgba(8, 10, 16, 0.94);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    position: sticky;
+    top: 0;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 30;
+    width: 100%;
+    padding: 0.75rem 1.1rem 0.7rem;
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.82);
+    border: 0;
+    box-shadow: none;
   }
 
   .hp-bar__mark {
-    height: 1.7rem;
+    height: 2rem;
   }
 
   .hp-bar__connect {
-    min-height: 2.15rem;
-    padding: 0.35rem 0.7rem;
-    font-size: 0.72rem;
+    min-height: 2.2rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.76rem;
   }
 
   .hp-bar__menu {
@@ -170,24 +170,25 @@
   }
 
   .hp-bar__links {
-    position: static;
-    left: auto;
-    right: auto;
+    position: fixed;
+    left: 0.7rem;
+    right: 0.7rem;
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
     top: auto;
-    bottom: auto;
     transform: none;
-    flex: 1;
+    z-index: 50;
+    flex: none;
+    margin: 0;
+    padding: 0.5rem 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1.15rem;
+    background: rgba(8, 10, 16, 0.94);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     gap: 0.1rem;
-    margin: 0 0.35rem;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
   }
 
   .hp-bar.is-open .hp-bar__links {
@@ -201,7 +202,7 @@
     min-height: 2.2rem;
     padding: 0.15rem 0.2rem;
     border-radius: 0.7rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     opacity: 0.7;
   }
 
@@ -221,7 +222,7 @@
     }
 
     .hp-bar__mark {
-      height: 1.45rem;
+      height: 1.75rem;
     }
   }
 }
