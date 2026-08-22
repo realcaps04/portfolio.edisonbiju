@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SiteHeader from '../components/SiteHeader';
 import ProjectCard from '../components/ProjectCard';
 import { useContactModal } from '../components/ContactModal';
+import { useWorkModal } from '../components/WorkModal';
 import { PROJECTS } from '../data/projects';
 import './HomePage.css';
 
@@ -236,11 +237,28 @@ function ProfileSection() {
 }
 
 function ClientsSection() {
+  const { openWork } = useWorkModal();
   const clients = [
-    { name: 'SBI', href: 'https://sbi.co.in/', mark: <SbiMark /> },
-    { name: 'irohub', href: 'https://irohub.com/', mark: <IrohubMark /> },
-    { name: 'JPM', href: 'https://jpm-college.vercel.app/', mark: <JpmMark /> },
-    { name: 'Console', href: 'https://consoleonline.vercel.app/', mark: <ConsoleMark /> },
+    {
+      name: 'SBI',
+      href: 'https://sbi.co.in/',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/SBI-logo.svg',
+    },
+    {
+      name: 'irohub',
+      href: 'https://irohub.com/',
+      src: 'https://www.irohub.com/home/images/irohub-footer-white.webp',
+    },
+    {
+      name: 'JPM',
+      href: 'https://jpmcollege.ac.in/',
+      src: 'https://jpmcollege.ac.in/public/images/JPM-Arts-and-Science-College-white.svg',
+    },
+    {
+      name: 'Console',
+      href: 'https://consoleonline.vercel.app/',
+      src: '/clients/console.svg',
+    },
   ];
 
   return (
@@ -261,20 +279,19 @@ function ClientsSection() {
           {clients.map((client) => (
             <li key={client.name}>
               <a
-                className="hp-clients__brand"
+                className={`hp-clients__brand hp-clients__brand--${client.name.toLowerCase()}`}
                 href={client.href}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {client.mark}
-                <span>{client.name}</span>
+                <img src={client.src} alt={client.name} referrerPolicy="no-referrer" />
               </a>
             </li>
           ))}
           <li>
-            <a className="hp-clients__next" href="mailto:edisonbijumullappallil@gmail.com">
+            <button type="button" className="hp-clients__next" onClick={openWork}>
               You&apos;re next? <span aria-hidden="true">→</span>
-            </a>
+            </button>
           </li>
         </ul>
       </div>
@@ -285,61 +302,13 @@ function ClientsSection() {
 function QuoteSection() {
   return (
     <section className="hp-quote" aria-label="Design quote">
-      <blockquote className="hp-quote__inner">
-        <span className="hp-quote__mark" aria-hidden="true">
-          &ldquo;
-        </span>
-        <p>Good design is a language, not a style</p>
-        <footer>— Massimo Vignelli</footer>
-      </blockquote>
+      <div className="hp-quote__bar">
+        <blockquote className="hp-quote__inner">
+          <p>Good design is a language, not a style</p>
+          <footer>— Massimo Vignelli</footer>
+        </blockquote>
+      </div>
     </section>
-  );
-}
-
-function SbiMark() {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <circle cx="16" cy="16" r="15" fill="#1b4f9c" />
-      <circle cx="16" cy="16" r="6.4" fill="none" stroke="#fff" strokeWidth="2.2" />
-      <path d="M16 9.2v6.2" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IrohubMark() {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="8" fill="#0ea5a4" />
-      <path
-        d="M8 20.5 16 8.5l8 12"
-        fill="none"
-        stroke="#fff"
-        strokeWidth="2.4"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-      <circle cx="16" cy="22.2" r="2.1" fill="#fff" />
-    </svg>
-  );
-}
-
-function JpmMark() {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="8" fill="#2563eb" />
-      <path d="M8 22V11.5h5.2c2.7 0 4.4 1.5 4.4 3.8 0 2.4-1.8 3.9-4.5 3.9H11.4V22H8zm3.4-5.2h1.6c1.1 0 1.8-.6 1.8-1.5s-.7-1.4-1.8-1.4h-1.6v2.9z" fill="#fff" />
-      <path d="M20.2 11.5h3.1V22h-3.1z" fill="#fff" />
-    </svg>
-  );
-}
-
-function ConsoleMark() {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="8" fill="#111" stroke="#3f3f46" />
-      <path d="M9 12.2 14.2 16 9 19.8" fill="none" stroke="#ccff00" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M16.2 20.4h7" stroke="#a1a1aa" strokeWidth="2.1" strokeLinecap="round" />
-    </svg>
   );
 }
 

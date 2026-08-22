@@ -20,4 +20,18 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_createdAt", ["createdAt"]),
+
+  workInquiries: defineTable({
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    company: v.string(),
+    projectType: v.string(),
+    budget: v.string(),
+    timeline: v.string(),
+    details: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_createdAt", ["createdAt"]),
 });

@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Projects', to: '/projects' },
   { label: 'About', to: '/about' },
+  { label: 'Builds', to: '/builds' },
 ];
 
 export default function SiteHeader() {

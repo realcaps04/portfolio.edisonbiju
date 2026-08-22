@@ -1,0 +1,7 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Console">
+  <circle cx="128" cy="128" r="128" fill="#ffffff"/>
+  <g transform="translate(58, 65) scale(1.4)" fill="#0062cc">
+    <path d="M 70 0 L 25 0 L 0 25 L 0 65 L 25 90 L 70 90 L 70 65 L 25 65 L 25 25 L 70 25 Z"/>
+    <rect x="84" y="0" width="16" height="16"/>
+  </g>
+</svg>

@@ -95,7 +95,8 @@
 }
 
 .cm__form input,
-.cm__form textarea {
+.cm__form textarea,
+.cm__form select {
   width: 100%;
   padding: 0.78rem 0.9rem;
   border-radius: 10px;
@@ -106,13 +107,26 @@
   font-family: inherit;
 }
 
-.cm__form textarea {
-  resize: vertical;
-  min-height: 6.5rem;
+.cm__form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a1a1aa' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.2rem;
+}
+
+.cm__form select option {
+  background: #07090e;
+  color: #fff;
+}
+
+.cm__dialog--work {
+  max-height: min(92vh, 52rem);
 }
 
 .cm__form input:focus,
-.cm__form textarea:focus {
+.cm__form textarea:focus,
+.cm__form select:focus {
   outline: none;
   border-color: #2563eb;
 }
