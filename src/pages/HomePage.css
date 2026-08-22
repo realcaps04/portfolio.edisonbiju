@@ -563,11 +563,13 @@ body:has(.hp) {
     min-height: 0;
     align-items: start;
     margin-top: 0.35rem;
-    padding: 0.1rem 1.1rem 0.35rem;
+    padding: 0.85rem 1.1rem 1.75rem;
+    overflow: visible;
   }
 
   .hp-hero__inner {
-    gap: 0.45rem;
+    gap: 0.85rem;
+    overflow: visible;
   }
 
   .hp-hero__title {
@@ -590,8 +592,21 @@ body:has(.hp) {
   }
 
   .hp-hero__art {
-    width: min(78%, 15.5rem);
-    height: clamp(12rem, 46vw, 15.5rem);
+    width: min(100%, 22rem);
+    height: clamp(19.5rem, 78vw, 26rem);
+    overflow: visible;
+  }
+
+  .hp-hero__photo-wrap {
+    height: 100%;
+    top: 0;
+    bottom: auto;
+  }
+
+  .hp-hero__photo {
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
   }
 
   .hp-intro {
