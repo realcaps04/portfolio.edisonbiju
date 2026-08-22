@@ -5,29 +5,76 @@ const DEFAULT_NAME = "Edison Biju";
 const DEFAULT_EMAIL = "edisonbiju45@gmail.com";
 const DEFAULT_PASSWORD = "Edison@3455";
 const SESSION_MS = 1000 * 60 * 60 * 24 * 7;
+const HASH_PREFIX = "sha256";
+
+function bytesToHex(buffer) {
+  return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function randomHex(size = 16) {
+  const bytes = new Uint8Array(size);
+  crypto.getRandomValues(bytes);
+  return bytesToHex(bytes);
+}
 
 function randomToken() {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+  return randomHex(32);
+}
+
+function isHashedPassword(value) {
+  const parts = String(value || "").split("$");
+  return parts.length === 3 && parts[0] === HASH_PREFIX && parts[1].length === 32 && parts[2].length === 64;
+}
+
+async function hashPassword(password, saltHex) {
+  const encoded = new TextEncoder().encode(`${saltHex}:${password}:eb-admin`);
+  const digest = await crypto.subtle.digest("SHA-256", encoded);
+  return bytesToHex(digest);
+}
+
+async function hashNewPassword(password) {
+  const salt = randomHex(16);
+  const hash = await hashPassword(password, salt);
+  return `${HASH_PREFIX}$${salt}$${hash}`;
+}
+
+function timingSafeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return mismatch === 0;
+}
+
+async function passwordsMatch(stored, incoming) {
+  if (isHashedPassword(stored)) {
+    const [, salt, expected] = stored.split("$");
+    const actual = await hashPassword(incoming, salt);
+    return timingSafeEqual(actual, expected);
+  }
+  return stored === incoming;
 }
 
 async function ensureDefaultAdmin(ctx) {
   const email = DEFAULT_EMAIL.toLowerCase();
   const rows = await ctx.db.query("admins").take(50);
   const existing = rows.find((row) => (row.email || "").toLowerCase() === email) ?? null;
-  const fields = {
-    name: DEFAULT_NAME,
-    email,
-    password: DEFAULT_PASSWORD,
-  };
 
   if (existing) {
-    await ctx.db.patch(existing._id, fields);
+    const updates = { name: DEFAULT_NAME, email };
+    if (!isHashedPassword(existing.password)) {
+      updates.password = await hashNewPassword(existing.password || DEFAULT_PASSWORD);
+    }
+    await ctx.db.patch(existing._id, updates);
     return existing._id;
   }
 
-  return await ctx.db.insert("admins", fields);
+  return await ctx.db.insert("admins", {
+    name: DEFAULT_NAME,
+    email,
+    password: await hashNewPassword(DEFAULT_PASSWORD),
+  });
 }
 
 async function requireSession(ctx, token) {
@@ -73,8 +120,12 @@ export const login = mutation({
     const admin = await ctx.db.get(id);
     const email = args.email.trim().toLowerCase();
 
-    if (!admin || admin.email !== email || admin.password !== args.password) {
+    if (!admin || admin.email !== email || !(await passwordsMatch(admin.password, args.password))) {
       throw new Error("Invalid email or password.");
+    }
+
+    if (!isHashedPassword(admin.password)) {
+      await ctx.db.patch(admin._id, { password: await hashNewPassword(args.password) });
     }
 
     const token = randomToken();
