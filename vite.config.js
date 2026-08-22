@@ -13,8 +13,9 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['logo.png', 'fav_icon.png', 'pwa-192.png', 'pwa-512.png', 'fonts/gropled.woff2'],
+      includeAssets: ['logo.png', 'fav_icon.png', 'pwa-192.png', 'pwa-512.png', 'admin-manifest.webmanifest', 'fonts/gropled.woff2'],
       manifest: {
+        id: '/',
         name: 'Edison Biju',
         short_name: 'Edison',
         description: 'Edison Biju — web developer. Designing and deploying things.',

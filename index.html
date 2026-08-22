@@ -15,6 +15,40 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>Edison Biju | Web Developer</title>
+    <script>
+      (function () {
+        var isAdmin = location.pathname === '/admin' || location.pathname.indexOf('/admin/') === 0;
+        if (!isAdmin) return;
+
+        function applyAdminManifest() {
+          var links = document.querySelectorAll('link[rel="manifest"]');
+          if (links.length) {
+            links.forEach(function (link, index) {
+              if (index === 0) link.setAttribute('href', '/admin-manifest.webmanifest');
+              else link.remove();
+            });
+          } else {
+            var manifest = document.createElement('link');
+            manifest.rel = 'manifest';
+            manifest.href = '/admin-manifest.webmanifest';
+            document.head.appendChild(manifest);
+          }
+
+          document.title = 'EB Admin';
+
+          var appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+          if (!appleTitle) {
+            appleTitle = document.createElement('meta');
+            appleTitle.name = 'apple-mobile-web-app-title';
+            document.head.appendChild(appleTitle);
+          }
+          appleTitle.content = 'EB Admin';
+        }
+
+        applyAdminManifest();
+        document.addEventListener('DOMContentLoaded', applyAdminManifest);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

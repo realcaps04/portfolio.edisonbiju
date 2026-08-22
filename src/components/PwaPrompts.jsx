@@ -47,7 +47,8 @@ export function PwaProvider({ children }) {
     const onPrompt = (event) => {
       event.preventDefault();
       setDeferredPrompt(event);
-      if (!localStorage.getItem(DISMISS_INSTALL) && !isStandaloneMode()) {
+      const onAdmin = window.location.pathname.startsWith('/admin');
+      if (!onAdmin && !localStorage.getItem(DISMISS_INSTALL) && !isStandaloneMode()) {
         setShowInstallModal(true);
       }
     };
@@ -63,6 +64,7 @@ export function PwaProvider({ children }) {
     window.addEventListener('appinstalled', onInstalled);
 
     const later = window.setTimeout(() => {
+      if (window.location.pathname.startsWith('/admin')) return;
       if (isStandaloneMode() || localStorage.getItem(DISMISS_INSTALL)) return;
       if (isIosDevice()) setShowInstallModal(true);
     }, 7000);
@@ -166,10 +168,12 @@ function PwaUi({
             <p className="pwa-modal__eyebrow">Add to device</p>
             <h2 className="pwa-modal__title font-gropled" id="pwa-install-title">
               Install as an <span>app</span>
-            </h2>
-            <p className="pwa-modal__copy">
-              Open this portfolio from your home screen — faster load, fullscreen, and it works like a native app.
-            </p>
+          </h2>
+          <p className="pwa-modal__copy">
+            {window.location.pathname.startsWith('/admin')
+              ? 'Add EB Admin to your home screen for a fullscreen inbox.'
+              : 'Open this portfolio from your home screen — faster load, fullscreen, and it works like a native app.'}
+          </p>
             <div className="pwa-modal__actions">
               <button type="button" className="pwa-modal__cta" onClick={onInstall}>
                 Install app
@@ -205,7 +209,7 @@ function PwaUi({
               <ol className="pwa-modal__steps">
                 <li>Tap the Share button in Safari.</li>
                 <li>Scroll and tap Add to Home Screen.</li>
-                <li>Tap Add — Edison will appear like an app.</li>
+                <li>Tap Add — {window.location.pathname.startsWith('/admin') ? 'EB Admin' : 'Edison'} will appear like an app.</li>
               </ol>
             ) : (
               <ol className="pwa-modal__steps">

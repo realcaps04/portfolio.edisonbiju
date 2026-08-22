@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useConvex, useMutation, useQuery } from 'convex/react';
+import { usePwa } from '../components/pwaContext';
 import { api } from '../../convex/_generated/api';
 import './AdminPage.css';
 
@@ -28,6 +29,8 @@ function matchesQuery(record, q) {
 }
 
 export default function AdminPage() {
+  const convex = useConvex();
+  const { canInstall, standalone, promptInstall } = usePwa();
   const [token, setToken] = useState(() => sessionStorage.getItem(TOKEN_KEY) || '');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,16 +49,27 @@ export default function AdminPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = 'Admin | Edison Biju';
+    document.title = 'EB Admin';
     document.body.classList.add('is-admin');
     const robots = document.createElement('meta');
     robots.name = 'robots';
     robots.content = 'noindex, nofollow';
     document.head.appendChild(robots);
+    let appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+    const createdApple = !appleTitle;
+    if (!appleTitle) {
+      appleTitle = document.createElement('meta');
+      appleTitle.name = 'apple-mobile-web-app-title';
+      document.head.appendChild(appleTitle);
+    }
+    const previousApple = appleTitle.content;
+    appleTitle.content = 'EB Admin';
     return () => {
       document.title = previousTitle;
       document.body.classList.remove('is-admin');
       robots.remove();
+      if (createdApple) appleTitle.remove();
+      else appleTitle.content = previousApple;
     };
   }, []);
 
@@ -159,6 +173,11 @@ export default function AdminPage() {
           <button type="submit" className="ad-btn" disabled={loggingIn}>
             {loggingIn ? 'Checking…' : 'Open dashboard'}
           </button>
+          {canInstall && !standalone ? (
+            <button type="button" className="ad-install" onClick={promptInstall}>
+              Install EB Admin
+            </button>
+          ) : null}
         </form>
       </main>
     );
@@ -176,9 +195,16 @@ export default function AdminPage() {
             Form <span>inbox</span>
           </h1>
         </div>
-        <button type="button" className="ad-ghost" onClick={logout}>
-          Log out
-        </button>
+        <div className="ad-bar__actions">
+          {canInstall && !standalone ? (
+            <button type="button" className="ad-install ad-install--bar" onClick={promptInstall}>
+              Install EB Admin
+            </button>
+          ) : null}
+          <button type="button" className="ad-ghost" onClick={logout}>
+            Log out
+          </button>
+        </div>
       </header>
 
       <section className="ad-stats" aria-label="Submission counts">
