@@ -114,8 +114,8 @@ body:has(.hp) {
 
 .hp-hero__art {
   position: relative;
-  width: min(100%, 28rem);
-  height: clamp(20rem, 58vw, 28.5rem);
+  width: min(100%, 31rem);
+  height: clamp(22rem, 64vw, 32rem);
   justify-self: center;
 }
 
@@ -151,11 +151,11 @@ body:has(.hp) {
 
 .hp-hero__photo-wrap {
   position: absolute;
-  left: 12%;
+  left: 8%;
   bottom: 0;
   z-index: 2;
-  width: 78%;
-  height: 96%;
+  width: 86%;
+  height: 108%;
   overflow: hidden;
   background: transparent;
   pointer-events: none;
@@ -166,7 +166,7 @@ body:has(.hp) {
 
 .hp-hero__photo {
   display: block;
-  width: 108%;
+  width: 122%;
   max-width: none;
   height: 100%;
   object-fit: contain;
@@ -476,8 +476,8 @@ body:has(.hp) {
   }
 
   .hp-hero__art {
-    width: min(100%, 32rem);
-    height: 30.5rem;
+    width: min(100%, 36rem);
+    height: 34.5rem;
     justify-self: end;
   }
 }
@@ -941,7 +941,7 @@ body:has(.hp) {
 }
 
 .hp-quote {
-  padding: 0 0 6rem;
+  padding: 0;
   background: #000;
 }
 
@@ -952,27 +952,30 @@ body:has(.hp) {
 .hp-quote__inner {
   width: min(1180px, 100%);
   margin: 0 auto;
-  padding: 3.4rem 1.25rem 3.5rem;
+  padding: 1.1rem 1.25rem 1.15rem;
   border: 0;
 }
 
 .hp-quote__inner p {
   margin: 0;
-  max-width: 28ch;
+  max-width: none;
   color: #000;
-  font-size: clamp(1.2rem, 2.5vw, 1.55rem);
-  font-style: italic;
+  font-family: 'Gropled', 'Space Grotesk', sans-serif;
+  font-size: clamp(1.55rem, 3.6vw, 2.35rem);
+  font-style: normal;
   font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .hp-quote__inner footer {
-  margin-top: 0.85rem;
+  margin-top: 0.28rem;
   color: #111;
-  font-size: 0.92rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.12rem);
   font-style: normal;
   font-weight: 400;
+  line-height: 1.25;
 }
 
 @media (min-width: 720px) {
@@ -984,6 +987,266 @@ body:has(.hp) {
 
 @media (min-width: 960px) {
   .hp-quote__inner {
-    padding: 4.1rem 4.5rem 4.25rem;
+    padding: 0.85rem 1.5rem 0.95rem;
+  }
+}
+
+.hp-services {
+  padding: 5.5rem 1.25rem 3.5rem;
+  background: #000;
+}
+
+.hp-services__inner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.hp-services__head {
+  display: grid;
+  gap: 1.25rem 4rem;
+  margin-bottom: 2.75rem;
+}
+
+.hp-services__title {
+  margin: 0;
+  color: #fff;
+  font-family: 'Gropled', 'Space Grotesk', sans-serif;
+  font-size: clamp(2.4rem, 6.4vw, 4.15rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.hp-services__copy {
+  margin: 0;
+  max-width: 32rem;
+  color: #a1a1aa;
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.hp-services__grid {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hp-services__card {
+  display: grid;
+  gap: 0.7rem;
+  width: 100%;
+  min-height: 100%;
+  padding: 1.45rem 1.35rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.15rem;
+  background: #0c1018;
+  text-align: left;
+  color: inherit;
+}
+
+.hp-services__n {
+  color: #ccff00;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.hp-services__name {
+  margin: 0;
+  color: #fff;
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.hp-services__card p {
+  margin: 0;
+  color: #a1a1aa;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.hp-services__card:hover {
+  border-color: rgba(37, 99, 235, 0.7);
+}
+
+@media (min-width: 720px) {
+  .hp-services {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+
+  .hp-services__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  .hp-services {
+    padding: 6.5rem 4.5rem 4.5rem;
+  }
+
+  .hp-services__head {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    align-items: end;
+    margin-bottom: 3.25rem;
+  }
+
+  .hp-services__copy {
+    justify-self: end;
+  }
+}
+
+.hp-foot {
+  background: #000;
+  color: #111;
+}
+
+.hp-foot__top {
+  padding: 1.5rem 1.25rem 2.35rem;
+  text-align: right;
+}
+
+.hp-foot__ask {
+  margin: 0 0 0.2rem;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+.hp-foot__together {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.7rem, 4.6vw, 3.1rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.hp-foot__panel {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  padding: 1.7rem 1.25rem 1.55rem;
+  border-radius: 4.5rem 4.5rem 0 0;
+  background: #ccff00;
+}
+
+.hp-foot__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.16) 1px, transparent 1px);
+  background-size: 112px 112px;
+}
+
+.hp-foot__mail {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem 0.85rem;
+  color: #111;
+  font-size: clamp(1.05rem, 3.4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+  word-break: break-word;
+}
+
+.hp-foot__go {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.05rem;
+  height: 2.05rem;
+  border: 1.5px solid #111;
+  border-radius: 50%;
+  text-decoration: none;
+}
+
+.hp-foot__go svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.hp-foot__socials {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.75rem;
+  margin-top: 1.65rem;
+}
+
+.hp-foot__socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #111;
+  font-size: 0.92rem;
+  font-weight: 400;
+}
+
+.hp-foot__socials svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+.hp-foot__socials a:hover,
+.hp-foot__mail:hover {
+  opacity: 0.72;
+}
+
+@media (min-width: 720px) {
+  .hp-foot__top,
+  .hp-foot__panel {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+
+  .hp-foot__panel {
+    padding-top: 2rem;
+    padding-bottom: 1.75rem;
+    border-radius: 6.5rem 6.5rem 0 0;
+  }
+
+  .hp-foot__go {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .hp-foot__top,
+  .hp-foot__panel {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+  }
+
+  .hp-foot__top {
+    padding-top: 2rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .hp-foot__panel {
+    padding-top: 2.15rem;
+    padding-bottom: 1.85rem;
+  }
+
+  .hp-foot__socials {
+    margin-top: 2rem;
+    gap: 0.85rem 2.4rem;
   }
 }

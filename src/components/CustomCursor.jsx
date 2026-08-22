@@ -44,6 +44,11 @@ export default function CustomCursor() {
       pos.current.x = event.clientX;
       pos.current.y = event.clientY;
       hovering.current = Boolean(event.target.closest?.(HOVER_TARGETS));
+
+      if (pointer && arrowRef.current) {
+        arrowRef.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+        arrowRef.current.classList.toggle('is-hover', hovering.current);
+      }
     };
 
     const drawGrid = () => {
@@ -77,16 +82,6 @@ export default function CustomCursor() {
     };
 
     const tick = () => {
-      if (pointer) {
-        arrow.current.x += (pos.current.x - arrow.current.x) * 0.34;
-        arrow.current.y += (pos.current.y - arrow.current.y) * 0.34;
-
-        if (arrowRef.current) {
-          arrowRef.current.style.transform = `translate3d(${arrow.current.x}px, ${arrow.current.y}px, 0)`;
-          arrowRef.current.classList.toggle('is-hover', hovering.current);
-        }
-      }
-
       drawGrid();
       frame = window.requestAnimationFrame(tick);
     };
