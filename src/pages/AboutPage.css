@@ -1,6 +1,7 @@
 /* ── Base ─────────────────────────────────────── */
 .about-page {
-  padding-top: 80px; /* navbar height */
+  padding-top: 80px;
+  background: var(--bg-primary);
 }
 
 .ap-eyebrow {
@@ -22,7 +23,7 @@
   position: relative;
   padding: 6rem 2rem 5rem;
   overflow: hidden;
-  background: linear-gradient(160deg, #f8fdf4 0%, #f0f9e8 60%, #fafef7 100%);
+  background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 60%, var(--bg-primary) 100%);
 }
 
 .ap-hero__glow {
@@ -143,7 +144,7 @@
   bottom: 16px;
   right: 8px;
   z-index: 3;
-  background: rgba(255,255,255,0.95);
+  background: rgba(20, 31, 20, 0.95);
   border: 1px solid var(--border-light);
   border-radius: 100px;
   padding: 0.5rem 1.1rem;
@@ -176,7 +177,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: rgba(255,255,255,0.9);
+  background: rgba(20, 31, 20, 0.9);
   border: 1px solid var(--border);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
@@ -190,7 +191,7 @@
 
 /* ── Stats ─────────────────────────────────────── */
 .ap-stats {
-  background: #fff;
+  background: var(--bg-card);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -215,7 +216,7 @@
 }
 
 .ap-stat:last-child { border-right: none; }
-.ap-stat:hover { background: rgba(22,163,74,0.03); }
+.ap-stat:hover { background: rgba(74, 222, 128, 0.05); }
 
 .ap-stat__icon {
   font-size: 1.6rem;
@@ -267,7 +268,7 @@
 
 /* ── Skills ────────────────────────────────────── */
 .ap-skills-section {
-  background: linear-gradient(180deg, #f8fdf4 0%, #f0f9e8 100%);
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
 .ap-skills {
@@ -318,7 +319,7 @@
 
 /* ── Services ──────────────────────────────────── */
 .ap-services-section {
-  background: #fff;
+  background: var(--bg-card);
   border-top: 1px solid var(--border);
 }
 
@@ -342,7 +343,7 @@
 .ap-service:hover {
   border-color: rgba(22,163,74,0.4);
   transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(22,163,74,0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 20px rgba(22, 163, 74, 0.08);
 }
 
 .ap-service__icon {
@@ -377,7 +378,7 @@
 .ap-tools-section {
   padding: 5rem 0;
   border-top: 1px solid var(--border);
-  background: linear-gradient(180deg, #f0f9e8 0%, #f8fdf4 100%);
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
   overflow: hidden;
 }
 
@@ -419,7 +420,7 @@
   align-items: center;
   gap: 0.6rem;
   padding: 1.1rem 1.4rem;
-  background: #fff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   min-width: 100px;
@@ -431,7 +432,7 @@
 .ap-tool:hover {
   border-color: var(--accent);
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(22, 163, 74, 0.12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 .ap-tool__logo {
@@ -462,7 +463,7 @@
   padding: 7rem 2rem;
   text-align: center;
   overflow: hidden;
-  background: linear-gradient(160deg, #1a2e1a 0%, #0d1f0d 100%);
+  background: linear-gradient(160deg, var(--bg-primary) 0%, #050a05 100%);
 }
 
 .ap-cta__glow {

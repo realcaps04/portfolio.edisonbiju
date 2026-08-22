@@ -1,5 +1,5 @@
 .footer {
-  background: #f0f9e8;
+  background: var(--bg-secondary);
   border-top: 1px solid var(--border);
   padding: 4rem 2rem 2rem;
 }
@@ -98,7 +98,7 @@
 .footer__social:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(22, 163, 74, 0.08);
+  background: rgba(74, 222, 128, 0.08);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px var(--glow-green);
 }

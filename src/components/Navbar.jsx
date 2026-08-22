@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 const NAV_LINKS = [
@@ -14,6 +14,8 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+  const location = useLocation();
+  const onHero = location.pathname === '/' && !scrolled;
 
   useEffect(() => {
     const onScroll = () => {
@@ -29,7 +31,7 @@ export default function Navbar() {
   const handleLinkClick = () => setMenuOpen(false);
 
   return (
-    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${hidden ? ' navbar--hidden' : ''}`} role="navigation" aria-label="Main navigation">
+    <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${hidden ? ' navbar--hidden' : ''}${onHero ? ' navbar--on-hero' : ''}`} role="navigation" aria-label="Main navigation">
       <div className="navbar__inner">
         {/* Logo */}
         <a href="#home" className="navbar__logo" aria-label="Edison — home">
