@@ -465,6 +465,31 @@ body:has(.hp) {
   }
 }
 
+@media (max-width: 899px) {
+  .hp-hero {
+    min-height: 0;
+    align-items: start;
+    padding: 0.35rem 1.15rem 1.25rem;
+  }
+
+  .hp-hero__inner {
+    gap: 1.25rem;
+  }
+
+  .hp-hero__title {
+    margin: 0 0 1rem;
+  }
+
+  .hp-hero__art {
+    width: min(100%, 22.5rem);
+    height: clamp(16.5rem, 68vw, 22.5rem);
+  }
+
+  .hp-intro {
+    padding-top: 2.5rem;
+  }
+}
+
 @media (min-width: 900px) {
   .hp-hero {
     padding: 1.5rem 3.5rem 4rem;
