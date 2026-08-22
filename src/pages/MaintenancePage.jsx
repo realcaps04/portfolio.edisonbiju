@@ -48,53 +48,49 @@ export default function MaintenancePage() {
 
   return (
     <div className="maintenance">
-      <div className="maintenance__orb maintenance__orb--green" aria-hidden="true" />
-      <div className="maintenance__orb maintenance__orb--yellow" aria-hidden="true" />
-      <div className="maintenance__grid" aria-hidden="true" />
-      <div className="maintenance__grain" aria-hidden="true" />
-
-      <header className="maintenance__header">
-        <a href="mailto:edisonbijumullappallil@gmail.com" className="maintenance__brand">
-          <img src="/profile.jpg" alt="" className="maintenance__avatar" />
-          <span className="maintenance__wordmark">EDISON</span>
+      <header className="maintenance__bar">
+        <a href="mailto:edisonbijumullappallil@gmail.com" className="maintenance__logo" aria-label="Edison">
+          <img src="/logo.png" alt="EB" className="maintenance__mark" />
         </a>
-        <p className="maintenance__role">Brand &amp; Visual Designer</p>
+        <p className="maintenance__tag">Coming Soon</p>
       </header>
 
-      <main className="maintenance__main">
-        <p className="maintenance__badge">
-          <span className="maintenance__pulse" aria-hidden="true" />
-          Currently rebuilding
-        </p>
+      <main className="maintenance__hero">
+        <div className="maintenance__glow" aria-hidden="true" />
 
-        <h1 className="maintenance__title">
-          A new site is <span className="maintenance__title-accent">taking shape.</span>
-        </h1>
+        <div className="maintenance__inner">
+          <div className="maintenance__copy">
+            <p className="maintenance__eyebrow">Portfolio refresh in progress</p>
+            <h1 className="maintenance__title font-gropled">
+              Designing
+              <span className="maintenance__lime">&amp; Deploying</span>
+              Things
+            </h1>
+            <p className="maintenance__lead">
+              A new site for Edison Biju, web developer based in India.
+              The work is still here — this page is just getting a new identity.
+            </p>
+            <div className="maintenance__actions">
+              <a className="maintenance__cta" href="mailto:edisonbijumullappallil@gmail.com">
+                Get in Touch
+              </a>
+              <p className="maintenance__status">
+                <span className="maintenance__dot" aria-hidden="true" />
+                Currently rebuilding
+              </p>
+            </div>
+          </div>
 
-        <p className="maintenance__copy">
-          I&apos;m redesigning this portfolio from the ground up. The work still stands —
-          this page is just getting a new identity. Reach out anytime if you have a project in mind.
-        </p>
-
-        <div className="maintenance__actions">
-          <a
-            className="maintenance__btn maintenance__btn--primary"
-            href="mailto:edisonbijumullappallil@gmail.com"
-          >
-            Get in touch
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
-          </a>
-          <a
-            className="maintenance__btn maintenance__btn--ghost"
-            href="https://wa.me/917907951080"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            WhatsApp
-          </a>
+          <div className="maintenance__art">
+            <span className="maintenance__outline" aria-hidden="true" />
+            <span className="maintenance__pill" aria-hidden="true" />
+            <span className="maintenance__slab" aria-hidden="true" />
+            <img
+              src="/profile.png"
+              alt="Edison Biju, web developer"
+              className="maintenance__photo"
+            />
+          </div>
         </div>
       </main>
 
@@ -113,7 +109,7 @@ export default function MaintenancePage() {
             </a>
           ))}
         </div>
-        <p className="maintenance__copy-small">&copy; {year} Edison. Back soon.</p>
+        <p className="maintenance__legal">&copy; {year} Edison Biju</p>
       </footer>
     </div>
   );

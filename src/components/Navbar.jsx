@@ -35,7 +35,7 @@ export default function Navbar() {
       <div className="navbar__inner">
         {/* Logo */}
         <a href="#home" className="navbar__logo" aria-label="Edison — home">
-          <img src="/profile.jpg" alt="Edison" className="navbar__logo-avatar" />
+          <img src="/profile.png" alt="Edison" className="navbar__logo-avatar" />
           <span className="navbar__logo-name">EDISON</span>
         </a>
 

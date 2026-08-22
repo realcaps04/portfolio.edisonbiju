@@ -15,38 +15,37 @@ export default function HomePage() {
 
   return (
     <div className="hp">
-      <header className="hp-bar">
+      <header className={`hp-bar${menuOpen ? ' is-open' : ''}`}>
         <Link to="/" className="hp-bar__logo" aria-label="Edison — home">
           <img src="/logo.png" alt="EB" className="hp-bar__mark" />
         </Link>
 
-        <div className={`hp-bar__end${menuOpen ? ' is-open' : ''}`}>
-          <nav className="hp-bar__links" aria-label="Primary">
-            {NAV_LINKS.map(({ label, to }) => {
-              const active = to.startsWith('#') ? false : pathname === to;
-              const className = `hp-bar__link${active ? ' is-active' : ''}`;
-              return to.startsWith('#') ? (
-                <a key={label} href={to} className={className} onClick={() => setMenuOpen(false)}>
-                  {label}
-                </a>
-              ) : (
-                <Link key={label} to={to} className={className} onClick={() => setMenuOpen(false)}>
-                  {label}
-                </Link>
-              );
-            })}
-          </nav>
-          <button
-            type="button"
-            className={`hp-bar__menu${menuOpen ? ' is-open' : ''}`}
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-          >
-            <span />
-            <span />
-          </button>
-        </div>
+        <nav className="hp-bar__links" aria-label="Primary">
+          {NAV_LINKS.map(({ label, to }) => {
+            const active = to.startsWith('#') ? false : pathname === to;
+            const className = `hp-bar__link${active ? ' is-active' : ''}`;
+            return to.startsWith('#') ? (
+              <a key={label} href={to} className={className} onClick={() => setMenuOpen(false)}>
+                {label}
+              </a>
+            ) : (
+              <Link key={label} to={to} className={className} onClick={() => setMenuOpen(false)}>
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <button
+          type="button"
+          className={`hp-bar__menu${menuOpen ? ' is-open' : ''}`}
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+        >
+          <span />
+          <span />
+        </button>
       </header>
 
       <section className="hp-hero" aria-label="Hero">
@@ -54,7 +53,7 @@ export default function HomePage() {
 
         <div className="hp-hero__inner">
           <div className="hp-hero__copy">
-            <h1 className="hp-hero__title">
+            <h1 className="hp-hero__title font-gropled">
               Designing
               <span className="hp-hero__lime">&amp; Deploying</span>
               Things
@@ -75,7 +74,7 @@ export default function HomePage() {
             <span className="hp-hero__pill" aria-hidden="true" />
             <span className="hp-hero__slab" aria-hidden="true" />
             <img
-              src="/profile.jpg"
+              src="/profile.png"
               alt="Edison Biju, web developer"
               className="hp-hero__photo"
             />
@@ -112,19 +111,41 @@ export default function HomePage() {
                   <strong>realcaps04</strong>
                 </a>
               </p>
+              <p className="hp-intro__gh-note">repos, experiments, and shipped builds</p>
               <div className="hp-intro__bars" aria-hidden="true">
                 <span />
                 <span />
                 <span className="is-live" />
                 <span />
               </div>
-              <svg className="hp-intro__circuit" viewBox="0 0 220 80" fill="none" aria-hidden="true">
-                <path d="M20 18 C20 48 70 58 110 58 C150 58 170 34 200 34" stroke="#3b82f6" strokeWidth="2.4" />
-                <path d="M110 58 V72" stroke="#3b82f6" strokeWidth="2.4" />
-                <circle cx="20" cy="18" r="5" fill="#60a5fa" />
-                <circle cx="110" cy="72" r="5" fill="#60a5fa" />
-                <circle cx="200" cy="34" r="5" fill="#60a5fa" />
-              </svg>
+              <div className="hp-intro__circuit" aria-hidden="true">
+                <span className="hp-intro__circuit-glow" />
+                <svg viewBox="0 0 160 176" fill="none">
+                  <defs>
+                    <filter id="hp-circuit-glow" x="-40%" y="-40%" width="180%" height="180%">
+                      <feGaussianBlur stdDeviation="2.2" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <g filter="url(#hp-circuit-glow)" stroke="#3b82f6" strokeWidth="2.4" strokeLinecap="round">
+                    <path d="M80 0 V62" />
+                    <circle cx="80" cy="74" r="11" fill="#080b12" />
+                    <circle cx="80" cy="74" r="3.8" fill="#60a5fa" stroke="none" />
+                    <path d="M80 85 V128" />
+                    <path d="M70.5 82 C48 96 32 112 28 132" />
+                    <path d="M89.5 82 C112 96 128 112 132 132" />
+                    <circle cx="28" cy="144" r="9.5" fill="#080b12" />
+                    <circle cx="28" cy="144" r="3.2" fill="#60a5fa" stroke="none" />
+                    <circle cx="80" cy="144" r="9.5" fill="#080b12" />
+                    <circle cx="80" cy="144" r="3.2" fill="#60a5fa" stroke="none" />
+                    <circle cx="132" cy="144" r="9.5" fill="#080b12" />
+                    <circle cx="132" cy="144" r="3.2" fill="#60a5fa" stroke="none" />
+                  </g>
+                </svg>
+              </div>
             </article>
 
             <article className="hp-intro__stack">
@@ -176,10 +197,11 @@ function ReactIcon() {
 
 function NodeIcon() {
   return (
-    <svg viewBox="0 0 256 289" aria-hidden="true">
-      <path d="M128 0 18 64v129l110 64 110-64V64L128 0z" fill="#339933" />
-      <path d="M128 18 238 81v127L128 271 18 208V81L128 18z" fill="#fff" fillOpacity=".06" />
-      <path d="M128 57c-5 0-9 3-9 8v90l-42 24c-4 2-5 8-3 12 2 3 5 5 9 5 2 0 3 0 5-1l47-27c3-1 5-5 5-8V65c0-5-4-8-9-8h-3z" fill="#fff" />
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="#5FA04A"
+        d="M11.998 24c-.321 0-.641-.084-.922-.247l-2.936-1.737c-.438-.245-.224-.332-.08-.383.585-.203.703-.25 1.328-.604.065-.037.151-.023.218.017l2.256 1.339c.082.045.197.045.272 0l8.795-5.076c.082-.047.134-.141.134-.238V6.921c0-.099-.053-.192-.137-.242l-8.791-5.072c-.081-.047-.189-.047-.271 0L3.075 6.68C2.99 6.729 2.936 6.825 2.936 6.921v10.15c0 .097.054.189.139.235l2.409 1.392c1.307.654 2.108-.116 2.108-.89V7.787c0-.142.114-.253.256-.253h1.115c.139 0 .255.112.255.253v10.021c0 1.745-.95 2.745-2.604 2.745-.508 0-.909 0-2.026-.551L2.28 18.675c-.57-.329-.922-.945-.922-1.604V6.921c0-.659.353-1.275.922-1.603l8.795-5.082c.557-.315 1.296-.315 1.848 0l8.794 5.082c.57.329.924.944.924 1.603v10.15c0 .659-.354 1.273-.924 1.604l-8.794 5.078c-.28.163-.599.247-.925.247zm7.101-10.007c0-1.9-1.284-2.406-3.987-2.763-2.731-.361-3.009-.548-3.009-1.187 0-.528.235-1.233 2.258-1.233 1.807 0 2.473.389 2.747 1.607.024.115.129.199.247.199h1.141c.071 0 .138-.031.186-.081a.26.26 0 0 0 .067-.196c-.177-2.098-1.571-3.076-4.388-3.076-2.508 0-4.004 1.058-4.004 2.833 0 1.925 1.488 2.457 3.895 2.695 2.88.282 3.103.703 3.103 1.269 0 .983-.789 1.402-2.642 1.402-2.327 0-2.839-.584-3.011-1.742-.02-.124-.126-.215-.253-.215h-1.137c-.141 0-.254.112-.254.253 0 1.482.806 3.248 4.655 3.248 2.652.001 4.25-1.096 4.25-3.013z"
+      />
     </svg>
   );
 }
@@ -198,8 +220,11 @@ function FigmaIcon() {
 
 function GitIcon() {
   return (
-    <svg viewBox="0 0 92 92" aria-hidden="true">
-      <path d="M90 42 50 2a6 6 0 0 0-8 0L33 11l10 10a7 7 0 0 1 9 9l10 10a7 7 0 1 1-4 4L48 34v25a7 7 0 1 1-6 0V33L32 23a7 7 0 0 1 0-9L23 5 2 26a6 6 0 0 0 0 8l40 40a6 6 0 0 0 8 0l40-40a6 6 0 0 0 0-8Z" fill="#F05032" />
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="#F05032"
+        d="M23.546 10.93 13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"
+      />
     </svg>
   );
 }

@@ -1,7 +1,7 @@
 import './About.css';
 
-// Photo lives at public/profile.jpg — drop your file there
-const profileImg = '/profile.jpg';
+// Photo lives at public/profile.png — drop your file there
+const profileImg = '/profile.png';
 
 const STATS = [
   { value: '5+', label: 'Years Experience' },
