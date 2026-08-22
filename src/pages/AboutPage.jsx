@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import SiteHeader from '../components/SiteHeader';
 import Contact from '../components/Contact';
 import './AboutPage.css';
 
@@ -292,8 +290,8 @@ const TOOLS = [
 
 export default function AboutPage() {
   return (
-    <>
-      <Navbar />
+    <div className="hp ap">
+      <SiteHeader />
       <main className="about-page">
 
         {/* ── Hero Banner ── */}
@@ -314,12 +312,9 @@ export default function AboutPage() {
                 digital presence that lasts.
               </p>
               <div className="ap-hero__actions">
-                <a href="mailto:edisonbijumullappallil@gmail.com" className="btn btn--primary">
-                  Get in touch
+                <a href="mailto:edisonbijumullappallil@gmail.com" className="hp-hero__cta">
+                  Get in Touch
                 </a>
-                <Link to="/" className="btn btn--ghost ap-back">
-                  ← Back to home
-                </Link>
               </div>
             </div>
 
@@ -440,7 +435,6 @@ export default function AboutPage() {
 
       </main>
       <Contact />
-      <Footer />
-    </>
+    </div>
   );
 }

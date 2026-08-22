@@ -3,7 +3,7 @@ import './RightClickGuard.css';
 
 // Set to false to turn this off. Do not comment out the whole file —
 // App.jsx still needs the default export.
-const ENABLED = true;
+const ENABLED = false;
 
 const EMAIL = 'mailto:edisonbijumullappallil@gmail.com';
 

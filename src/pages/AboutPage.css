@@ -1,7 +1,6 @@
 /* ── Base ─────────────────────────────────────── */
 .about-page {
-  padding-top: 80px;
-  background: var(--bg-primary);
+  background: transparent;
 }
 
 .ap-eyebrow {
@@ -21,9 +20,9 @@
 /* ── Hero ──────────────────────────────────────── */
 .ap-hero {
   position: relative;
-  padding: 6rem 2rem 5rem;
+  padding: 4rem 2rem 5rem;
   overflow: hidden;
-  background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 60%, var(--bg-primary) 100%);
+  background: transparent;
 }
 
 .ap-hero__glow {
@@ -89,6 +88,25 @@
   gap: 1rem;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.ap-hero__actions .hp-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.8rem 1.45rem;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.ap-hero__actions .hp-hero__cta:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 .ap-back {
@@ -191,9 +209,9 @@
 
 /* ── Stats ─────────────────────────────────────── */
 .ap-stats {
-  background: var(--bg-card);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: transparent;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .ap-stats__inner {
@@ -268,7 +286,7 @@
 
 /* ── Skills ────────────────────────────────────── */
 .ap-skills-section {
-  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background: transparent;
 }
 
 .ap-skills {
@@ -319,8 +337,8 @@
 
 /* ── Services ──────────────────────────────────── */
 .ap-services-section {
-  background: var(--bg-card);
-  border-top: 1px solid var(--border);
+  background: transparent;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .ap-services {
@@ -377,8 +395,8 @@
 /* ── Tools / Marquee ─────────────────────── */
 .ap-tools-section {
   padding: 5rem 0;
-  border-top: 1px solid var(--border);
-  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -463,7 +481,7 @@
   padding: 7rem 2rem;
   text-align: center;
   overflow: hidden;
-  background: linear-gradient(160deg, var(--bg-primary) 0%, #050a05 100%);
+  background: transparent;
 }
 
 .ap-cta__glow {

@@ -6,11 +6,9 @@ const CELL = 112;
 
 export default function CustomCursor() {
   const arrowRef = useRef(null);
-  const ringRef = useRef(null);
   const canvasRef = useRef(null);
   const pos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const arrow = useRef({ x: -80, y: -80 });
-  const ring = useRef({ x: -80, y: -80 });
   const look = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const hovering = useRef(false);
   const [pointer, setPointer] = useState(false);
@@ -82,16 +80,10 @@ export default function CustomCursor() {
       if (pointer) {
         arrow.current.x += (pos.current.x - arrow.current.x) * 0.34;
         arrow.current.y += (pos.current.y - arrow.current.y) * 0.34;
-        ring.current.x += (pos.current.x - ring.current.x) * 0.16;
-        ring.current.y += (pos.current.y - ring.current.y) * 0.16;
 
         if (arrowRef.current) {
           arrowRef.current.style.transform = `translate3d(${arrow.current.x}px, ${arrow.current.y}px, 0)`;
           arrowRef.current.classList.toggle('is-hover', hovering.current);
-        }
-        if (ringRef.current) {
-          ringRef.current.style.transform = `translate3d(${ring.current.x}px, ${ring.current.y}px, 0)`;
-          ringRef.current.classList.toggle('is-hover', hovering.current);
         }
       }
 
@@ -117,11 +109,6 @@ export default function CustomCursor() {
       <canvas className="cc-grid" ref={canvasRef} aria-hidden="true" />
       {pointer && (
         <div className="cc" aria-hidden="true">
-          <div className="cc__ring" ref={ringRef}>
-            <svg viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r="17" />
-            </svg>
-          </div>
           <div className="cc__arrow" ref={arrowRef}>
             <svg viewBox="0 0 28 28">
               <path

@@ -1,51 +1,14 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import SiteHeader from '../components/SiteHeader';
+import ProjectCard from '../components/ProjectCard';
+import { PROJECTS } from '../data/projects';
 import './HomePage.css';
 
-const NAV_LINKS = [
-  { label: 'Home', to: '/' },
-  { label: 'Projects', to: '/projects' },
-  { label: 'About', to: '/about' },
-];
-
 export default function HomePage() {
-  const { pathname } = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="hp">
-      <header className={`hp-bar${menuOpen ? ' is-open' : ''}`}>
-        <Link to="/" className="hp-bar__logo" aria-label="Edison — home">
-          <img src="/logo.png" alt="EB" className="hp-bar__mark" />
-        </Link>
-
-        <nav className="hp-bar__links" aria-label="Primary">
-          {NAV_LINKS.map(({ label, to }) => {
-            const active = to.startsWith('#') ? false : pathname === to;
-            const className = `hp-bar__link${active ? ' is-active' : ''}`;
-            return to.startsWith('#') ? (
-              <a key={label} href={to} className={className} onClick={() => setMenuOpen(false)}>
-                {label}
-              </a>
-            ) : (
-              <Link key={label} to={to} className={className} onClick={() => setMenuOpen(false)}>
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <button
-          type="button"
-          className={`hp-bar__menu${menuOpen ? ' is-open' : ''}`}
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-        >
-          <span />
-          <span />
-        </button>
-      </header>
+      <SiteHeader />
 
       <section className="hp-hero" aria-label="Hero">
         <div className="hp-hero__glow" aria-hidden="true" />
@@ -165,7 +128,164 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <section className="hp-projects" id="projects" aria-labelledby="home-projects-title">
+        <div className="hp-projects__glow" aria-hidden="true" />
+        <div className="hp-projects__inner">
+          <div className="hp-projects__head">
+            <div>
+              <p className="hp-intro__label">Portfolio</p>
+              <h2 className="hp-intro__title font-gropled" id="home-projects-title">
+                Selected <span className="hp-hero__lime">Projects</span>
+              </h2>
+            </div>
+            <Link to="/projects" className="hp-hero__cta">
+              View all
+            </Link>
+          </div>
+
+          <div className="pp-grid">
+            {PROJECTS.slice(0, 5).map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <ProfileSection />
     </div>
+  );
+}
+
+function ProfileSection() {
+  const [shared, setShared] = useState(false);
+
+  const facts = [
+    "I'm based in Idukki, Kerala, India",
+    "I've been building in this field for 5+ years",
+    'I build fast web apps with React and Node',
+    "I'm a designer, programmer, and web developer",
+    'My phone number in India +91 79079 51080',
+  ];
+
+  const share = async () => {
+    const url = window.location.origin;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Edison Biju', url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setShared(true);
+      window.setTimeout(() => setShared(false), 1800);
+    } catch {
+      /* user cancelled share */
+    }
+  };
+
+  return (
+    <section className="hp-profile" id="about" aria-labelledby="profile-title">
+      <div className="hp-profile__map" aria-hidden="true">
+        <IdukkiMap />
+      </div>
+
+      <article className="hp-profile__card">
+        <div className="hp-profile__socials">
+          <a
+            href="https://wa.me/917907951080"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+          >
+            <WhatsAppIcon />
+          </a>
+          <a
+            href="https://www.instagram.com/edisonbiju"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <InstagramIcon />
+          </a>
+          <button type="button" onClick={share} aria-label={shared ? 'Link copied' : 'Share'}>
+            <ShareIcon />
+          </button>
+        </div>
+
+        <h2 className="hp-profile__name font-gropled" id="profile-title">
+          I&apos;m <span>Edison</span> Biju
+        </h2>
+
+        <ul className="hp-profile__facts">
+          {facts.map((fact) => (
+            <li key={fact}>{fact}</li>
+          ))}
+        </ul>
+      </article>
+
+      <div className="hp-profile__photo">
+        <img src="/profile.png" alt="Edison Biju" />
+      </div>
+    </section>
+  );
+}
+
+function IdukkiMap() {
+  return (
+    <svg viewBox="0 0 300 380" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="idukki-fill" x1="0%" y1="0%" x2="80%" y2="100%">
+          <stop offset="0%" stopColor="#9aaec2" />
+          <stop offset="55%" stopColor="#4a5563" />
+          <stop offset="100%" stopColor="#1c222b" />
+        </linearGradient>
+      </defs>
+
+      <path className="hp-profile__taluk" d="M109.8,49.3L114.5,55.2L126.1,56.4L135.8,59.1L144.1,55.7L152.3,51.0L161.6,43.2L164.8,35.6L177.2,30.4L188.0,25.9L205.0,16.1L215.6,17.4L220.8,29.0L233.2,45.6L231.5,54.5L234.9,54.7L243.5,60.5L239.8,63.9L236.4,81.8L236.5,88.9L227.9,89.7L221.2,92.1L214.1,93.0L212.8,101.1L200.3,111.1L178.4,117.7L164.0,123.9L164.9,130.0L161.3,137.6L153.4,138.0L142.4,136.5L127.9,143.1L109.9,134.2L83.8,121.8L72.1,116.6L63.8,110.1L45.1,96.0L30.5,84.7L22.2,80.0L26.3,66.2L33.0,49.2L41.7,44.0L56.9,40.8L65.9,42.7L73.1,41.0L83.9,40.2L88.1,38.8L97.9,43.4L102.4,45.6L109.8,49.3Z" />
+      <path className="hp-profile__taluk" d="M87.8,122.4L117.2,137.0L130.5,144.6L134.3,150.8L133.6,159.1L132.4,169.8L134.4,179.3L133.2,181.9L141.7,187.8L152.3,196.7L150.2,203.3L148.6,215.1L142.5,220.0L120.3,217.4L96.6,216.3L84.1,204.9L63.3,191.5L54.3,192.9L42.8,187.0L35.7,183.5L30.3,180.3L17.6,179.4L17.2,172.3L16.6,163.7L17.5,157.1L25.7,156.1L33.6,156.1L39.7,158.3L39.4,152.9L46.0,143.5L48.9,136.0L62.1,134.6L66.0,121.6L79.7,123.8L87.8,122.4Z" />
+      <path className="hp-profile__taluk" d="M96.6,216.3L120.3,217.4L142.5,220.0L153.4,222.7L150.4,227.4L152.1,233.3L147.0,239.6L170.3,236.9L177.2,243.0L191.0,243.4L199.7,246.0L199.9,253.7L210.9,254.9L218.3,258.1L226.7,263.3L233.8,266.7L242.2,261.7L255.5,258.7L254.5,265.0L268.4,258.9L265.7,260.4L263.2,269.4L267.6,272.8L273.7,282.8L283.5,286.2L279.8,297.3L275.8,305.2L268.7,303.8L261.9,312.9L260.4,321.7L257.8,327.4L254.4,340.8L246.6,343.3L246.6,348.7L242.0,353.8L240.0,364.0L231.0,359.4L224.0,357.2L223.6,345.6L223.7,339.1L228.1,328.7L220.2,316.8L215.2,309.0L211.8,306.9L206.1,305.4L204.8,300.1L199.8,300.3L191.3,298.3L185.0,296.8L172.7,303.1L164.3,303.8L162.2,312.0L157.5,318.4L151.5,320.2L142.5,315.3L123.2,312.6L127.5,305.7L138.0,297.9L129.0,290.5L119.5,289.8L104.1,271.9L106.7,263.4L104.7,253.1L107.2,249.3L121.0,252.2L118.3,243.0L109.9,231.5L98.1,218.0L96.6,216.3Z" />
+      <path
+        className="hp-profile__taluk hp-profile__taluk--hot"
+        d="M214.3,103.5L223.1,110.9L231.7,119.5L230.1,127.1L232.1,133.1L237.2,138.8L228.7,146.0L223.3,153.6L216.7,169.0L224.3,175.6L219.3,186.7L227.5,192.2L219.6,197.8L218.4,211.5L212.5,224.3L209.3,236.2L204.7,243.5L196.3,246.6L188.9,244.7L173.9,240.2L158.3,245.4L149.3,237.8L151.6,230.4L152.5,225.7L151.9,220.3L147.8,207.1L154.1,199.3L143.9,190.3L137.2,184.4L135.8,180.7L131.5,173.9L134.8,163.1L133.5,153.9L137.6,146.3L150.6,138.6L158.5,138.4L164.7,133.7L166.6,126.6L169.8,117.2L190.9,116.0L208.9,108.0L214.3,103.5Z"
+      />
+
+      <g className="hp-profile__marker" transform="translate(185.1 174.8)">
+        <line x1="0" y1="0" x2="0" y2="-48" />
+        <circle className="hp-profile__marker-tip" cx="0" cy="-48" r="2.15" />
+        <circle className="hp-profile__marker-ring" cx="0" cy="0" r="9.5" />
+        <circle className="hp-profile__marker-core" cx="0" cy="0" r="4.4" />
+      </g>
+    </svg>
+  );
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"
+      />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M12 4v12M8 8l4-4 4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
