@@ -41,6 +41,9 @@ export default function AdminPage() {
   const [tab, setTab] = useState('contacts');
   const [search, setSearch] = useState('');
   const [openId, setOpenId] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
 
   const inbox = useQuery(api.admin.inbox, token ? { token } : 'skip');
   const login = useMutation(api.admin.login);
@@ -96,6 +99,8 @@ export default function AdminPage() {
 
   useEffect(() => {
     setOpenId(null);
+    setConfirmDelete(false);
+    setDeleteError('');
   }, [tab, search]);
 
   useEffect(() => {
@@ -103,14 +108,19 @@ export default function AdminPage() {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const onKeyDown = (event) => {
-      if (event.key === 'Escape') setOpenId(null);
+      if (event.key !== 'Escape') return;
+      if (confirmDelete) {
+        setConfirmDelete(false);
+        return;
+      }
+      setOpenId(null);
     };
     document.addEventListener('keydown', onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [openId]);
+  }, [openId, confirmDelete]);
 
   const rows = useMemo(() => {
     if (!inbox) return [];
@@ -152,15 +162,19 @@ export default function AdminPage() {
   };
 
   const removeRow = async (record) => {
-    if (!window.confirm('Delete this submission? This cannot be undone.')) return;
+    setDeleting(true);
+    setDeleteError('');
     try {
       if (tab === 'contacts') await removeContact({ token, id: record._id });
       if (tab === 'workInquiries') await removeWork({ token, id: record._id });
       if (tab === 'buildInquiries') await removeBuild({ token, id: record._id });
       if (tab === 'messages') await removeMessage({ token, id: record._id });
+      setConfirmDelete(false);
       setOpenId(null);
     } catch (err) {
-      window.alert(err instanceof Error ? err.message : 'Could not delete.');
+      setDeleteError(err instanceof Error ? err.message : 'Could not delete.');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -318,25 +332,81 @@ export default function AdminPage() {
       )}
 
       {selected ? (
-        <div className="ad-modal" role="presentation" onClick={() => setOpenId(null)}>
-          <article
-            className="ad-modal__dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="ad-modal-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              className="ad-modal__close"
-              onClick={() => setOpenId(null)}
-              aria-label="Close"
+        <div
+          className="ad-modal"
+          role="presentation"
+          onClick={() => {
+            if (confirmDelete) {
+              setConfirmDelete(false);
+              return;
+            }
+            setOpenId(null);
+          }}
+        >
+          {confirmDelete ? (
+            <article
+              className="ad-modal__dialog ad-modal__dialog--confirm"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="ad-confirm-title"
+              onClick={(event) => event.stopPropagation()}
             >
-              <span />
-              <span />
-            </button>
-            <SubmissionDetail tab={tab} record={selected} onDelete={() => removeRow(selected)} />
-          </article>
+              <p className="ad-kicker">Please confirm</p>
+              <h2 className="ad-detail__title font-gropled" id="ad-confirm-title">
+                Delete this submission?
+              </h2>
+              <p className="ad-copy">This cannot be undone.</p>
+              {deleteError ? (
+                <p className="ad-error" role="alert">
+                  {deleteError}
+                </p>
+              ) : null}
+              <div className="ad-confirm-actions">
+                <button
+                  type="button"
+                  className="ad-ghost"
+                  disabled={deleting}
+                  onClick={() => setConfirmDelete(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="ad-danger ad-danger--solid"
+                  disabled={deleting}
+                  onClick={() => removeRow(selected)}
+                >
+                  {deleting ? 'Deleting…' : 'Delete'}
+                </button>
+              </div>
+            </article>
+          ) : (
+            <article
+              className="ad-modal__dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="ad-modal-title"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="ad-modal__close"
+                onClick={() => setOpenId(null)}
+                aria-label="Close"
+              >
+                <span />
+                <span />
+              </button>
+              <SubmissionDetail
+                tab={tab}
+                record={selected}
+                onDelete={() => {
+                  setDeleteError('');
+                  setConfirmDelete(true);
+                }}
+              />
+            </article>
+          )}
         </div>
       ) : null}
     </main>

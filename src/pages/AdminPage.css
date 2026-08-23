@@ -435,6 +435,43 @@
   background: rgba(252, 165, 165, 0.08);
 }
 
+.ad-danger--solid {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.ad-danger--solid:hover {
+  background: #b91c1c;
+}
+
+.ad-danger:disabled,
+.ad-ghost:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.ad-modal__dialog--confirm {
+  width: min(24rem, 100%);
+}
+
+.ad-modal__dialog--confirm .ad-detail__title {
+  margin-right: 0;
+}
+
+.ad-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.ad-confirm-actions .ad-ghost,
+.ad-confirm-actions .ad-danger {
+  min-width: 7.5rem;
+}
+
 body.is-admin .pwa-chip,
 body.is-admin .cc,
 body.is-admin .cc-grid {
