@@ -131,9 +131,19 @@
   }
 }
 
+@media (min-width: 900px) {
+  .hp-bar__links {
+    gap: 1.35rem;
+  }
+}
+
 @media (min-width: 1100px) {
   .hp-bar {
     padding: 1.45rem 4.5rem 1.2rem;
+  }
+
+  .hp-bar__links {
+    gap: 1.85rem;
   }
 }
 
@@ -196,7 +206,7 @@
     top: 0.4rem;
     bottom: 0.4rem;
     left: 0.4rem;
-    width: calc((100% - 0.8rem) / 4);
+    width: calc((100% - 0.8rem) / 5);
     border-radius: 0.75rem;
     background: #ccff00;
     transform: translateX(calc(var(--pill-index, 0) * 100%));
@@ -224,7 +234,7 @@
     padding: 0.15rem 0.2rem;
     border-radius: 0.7rem;
     background: transparent;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     color: #fff;
     opacity: 0.7;
     transition: color 0.18s ease, opacity 0.22s ease, transform 0.2s ease;
@@ -260,6 +270,11 @@
 
     .hp-bar__mark {
       height: 1.75rem;
+    }
+
+    .hp-bar__link {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.08rem;
     }
   }
 }

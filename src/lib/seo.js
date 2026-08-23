@@ -45,6 +45,11 @@ export const PAGE_SEO = {
     description:
       'Shipped and upcoming web apps and websites by Edison Biju. Buy a ready-made build or hire me to design and develop a custom product.',
   },
+  '/pricing': {
+    title: 'Pricing | Web Development by Edison Biju',
+    description:
+      'Starting prices for landing pages, business websites, e-commerce, and custom React / MERN web apps by Edison Biju in Kerala, India.',
+  },
   '/admin': {
     title: 'EB Admin',
     description: 'Private admin inbox.',

@@ -499,4 +499,8 @@ html.has-custom-cursor body.is-admin * {
   .ad-modal__dialog {
     padding: 2rem 1.7rem 1.6rem;
   }
+
+  .ad-install {
+    display: none;
+  }
 }

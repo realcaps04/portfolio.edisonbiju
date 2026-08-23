@@ -162,10 +162,11 @@ export const inbox = query({
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
 
-    const [contacts, workInquiries, buildInquiries, messages] = await Promise.all([
+    const [contacts, workInquiries, buildInquiries, planInquiries, messages] = await Promise.all([
       ctx.db.query("contacts").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("workInquiries").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("buildInquiries").withIndex("by_createdAt").order("desc").take(300),
+      ctx.db.query("planInquiries").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("messages").order("desc").take(300),
     ]);
 
@@ -173,11 +174,13 @@ export const inbox = query({
       contacts: contacts.map(stamp),
       workInquiries: workInquiries.map(stamp),
       buildInquiries: buildInquiries.map(stamp),
+      planInquiries: planInquiries.map(stamp),
       messages: messages.map(stamp),
       counts: {
         contacts: contacts.length,
         workInquiries: workInquiries.length,
         buildInquiries: buildInquiries.length,
+        planInquiries: planInquiries.length,
         messages: messages.length,
       },
     };
@@ -202,6 +205,14 @@ export const removeWorkInquiry = mutation({
 
 export const removeBuildInquiry = mutation({
   args: { token: v.string(), id: v.id("buildInquiries") },
+  handler: async (ctx, args) => {
+    await requireSession(ctx, args.token);
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const removePlanInquiry = mutation({
+  args: { token: v.string(), id: v.id("planInquiries") },
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
     await ctx.db.delete(args.id);

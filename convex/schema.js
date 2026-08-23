@@ -51,6 +51,24 @@ export default defineSchema({
     .index("by_createdAt", ["createdAt"])
     .index("by_productId", ["productId"]),
 
+  planInquiries: defineTable({
+    planId: v.string(),
+    planName: v.string(),
+    currency: v.string(),
+    priceUsd: v.number(),
+    priceInr: v.number(),
+    displayedPrice: v.string(),
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    company: v.string(),
+    message: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_createdAt", ["createdAt"])
+    .index("by_planId", ["planId"]),
+
   admins: defineTable({
     name: v.string(),
     email: v.string(),

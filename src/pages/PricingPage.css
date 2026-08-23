@@ -1,0 +1,245 @@
+.pr-fx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 3rem;
+  min-width: 3rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(204, 255, 0, 0.4);
+  background: transparent;
+  color: #ccff00;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.pr-fx:hover,
+.pr-fx.is-inr {
+  background: rgba(204, 255, 0, 0.1);
+}
+
+.pr-fx svg {
+  display: block;
+}
+
+.pr-plans {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 0.5rem 1.25rem 3.5rem;
+}
+
+.pr-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.pr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.45rem 1.35rem 1.35rem;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(12, 16, 24, 0.82);
+}
+
+.pr-card.is-popular {
+  border-color: rgba(204, 255, 0, 0.55);
+  background: linear-gradient(180deg, rgba(204, 255, 0, 0.08) 0%, rgba(12, 16, 24, 0.9) 42%);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.pr-card__badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin: 0;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: #ccff00;
+  color: #111;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.pr-card__name {
+  margin: 0 0 0.45rem;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.pr-card__blurb {
+  margin: 0 0 1.1rem;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.pr-card__price {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0 0 0.35rem;
+}
+
+.pr-card__price span {
+  color: #a1a1aa;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pr-card__price strong {
+  color: #ccff00;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.pr-card__time {
+  margin: 0 0 1.15rem;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+}
+
+.pr-card__list {
+  margin: 0 0 1.35rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+  flex: 1;
+}
+
+.pr-card__list li {
+  position: relative;
+  padding-left: 1.15rem;
+  color: #d4d4d8;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.pr-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.42rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #ccff00;
+}
+
+.pr-card__cta {
+  width: 100%;
+  min-height: 2.65rem;
+  border: 0;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.pr-card.is-popular .pr-card__cta {
+  background: #ccff00;
+  color: #111;
+}
+
+.pr-card__cta:hover {
+  transform: translateY(-1px);
+}
+
+.pr-addons {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+.pr-addons__title {
+  margin: 0 0 1.25rem;
+  color: #fff;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.pr-addons__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.pr-addons__list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(12, 16, 24, 0.7);
+  color: #e4e4e7;
+  font-size: 0.92rem;
+}
+
+.pr-addons__list strong {
+  color: #ccff00;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (min-width: 720px) {
+  .pr-plans,
+  .pr-addons {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+
+  .pr-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.15rem;
+  }
+
+  .pr-addons__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.pr-card.is-custom {
+  border-color: rgba(96, 165, 250, 0.45);
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.16) 0%, rgba(12, 16, 24, 0.9) 46%);
+}
+
+.pr-card.is-custom .pr-card__badge {
+  background: #60a5fa;
+  color: #0b1220;
+}
+
+.pr-card.is-custom .pr-card__cta {
+  background: #1d4ed8;
+}
+
+@media (min-width: 1100px) {
+  .pr-plans,
+  .pr-addons {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+  }
+
+  .pr-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 899px) {
+  .pr .pp-hero__title {
+    white-space: normal;
+  }
+}

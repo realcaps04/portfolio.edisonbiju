@@ -9,6 +9,7 @@ const TABS = [
   { id: 'contacts', label: 'Connect', hint: 'Get in touch' },
   { id: 'workInquiries', label: 'Work briefs', hint: "You're next" },
   { id: 'buildInquiries', label: 'Build sales', hint: 'For sale' },
+  { id: 'planInquiries', label: 'Plan requests', hint: 'Pricing' },
   { id: 'messages', label: 'Messages', hint: 'Older form' },
 ];
 
@@ -52,6 +53,7 @@ export default function AdminPage() {
   const removeContact = useMutation(api.admin.removeContact);
   const removeWork = useMutation(api.admin.removeWorkInquiry);
   const removeBuild = useMutation(api.admin.removeBuildInquiry);
+  const removePlan = useMutation(api.admin.removePlanInquiry);
   const removeMessage = useMutation(api.admin.removeMessage);
 
   useEffect(() => {
@@ -168,6 +170,7 @@ export default function AdminPage() {
       if (tab === 'contacts') await removeContact({ token, id: record._id });
       if (tab === 'workInquiries') await removeWork({ token, id: record._id });
       if (tab === 'buildInquiries') await removeBuild({ token, id: record._id });
+      if (tab === 'planInquiries') await removePlan({ token, id: record._id });
       if (tab === 'messages') await removeMessage({ token, id: record._id });
       setConfirmDelete(false);
       setOpenId(null);
@@ -240,7 +243,7 @@ export default function AdminPage() {
     );
   }
 
-  const counts = inbox?.counts ?? { contacts: 0, workInquiries: 0, buildInquiries: 0, messages: 0 };
+  const counts = inbox?.counts ?? { contacts: 0, workInquiries: 0, buildInquiries: 0, planInquiries: 0, messages: 0 };
   const selected = rows.find((row) => row._id === openId) ?? null;
 
   return (
@@ -321,7 +324,7 @@ export default function AdminPage() {
                   <span className="ad-row__name">{record.name || 'Untitled'}</span>
                   <span className="ad-row__meta">{record.email}</span>
                   <span className="ad-row__meta">
-                    {record.productTitle || record.subject || record.projectType || record.company || '—'}
+                    {record.planName || record.productTitle || record.subject || record.projectType || record.company || '—'}
                   </span>
                   <span className="ad-row__when">{formatWhen(record.createdAt)}</span>
                 </button>
@@ -435,6 +438,19 @@ function SubmissionDetail({ tab, record, onDelete }) {
             ['Phone', record.phone],
             ['Company', record.company],
             ['Budget', record.budget],
+            ['Message', record.message],
+          ]
+      : tab === 'planInquiries'
+        ? [
+            ['Plan', record.planName],
+            ['Price shown', record.displayedPrice],
+            ['Currency', record.currency],
+            ['USD', record.priceUsd != null ? `$${record.priceUsd}` : ''],
+            ['INR', record.priceInr != null ? `₹${record.priceInr}` : ''],
+            ['Name', record.name],
+            ['Email', record.email],
+            ['Phone', record.phone],
+            ['Company', record.company],
             ['Message', record.message],
           ]
       : [

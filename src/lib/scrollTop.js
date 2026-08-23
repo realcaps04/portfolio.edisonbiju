@@ -12,3 +12,11 @@ export function scrollToTop() {
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
 }
+
+export function stopLenis() {
+  lenis?.stop();
+}
+
+export function startLenis() {
+  lenis?.start();
+}
