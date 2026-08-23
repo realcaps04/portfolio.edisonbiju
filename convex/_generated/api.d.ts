@@ -9,9 +9,12 @@
  */
 
 import type * as admin from "../admin.js";
+import type * as buildInquiries from "../buildInquiries.js";
 import type * as contacts from "../contacts.js";
 import type * as http from "../http.js";
 import type * as messages from "../messages.js";
+import type * as notifications from "../notifications.js";
+import type * as planInquiries from "../planInquiries.js";
 import type * as workInquiries from "../workInquiries.js";
 
 import type {
@@ -22,9 +25,12 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
+  buildInquiries: typeof buildInquiries;
   contacts: typeof contacts;
   http: typeof http;
   messages: typeof messages;
+  notifications: typeof notifications;
+  planInquiries: typeof planInquiries;
   workInquiries: typeof workInquiries;
 }>;
 

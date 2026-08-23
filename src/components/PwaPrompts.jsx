@@ -171,7 +171,7 @@ function PwaUi({
           </h2>
           <p className="pwa-modal__copy">
             {window.location.pathname.startsWith('/admin')
-              ? 'Add EB Admin to your home screen for a fullscreen inbox.'
+              ? "Add Edison's Dashboard to your home screen for a fullscreen inbox."
               : 'Open this portfolio from your home screen — faster load, fullscreen, and it works like a native app.'}
           </p>
             <div className="pwa-modal__actions">
@@ -209,7 +209,7 @@ function PwaUi({
               <ol className="pwa-modal__steps">
                 <li>Tap the Share button in Safari.</li>
                 <li>Scroll and tap Add to Home Screen.</li>
-                <li>Tap Add — {window.location.pathname.startsWith('/admin') ? 'EB Admin' : 'Edison'} will appear like an app.</li>
+                <li>Tap Add — {window.location.pathname.startsWith('/admin') ? "Edison's Dashboard" : 'Edison'} will appear like an app.</li>
               </ol>
             ) : (
               <ol className="pwa-modal__steps">

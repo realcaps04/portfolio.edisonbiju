@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useConvex } from 'convex/react';
+import { useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useContactModal } from './ContactModal';
 import { usePwa } from './pwaContext';
@@ -106,24 +106,9 @@ function BellIcon() {
 }
 
 function NotificationBell() {
-  const convex = useConvex();
+  const notices = useQuery(api.notifications.list);
   const buttonRef = useRef(null);
   const [notifyOpen, setNotifyOpen] = useState(false);
-  const [notices, setNotices] = useState(undefined);
-
-  const toggleNotices = async () => {
-    if (notifyOpen) {
-      setNotifyOpen(false);
-      return;
-    }
-    setNotifyOpen(true);
-    try {
-      const rows = await convex.query(api.notifications.list, {});
-      setNotices(Array.isArray(rows) ? rows : []);
-    } catch {
-      setNotices([]);
-    }
-  };
 
   return (
     <>
@@ -133,7 +118,7 @@ function NotificationBell() {
         className={`hp-bar__notify${notifyOpen ? ' is-open' : ''}`}
         aria-label="Notifications"
         aria-expanded={notifyOpen}
-        onClick={toggleNotices}
+        onClick={() => setNotifyOpen((open) => !open)}
       >
         <BellIcon />
       </button>

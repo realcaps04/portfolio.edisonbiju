@@ -125,7 +125,9 @@ export default function NotificationPopup({ open, items, anchorRef, onClose }) {
             {list.map((item) => (
               <li key={item._id} className="np__item">
                 <p className="np__item-title">{item.title || 'Notice'}</p>
-                {item.body ? <p className="np__item-body">{item.body}</p> : null}
+                {item.body || item.message ? (
+                  <p className="np__item-body">{item.body || item.message}</p>
+                ) : null}
                 <p className="np__item-when">{formatWhen(item.createdAt)}</p>
               </li>
             ))}

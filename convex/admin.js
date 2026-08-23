@@ -278,11 +278,20 @@ export const createNotification = mutation({
     if (title.length > 160 || body.length > 2000) {
       fail("Keep the title and message shorter.");
     }
-    return await ctx.db.insert("notifications", {
-      title,
-      body,
-      createdAt: Date.now(),
-    });
+    try {
+      return await ctx.db.insert("notifications", {
+        title,
+        body,
+        createdAt: Date.now(),
+      });
+    } catch {
+      return await ctx.db.insert("messages", {
+        name: "Notice",
+        email: NOTICE_EMAIL,
+        subject: title,
+        message: body,
+      });
+    }
   },
 });
 

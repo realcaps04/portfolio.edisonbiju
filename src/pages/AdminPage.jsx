@@ -70,6 +70,7 @@ export default function AdminPage() {
   const [noticeStatus, setNoticeStatus] = useState('idle');
   const [noticeError, setNoticeError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [composeOpen, setComposeOpen] = useState(false);
 
   const inbox = useQuery(api.admin.inbox, token ? { token } : 'skip');
   const logoutSession = useMutation(api.admin.logout);
@@ -83,7 +84,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = 'EB Admin';
+    document.title = "Edison's Dashboard";
     document.body.classList.add('is-admin');
     const robots = document.createElement('meta');
     robots.name = 'robots';
@@ -115,7 +116,17 @@ export default function AdminPage() {
     setConfirmDelete(false);
     setDeleteError('');
     setMenuOpen(false);
+    setComposeOpen(false);
   }, [tab, search]);
+
+  useEffect(() => {
+    if (!composeOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape' && noticeStatus !== 'saving') setComposeOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [composeOpen, noticeStatus]);
 
   const rows = useMemo(() => {
     if (!inbox) return [];
@@ -180,6 +191,7 @@ export default function AdminPage() {
       setNoticeTitle('');
       setNoticeBody('');
       setNoticeStatus('saved');
+      setComposeOpen(false);
       window.setTimeout(() => setNoticeStatus('idle'), 1800);
     } catch (err) {
       setNoticeStatus('error');
@@ -213,7 +225,7 @@ export default function AdminPage() {
             <i />
             <i />
           </span>
-          <span>EB Admin</span>
+          <span>Edison&apos;s Dashboard</span>
         </div>
         <nav className="ad-nav" aria-label="Inbox">
           {TABS.map((item) => (
@@ -275,37 +287,13 @@ export default function AdminPage() {
         <div className="ad-layout">
           <section className="ad-feed">
             {tab === 'notifications' ? (
-              <form className="ad-card ad-compose" onSubmit={postNotice}>
-                <div className="ad-compose__head">
-                  <span className="ad-user__avatar">EB</span>
-                  <p>Post a site notice</p>
-                </div>
-                <input
-                  value={noticeTitle}
-                  onChange={(event) => setNoticeTitle(event.target.value)}
-                  placeholder="Headline"
-                  maxLength={160}
-                  required
-                />
-                <textarea
-                  value={noticeBody}
-                  onChange={(event) => setNoticeBody(event.target.value)}
-                  placeholder="What should people see in the bell popup?"
-                  rows={3}
-                  maxLength={2000}
-                  required
-                />
-                {noticeError ? (
-                  <p className="ad-error" role="alert">
-                    {noticeError}
-                  </p>
-                ) : null}
-                <div className="ad-compose__actions">
-                  <button type="submit" className="ad-primary" disabled={noticeStatus === 'saving'}>
-                    {noticeStatus === 'saving' ? 'Posting…' : noticeStatus === 'saved' ? 'Posted' : 'Create notice'}
-                  </button>
-                </div>
-              </form>
+              <button type="button" className="ad-card ad-compose-launch" onClick={() => {
+                setNoticeError('');
+                setComposeOpen(true);
+              }}>
+                <span className="ad-user__avatar">EB</span>
+                <span>Post a site notice</span>
+              </button>
             ) : null}
 
             {!inbox ? (
@@ -363,6 +351,66 @@ export default function AdminPage() {
           </aside>
         </div>
       </div>
+
+      {composeOpen ? (
+        <div
+          className="ad-modal"
+          role="presentation"
+          onClick={() => {
+            if (noticeStatus === 'saving') return;
+            setComposeOpen(false);
+          }}
+        >
+          <form
+            className="ad-card ad-modal__panel ad-compose"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ad-compose-title"
+            onClick={(event) => event.stopPropagation()}
+            onSubmit={postNotice}
+          >
+            <button
+              type="button"
+              className="ad-modal__close"
+              onClick={() => setComposeOpen(false)}
+              aria-label="Close"
+            >
+              <span />
+              <span />
+            </button>
+            <div className="ad-compose__head">
+              <span className="ad-user__avatar">EB</span>
+              <p id="ad-compose-title">Post a site notice</p>
+            </div>
+            <input
+              value={noticeTitle}
+              onChange={(event) => setNoticeTitle(event.target.value)}
+              placeholder="Headline"
+              maxLength={160}
+              required
+              autoFocus
+            />
+            <textarea
+              value={noticeBody}
+              onChange={(event) => setNoticeBody(event.target.value)}
+              placeholder="What should people see in the bell popup?"
+              rows={4}
+              maxLength={2000}
+              required
+            />
+            {noticeError ? (
+              <p className="ad-error" role="alert">
+                {noticeError}
+              </p>
+            ) : null}
+            <div className="ad-compose__actions">
+              <button type="submit" className="ad-primary" disabled={noticeStatus === 'saving'}>
+                {noticeStatus === 'saving' ? 'Posting…' : 'Create notice'}
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : null}
 
       {selected ? (
         <div

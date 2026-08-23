@@ -1,7 +1,7 @@
 {
   "id": "/admin",
-  "name": "EB Admin",
-  "short_name": "EB Admin",
+  "name": "Edison's Dashboard",
+  "short_name": "Dashboard",
   "description": "Admin inbox for Edison Biju portfolio form submissions.",
   "start_url": "/admin",
   "scope": "/",

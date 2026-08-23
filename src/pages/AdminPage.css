@@ -197,8 +197,11 @@
   align-items: center;
   gap: 0.65rem;
   padding: 0.2rem 0.45rem;
+  color: #fff;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
 .ad-brand__dots {
@@ -271,6 +274,10 @@
   color: var(--ad-muted);
   font-size: 0.82rem;
   line-height: 1.5;
+}
+
+.ad-rail__note {
+  margin-top: 1.25rem;
 }
 
 .ad-side__foot {
@@ -440,6 +447,21 @@
 .ad-compose {
   display: grid;
   gap: 0.65rem;
+}
+
+.ad-compose-launch {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  color: var(--ad-muted);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ad-compose-launch:hover {
+  border-color: rgba(59, 130, 246, 0.45);
+  color: #fff;
 }
 
 .ad-compose__actions {

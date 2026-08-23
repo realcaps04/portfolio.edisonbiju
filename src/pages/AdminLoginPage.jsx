@@ -20,7 +20,7 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = 'EB Admin — Sign in';
+    document.title = "Edison's Dashboard — Sign in";
     document.body.classList.add('is-admin');
     const robots = document.createElement('meta');
     robots.name = 'robots';
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
   return (
     <main className="ad ad--login">
       <form className="ad-login" onSubmit={onLogin} noValidate>
-        <p className="ad-kicker">EB Admin</p>
+        <p className="ad-kicker">Edison&apos;s Dashboard</p>
         <h1 className="ad-title font-gropled">
           Sign <span>in</span>
         </h1>
@@ -115,7 +115,7 @@ export default function AdminLoginPage() {
         </button>
         {canInstall && !standalone ? (
           <button type="button" className="ad-install" onClick={promptInstall}>
-            Install EB Admin
+            Install Edison&apos;s Dashboard
           </button>
         ) : null}
       </form>
