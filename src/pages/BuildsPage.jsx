@@ -29,10 +29,10 @@ export default function BuildsPage() {
         <div className="pp-hero__glow" aria-hidden="true" />
 
         <div className="pp-hero__inner">
-          <p className="pp-label">For sale</p>
+          <p className="pp-label">Shipped work</p>
           <h1 className="pp-hero__title font-gropled" id="builds-title">
-            Ready-made
-            <span className="pp-hero__lime">Builds</span>
+            Shipped and
+            <span className="pp-hero__lime">upcoming works</span>
           </h1>
           <p className="pp-hero__sub">
             Live apps and websites you can buy as a starting point — or hire me to design and ship something new.
@@ -49,7 +49,7 @@ export default function BuildsPage() {
         </div>
       </section>
 
-      <section className="pp-grid-section" aria-label="Builds for sale">
+      <section className="pp-grid-section" aria-label="Shipped and upcoming works">
         <div className="pp-grid">
           {BUILDS.map((build) => (
             <BuildCard key={build.id} build={build} onOpen={onOpen} />

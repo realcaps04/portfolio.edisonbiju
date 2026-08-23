@@ -98,6 +98,20 @@ export default function AdminPage() {
     setOpenId(null);
   }, [tab, search]);
 
+  useEffect(() => {
+    if (!openId) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setOpenId(null);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [openId]);
+
   const rows = useMemo(() => {
     if (!inbox) return [];
     const list = inbox[tab] ?? [];
@@ -279,39 +293,52 @@ export default function AdminPage() {
       {!inbox ? (
         <p className="ad-copy">Loading submissions…</p>
       ) : (
-        <div className="ad-layout">
-          <ul className="ad-list">
-            {rows.length === 0 ? (
-              <li className="ad-empty">No submissions in this list.</li>
-            ) : (
-              rows.map((record) => (
-                <li key={record._id}>
-                  <button
-                    type="button"
-                    className={`ad-row${openId === record._id ? ' is-open' : ''}`}
-                    onClick={() => setOpenId(record._id)}
-                  >
-                    <span className="ad-row__name">{record.name || 'Untitled'}</span>
-                    <span className="ad-row__meta">{record.email}</span>
-                    <span className="ad-row__meta">
-                      {record.productTitle || record.subject || record.projectType || record.company || '—'}
-                    </span>
-                    <span className="ad-row__when">{formatWhen(record.createdAt)}</span>
-                  </button>
-                </li>
-              ))
-            )}
-          </ul>
+        <ul className="ad-list">
+          {rows.length === 0 ? (
+            <li className="ad-empty">No submissions in this list.</li>
+          ) : (
+            rows.map((record) => (
+              <li key={record._id}>
+                <button
+                  type="button"
+                  className={`ad-row${openId === record._id ? ' is-open' : ''}`}
+                  onClick={() => setOpenId(record._id)}
+                >
+                  <span className="ad-row__name">{record.name || 'Untitled'}</span>
+                  <span className="ad-row__meta">{record.email}</span>
+                  <span className="ad-row__meta">
+                    {record.productTitle || record.subject || record.projectType || record.company || '—'}
+                  </span>
+                  <span className="ad-row__when">{formatWhen(record.createdAt)}</span>
+                </button>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
 
-          <article className="ad-detail">
-            {selected ? (
-              <SubmissionDetail tab={tab} record={selected} onDelete={() => removeRow(selected)} />
-            ) : (
-              <p className="ad-copy">Select a submission to read the full details.</p>
-            )}
+      {selected ? (
+        <div className="ad-modal" role="presentation" onClick={() => setOpenId(null)}>
+          <article
+            className="ad-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ad-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="ad-modal__close"
+              onClick={() => setOpenId(null)}
+              aria-label="Close"
+            >
+              <span />
+              <span />
+            </button>
+            <SubmissionDetail tab={tab} record={selected} onDelete={() => removeRow(selected)} />
           </article>
         </div>
-      )}
+      ) : null}
     </main>
   );
 }
@@ -351,7 +378,9 @@ function SubmissionDetail({ tab, record, onDelete }) {
   return (
     <>
       <p className="ad-kicker">{formatWhen(record.createdAt)}</p>
-      <h2 className="ad-detail__title font-gropled">{record.name}</h2>
+      <h2 className="ad-detail__title font-gropled" id="ad-modal-title">
+        {record.name}
+      </h2>
       <dl className="ad-fields">
         {fields.map(([label, value]) => (
           <div key={label}>
