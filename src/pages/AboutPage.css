@@ -225,13 +225,24 @@
 }
 
 .ab-chips span {
-  padding: 0.28rem 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.32rem 0.72rem 0.32rem 0.48rem;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.18);
   background: rgba(12, 20, 36, 0.55);
   color: #cbd5e1;
   font-size: 0.78rem;
   font-weight: 500;
+}
+
+.ab-chips img,
+.ab-chips svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .ab-timeline {

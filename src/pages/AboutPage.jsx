@@ -28,6 +28,97 @@ const SKILL_GROUPS = [
   },
 ];
 
+const SKILL_ICONS = {
+  HTML5: { src: 'https://cdn.simpleicons.org/html5/E34F26' },
+  CSS3: { src: 'https://cdn.simpleicons.org/css/1572B6' },
+  JavaScript: { src: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
+  React: { src: 'https://cdn.simpleicons.org/react/61DAFB' },
+  'Node.js': { src: 'https://cdn.simpleicons.org/nodedotjs/339933' },
+  'Express.js': { src: 'https://cdn.simpleicons.org/express/FFFFFF' },
+  MongoDB: { src: 'https://cdn.simpleicons.org/mongodb/47A248' },
+  'REST APIs': { src: 'https://cdn.simpleicons.org/postman/FF6C37' },
+  Python: { src: 'https://cdn.simpleicons.org/python/3776AB' },
+  PHP: { src: 'https://cdn.simpleicons.org/php/777BB4' },
+  MySQL: { src: 'https://cdn.simpleicons.org/mysql/4479A1' },
+  SQL: { src: 'https://cdn.simpleicons.org/postgresql/4169E1' },
+  NoSQL: { src: 'https://cdn.simpleicons.org/redis/FF4438' },
+  'Git / GitHub': { src: 'https://cdn.simpleicons.org/github/FFFFFF' },
+  Vercel: { src: 'https://cdn.simpleicons.org/vercel/FFFFFF' },
+  Linux: { src: 'https://cdn.simpleicons.org/linux/FCC624' },
+  Android: { src: 'https://cdn.simpleicons.org/android/3DDC84' },
+  iOS: { src: 'https://cdn.simpleicons.org/apple/FFFFFF' },
+  macOS: { src: 'https://cdn.simpleicons.org/apple/FFFFFF' },
+  'Ethical hacking': { src: 'https://cdn.simpleicons.org/kalilinux/557C94' },
+  'Technical writing': { src: 'https://cdn.simpleicons.org/markdown/FFFFFF' },
+  'LAN / WAN': { src: 'https://cdn.simpleicons.org/cisco/1BA0D7' },
+};
+
+function SkillIcon({ name }) {
+  const remote = SKILL_ICONS[name];
+  if (remote) {
+    return <img src={remote.src} alt="" width="16" height="16" decoding="async" />;
+  }
+
+  if (name === 'Windows') {
+    return (
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path fill="#0078D4" d="M3 5.4 11.2 4.2v7.4H3V5.4zm9  -.3L21 3.5v8.1h-9V5.1zM3 13.2h8.2v7.4L3 19.4v-6.2zm9 0H21V21.4l-9-1.4v-6.8z" />
+      </svg>
+    );
+  }
+
+  if (name === 'Tableau') {
+    return (
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path fill="#E97627" d="M11.1 2h1.8v3.2h3.2v1.8h-3.2V10h-1.8V7h-3.2V5.2h3.2V2zM4 9.2h1.8v2.2H8v1.8H5.8V15.4H4v-2.2H1.8v-1.8H4V9.2zm12.2 0H18v2.2h2.2v1.8H18v2.2h-1.8v-2.2h-2.2v-1.8h2.2V9.2zM11.1 14h1.8v3.2h3.2V19h-3.2v3H11.1v-3H7.9V17.2h3.2V14z" />
+      </svg>
+    );
+  }
+
+  if (name === 'MS Office') {
+    return (
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path fill="#D83B01" d="M3 5.2 14.2 3v18L3 18.8V5.2zm12.4-.4 5.4 1.1v12.2l-5.4 1.1V4.8zM5.2 8.4h4.4V10H6.7v1.1h2.6v1.5H6.7v1.2h3V15H5.2V8.4z" />
+      </svg>
+    );
+  }
+
+  if (name === 'Responsive design') {
+    return (
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <rect x="2" y="5" width="13" height="10" rx="1.4" fill="none" stroke="#93c5fd" strokeWidth="1.7" />
+        <rect x="16" y="10" width="6" height="9" rx="1.1" fill="none" stroke="#ccff00" strokeWidth="1.7" />
+      </svg>
+    );
+  }
+
+  if (name === 'Data structures') {
+    return (
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <circle cx="12" cy="5" r="2.1" fill="#ccff00" />
+        <circle cx="6" cy="18" r="2.1" fill="#60a5fa" />
+        <circle cx="18" cy="18" r="2.1" fill="#60a5fa" />
+        <path d="M12 7.2v4.2M12 11.4 6.8 16.2M12 11.4l5.2 4.8" fill="none" stroke="#94a3b8" strokeWidth="1.6" />
+      </svg>
+    );
+  }
+
+  if (name === 'Cybersecurity') {
+    return (
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path d="M12 3.2 19 6v5.4c0 4.4-3 7.4-7 8.6-4-1.2-7-4.2-7-8.6V6l7-2.8z" fill="none" stroke="#22d3ee" strokeWidth="1.7" />
+        <path d="M9.2 12.1 11.1 14l3.8-4" fill="none" stroke="#ccff00" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" fill="none" stroke="#ccff00" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
 const EXPERIENCE = [
   {
     role: 'State Bank Operations Executive',
@@ -201,7 +292,10 @@ export default function AboutPage() {
               <h3>{group.title}</h3>
               <div className="ab-chips">
                 {group.items.map((item) => (
-                  <span key={item}>{item}</span>
+                  <span key={item}>
+                    <SkillIcon name={item} />
+                    {item}
+                  </span>
                 ))}
               </div>
             </article>
