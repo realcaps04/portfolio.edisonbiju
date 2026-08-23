@@ -51,7 +51,12 @@ export const PAGE_SEO = {
       'Starting prices for landing pages, business websites, e-commerce, and custom React / MERN web apps by Edison Biju in Kerala, India.',
   },
   '/admin': {
-    title: 'EB Admin',
+    title: 'EB Admin — Sign in',
+    description: 'Private admin login.',
+    robots: 'noindex, nofollow',
+  },
+  '/admin/inbox': {
+    title: 'EB Admin inbox',
     description: 'Private admin inbox.',
     robots: 'noindex, nofollow',
   },

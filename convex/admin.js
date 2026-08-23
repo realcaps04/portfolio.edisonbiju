@@ -1,5 +1,5 @@
 import { query, mutation } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 
 const DEFAULT_NAME = "Edison Biju";
 const DEFAULT_EMAIL = "edisonbiju45@gmail.com";
@@ -77,19 +77,40 @@ async function ensureDefaultAdmin(ctx) {
   });
 }
 
+function fail(message) {
+  throw new ConvexError(message);
+}
+
+const NOTICE_EMAIL = "eb-notice@internal.local";
+
+function isNoticeMessage(doc) {
+  return (doc.email || "").toLowerCase() === NOTICE_EMAIL;
+}
+
+function asNotice(doc) {
+  return {
+    ...doc,
+    title: doc.title || doc.subject || "Notice",
+    body: doc.body || doc.message || "",
+    createdAt: doc.createdAt ?? doc._creationTime,
+  };
+}
+
 async function requireSession(ctx, token) {
-  const sessions = await ctx.db.query("adminSessions").take(100);
-  const session = sessions.find((row) => row.token === token) ?? null;
+  const session = await ctx.db
+    .query("adminSessions")
+    .withIndex("by_token", (q) => q.eq("token", String(token || "").trim()))
+    .first();
 
   if (!session || session.expiresAt < Date.now()) {
     if (session) await ctx.db.delete(session._id);
-    throw new Error("Session expired. Sign in again.");
+    fail("Session expired. Sign in again.");
   }
 
   const admin = await ctx.db.get(session.adminId);
   if (!admin) {
     await ctx.db.delete(session._id);
-    throw new Error("Invalid session.");
+    fail("Invalid session.");
   }
 
   return { session, admin };
@@ -121,7 +142,7 @@ export const login = mutation({
     const email = args.email.trim().toLowerCase();
 
     if (!admin || admin.email !== email || !(await passwordsMatch(admin.password, args.password))) {
-      throw new Error("Invalid email or password.");
+      fail("Invalid email or password.");
     }
 
     if (!isHashedPassword(admin.password)) {
@@ -143,9 +164,11 @@ export const login = mutation({
 export const logout = mutation({
   args: { token: v.string() },
   handler: async (ctx, args) => {
-    const sessions = await ctx.db.query("adminSessions").take(100);
-    const session = sessions.find((row) => row.token === args.token);
-    if (session) await ctx.db.delete(session._id);
+    const sessions = await ctx.db
+      .query("adminSessions")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .collect();
+    await Promise.all(sessions.map((session) => ctx.db.delete(session._id)));
   },
 });
 
@@ -162,7 +185,7 @@ export const inbox = query({
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
 
-    const [contacts, workInquiries, buildInquiries, planInquiries, messages] = await Promise.all([
+    const [contacts, workInquiries, buildInquiries, planInquiries, allMessages] = await Promise.all([
       ctx.db.query("contacts").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("workInquiries").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("buildInquiries").withIndex("by_createdAt").order("desc").take(300),
@@ -170,18 +193,38 @@ export const inbox = query({
       ctx.db.query("messages").order("desc").take(300),
     ]);
 
+    const messages = allMessages.filter((row) => !isNoticeMessage(row));
+    const noticeMessages = allMessages.filter(isNoticeMessage).map(asNotice);
+
+    let notifications = [];
+    try {
+      notifications = await ctx.db
+        .query("notifications")
+        .withIndex("by_createdAt")
+        .order("desc")
+        .take(300);
+    } catch {
+      notifications = [];
+    }
+
+    const notices = [...notifications.map(asNotice), ...noticeMessages].sort(
+      (a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0),
+    );
+
     return {
       contacts: contacts.map(stamp),
       workInquiries: workInquiries.map(stamp),
       buildInquiries: buildInquiries.map(stamp),
       planInquiries: planInquiries.map(stamp),
       messages: messages.map(stamp),
+      notifications: notices.map(stamp),
       counts: {
         contacts: contacts.length,
         workInquiries: workInquiries.length,
         buildInquiries: buildInquiries.length,
         planInquiries: planInquiries.length,
         messages: messages.length,
+        notifications: notices.length,
       },
     };
   },
@@ -213,6 +256,38 @@ export const removeBuildInquiry = mutation({
 
 export const removePlanInquiry = mutation({
   args: { token: v.string(), id: v.id("planInquiries") },
+  handler: async (ctx, args) => {
+    await requireSession(ctx, args.token);
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const createNotification = mutation({
+  args: {
+    token: v.string(),
+    title: v.string(),
+    body: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await requireSession(ctx, args.token);
+    const title = args.title.trim();
+    const body = args.body.trim();
+    if (!title || !body) {
+      fail("Title and message are required.");
+    }
+    if (title.length > 160 || body.length > 2000) {
+      fail("Keep the title and message shorter.");
+    }
+    return await ctx.db.insert("notifications", {
+      title,
+      body,
+      createdAt: Date.now(),
+    });
+  },
+});
+
+export const removeNotification = mutation({
+  args: { token: v.string(), id: v.union(v.id("notifications"), v.id("messages")) },
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
     await ctx.db.delete(args.id);

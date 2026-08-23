@@ -3,7 +3,7 @@ import './CoffeeButton.css';
 
 export default function CoffeeButton() {
   const { pathname } = useLocation();
-  if (pathname === '/admin') return null;
+  if (pathname.startsWith('/admin')) return null;
 
   return (
     <a

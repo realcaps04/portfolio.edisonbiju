@@ -4,6 +4,7 @@ import AboutPage from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
 import BuildsPage from './pages/BuildsPage';
 import PricingPage from './pages/PricingPage';
+import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPage from './pages/AdminPage';
 import RightClickGuard from './components/RightClickGuard';
 import CustomCursor from './components/CustomCursor';
@@ -30,7 +31,8 @@ export default function App() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/builds" element={<BuildsPage />} />
             <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin" element={<AdminLoginPage />} />
+            <Route path="/admin/inbox" element={<AdminPage />} />
           </Routes>
         </WorkProvider>
       </ContactProvider>

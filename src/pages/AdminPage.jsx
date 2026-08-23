@@ -1,17 +1,33 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useConvex, useMutation, useQuery } from 'convex/react';
 import { usePwa } from '../components/pwaContext';
 import { api } from '../../convex/_generated/api';
+import { clearAdminToken, getAdminToken } from '../lib/adminAuth';
 import './AdminPage.css';
 
-const TOKEN_KEY = 'eb-admin-token';
 const TABS = [
-  { id: 'contacts', label: 'Connect', hint: 'Get in touch' },
-  { id: 'workInquiries', label: 'Work briefs', hint: "You're next" },
-  { id: 'buildInquiries', label: 'Build sales', hint: 'For sale' },
-  { id: 'planInquiries', label: 'Plan requests', hint: 'Pricing' },
-  { id: 'messages', label: 'Messages', hint: 'Older form' },
+  { id: 'contacts', label: 'Connect', hint: 'Get in touch', icon: 'mail' },
+  { id: 'workInquiries', label: 'Work briefs', hint: "You're next", icon: 'briefcase' },
+  { id: 'buildInquiries', label: 'Build sales', hint: 'For sale', icon: 'bag' },
+  { id: 'planInquiries', label: 'Plan requests', hint: 'Pricing', icon: 'card' },
+  { id: 'messages', label: 'Messages', hint: 'Older form', icon: 'chat' },
+  { id: 'notifications', label: 'Notices', hint: 'Shown in the site bell', icon: 'bell' },
 ];
+
+const NOTICE_EMAIL = 'eb-notice@internal.local';
+
+function errorMessage(err, fallback) {
+  if (err && typeof err === 'object' && 'data' in err) {
+    const data = err.data;
+    if (typeof data === 'string' && data.trim()) return data;
+    if (data && typeof data.message === 'string' && data.message.trim()) return data.message;
+  }
+  if (err instanceof Error && err.message && !/Server Error/i.test(err.message)) {
+    return err.message;
+  }
+  return fallback;
+}
 
 function formatWhen(value) {
   if (!value) return '—';
@@ -30,31 +46,40 @@ function matchesQuery(record, q) {
   );
 }
 
+function initials(name) {
+  const parts = String(name || 'EB')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2);
+  return parts.map((part) => part[0]?.toUpperCase() || '').join('') || 'EB';
+}
+
 export default function AdminPage() {
+  const navigate = useNavigate();
   const convex = useConvex();
   const { canInstall, standalone, promptInstall } = usePwa();
-  const [token, setToken] = useState(() => sessionStorage.getItem(TOKEN_KEY) || '');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loggingIn, setLoggingIn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [token, setToken] = useState(() => getAdminToken());
   const [tab, setTab] = useState('contacts');
   const [search, setSearch] = useState('');
   const [openId, setOpenId] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState('');
+  const [noticeTitle, setNoticeTitle] = useState('');
+  const [noticeBody, setNoticeBody] = useState('');
+  const [noticeStatus, setNoticeStatus] = useState('idle');
+  const [noticeError, setNoticeError] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const inbox = useQuery(api.admin.inbox, token ? { token } : 'skip');
-  const login = useMutation(api.admin.login);
-  const seedAdmin = useMutation(api.admin.seed);
   const logoutSession = useMutation(api.admin.logout);
   const removeContact = useMutation(api.admin.removeContact);
   const removeWork = useMutation(api.admin.removeWorkInquiry);
   const removeBuild = useMutation(api.admin.removeBuildInquiry);
   const removePlan = useMutation(api.admin.removePlanInquiry);
   const removeMessage = useMutation(api.admin.removeMessage);
+  const createNotification = useMutation(api.admin.createNotification);
+  const removeNotification = useMutation(api.admin.removeNotification);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -64,103 +89,60 @@ export default function AdminPage() {
     robots.name = 'robots';
     robots.content = 'noindex, nofollow';
     document.head.appendChild(robots);
-    let appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
-    const createdApple = !appleTitle;
-    if (!appleTitle) {
-      appleTitle = document.createElement('meta');
-      appleTitle.name = 'apple-mobile-web-app-title';
-      document.head.appendChild(appleTitle);
-    }
-    const previousApple = appleTitle.content;
-    appleTitle.content = 'EB Admin';
     return () => {
       document.title = previousTitle;
       document.body.classList.remove('is-admin');
       robots.remove();
-      if (createdApple) appleTitle.remove();
-      else appleTitle.content = previousApple;
     };
   }, []);
-
-  useEffect(() => {
-    seedAdmin({}).catch(() => {});
-  }, [seedAdmin]);
 
   useEffect(() => {
     if (!token) return undefined;
     let cancelled = false;
     convex.query(api.admin.verify, { token }).catch(() => {
       if (cancelled) return;
-      sessionStorage.removeItem(TOKEN_KEY);
+      clearAdminToken();
       setToken('');
+      navigate('/admin', { replace: true });
     });
     return () => {
       cancelled = true;
     };
-  }, [convex, token]);
+  }, [convex, navigate, token]);
 
   useEffect(() => {
     setOpenId(null);
     setConfirmDelete(false);
     setDeleteError('');
+    setMenuOpen(false);
   }, [tab, search]);
-
-  useEffect(() => {
-    if (!openId) return undefined;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    const onKeyDown = (event) => {
-      if (event.key !== 'Escape') return;
-      if (confirmDelete) {
-        setConfirmDelete(false);
-        return;
-      }
-      setOpenId(null);
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [openId, confirmDelete]);
 
   const rows = useMemo(() => {
     if (!inbox) return [];
-    const list = inbox[tab] ?? [];
     const q = search.trim().toLowerCase();
-    return list.filter((record) => matchesQuery(record, q));
+    const noticeFromMessages = (inbox.messages ?? [])
+      .filter((row) => (row.email || '').toLowerCase() === NOTICE_EMAIL)
+      .map((row) => ({
+        ...row,
+        title: row.subject || row.title,
+        body: row.message || row.body,
+      }));
+    if (tab === 'notifications') {
+      return [...(inbox.notifications ?? []), ...noticeFromMessages].filter((record) => matchesQuery(record, q));
+    }
+    if (tab === 'messages') {
+      return (inbox.messages ?? [])
+        .filter((row) => (row.email || '').toLowerCase() !== NOTICE_EMAIL)
+        .filter((record) => matchesQuery(record, q));
+    }
+    return (inbox[tab] ?? []).filter((record) => matchesQuery(record, q));
   }, [inbox, tab, search]);
 
-  const onLogin = async (event) => {
-    event.preventDefault();
-    const nextEmail = email.trim();
-    const nextPassword = password;
-    if (!nextEmail || !nextPassword) {
-      setLoginError('Enter your email and password.');
-      return;
-    }
-    setLoggingIn(true);
-    setLoginError('');
-    try {
-      const result = await login({ email: nextEmail, password: nextPassword });
-      sessionStorage.setItem(TOKEN_KEY, result.token);
-      setToken(result.token);
-      setPassword('');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Could not sign in.';
-      setLoginError(message.replace(/^\[CONVEX.*?\]\s*/, '').replace(/Called by client.*$/i, '').trim() || 'Could not sign in.');
-    } finally {
-      setLoggingIn(false);
-    }
-  };
-
   const logout = () => {
-    if (token) {
-      logoutSession({ token }).catch(() => {});
-    }
-    sessionStorage.removeItem(TOKEN_KEY);
+    if (token) logoutSession({ token }).catch(() => {});
+    clearAdminToken();
     setToken('');
-    setPassword('');
+    navigate('/admin', { replace: true });
   };
 
   const removeRow = async (record) => {
@@ -172,167 +154,215 @@ export default function AdminPage() {
       if (tab === 'buildInquiries') await removeBuild({ token, id: record._id });
       if (tab === 'planInquiries') await removePlan({ token, id: record._id });
       if (tab === 'messages') await removeMessage({ token, id: record._id });
+      if (tab === 'notifications') await removeNotification({ token, id: record._id });
       setConfirmDelete(false);
       setOpenId(null);
     } catch (err) {
-      setDeleteError(err instanceof Error ? err.message : 'Could not delete.');
+      setDeleteError(errorMessage(err, 'Could not delete.'));
     } finally {
       setDeleting(false);
     }
   };
 
+  const postNotice = async (event) => {
+    event.preventDefault();
+    const title = noticeTitle.trim();
+    const body = noticeBody.trim();
+    if (!title || !body) {
+      setNoticeStatus('error');
+      setNoticeError('Title and message are required.');
+      return;
+    }
+    setNoticeStatus('saving');
+    setNoticeError('');
+    try {
+      await createNotification({ token, title, body });
+      setNoticeTitle('');
+      setNoticeBody('');
+      setNoticeStatus('saved');
+      window.setTimeout(() => setNoticeStatus('idle'), 1800);
+    } catch (err) {
+      setNoticeStatus('error');
+      setNoticeError(errorMessage(err, 'Could not post the notice.'));
+    }
+  };
+
   if (!token) {
-    return (
-      <main className="ad ad--gate">
-        <form className="ad-login" onSubmit={onLogin} noValidate>
-          <p className="ad-kicker">Private</p>
-          <h1 className="ad-title font-gropled">
-            Admin <span>inbox</span>
-          </h1>
-          <p className="ad-copy">Sign in with your admin email and password to view form submissions.</p>
-          <label className="ad-label" htmlFor="admin-email">
-            Email
-            <input
-              id="admin-email"
-              type="email"
-              name="admin-email"
-              inputMode="email"
-              autoComplete="username"
-              autoFocus
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </label>
-          <label className="ad-label" htmlFor="admin-password">
-            Password
-            <span className="ad-password">
-              <input
-                id="admin-password"
-                type={showPassword ? 'text' : 'password'}
-                name="admin-password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <button
-                type="button"
-                className="ad-eye"
-                onClick={() => setShowPassword((open) => !open)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                aria-pressed={showPassword}
-              >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </button>
-            </span>
-          </label>
-          {loginError ? (
-            <p className="ad-error" role="alert">
-              {loginError}
-            </p>
-          ) : null}
-          <button type="submit" className="ad-btn" disabled={loggingIn}>
-            {loggingIn ? 'Checking…' : 'Open dashboard'}
-          </button>
-          {canInstall && !standalone ? (
-            <button type="button" className="ad-install" onClick={promptInstall}>
-              Install EB Admin
-            </button>
-          ) : null}
-        </form>
-      </main>
-    );
+    return <Navigate to="/admin" replace />;
   }
 
-  const counts = inbox?.counts ?? { contacts: 0, workInquiries: 0, buildInquiries: 0, planInquiries: 0, messages: 0 };
+  const counts = {
+    contacts: inbox?.counts?.contacts ?? 0,
+    workInquiries: inbox?.counts?.workInquiries ?? 0,
+    buildInquiries: inbox?.counts?.buildInquiries ?? 0,
+    planInquiries: inbox?.counts?.planInquiries ?? 0,
+    messages: (inbox?.messages ?? []).filter((row) => (row.email || '').toLowerCase() !== NOTICE_EMAIL).length,
+    notifications:
+      (inbox?.notifications ?? []).length +
+      (inbox?.messages ?? []).filter((row) => (row.email || '').toLowerCase() === NOTICE_EMAIL).length,
+  };
+  const activeTab = TABS.find((item) => item.id === tab) ?? TABS[0];
   const selected = rows.find((row) => row._id === openId) ?? null;
 
   return (
-    <main className="ad">
-      <header className="ad-bar">
-        <div>
-          <p className="ad-kicker">Edison Biju</p>
-          <h1 className="ad-title font-gropled">
-            Form <span>inbox</span>
-          </h1>
+    <div className={`ad ad--app${menuOpen ? ' is-nav-open' : ''}`}>
+      <button type="button" className="ad-scrim" aria-label="Close menu" onClick={() => setMenuOpen(false)} />
+      <aside className="ad-side">
+        <div className="ad-brand">
+          <span className="ad-brand__dots" aria-hidden="true">
+            <i />
+            <i />
+          </span>
+          <span>EB Admin</span>
         </div>
-        <div className="ad-bar__actions">
-          {canInstall && !standalone ? (
-            <button type="button" className="ad-install ad-install--bar" onClick={promptInstall}>
-              Install EB Admin
-            </button>
-          ) : null}
-          <button type="button" className="ad-ghost" onClick={logout}>
-            Log out
-          </button>
-        </div>
-      </header>
-
-      <section className="ad-stats" aria-label="Submission counts">
-        {TABS.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`ad-stat${tab === item.id ? ' is-active' : ''}`}
-            onClick={() => setTab(item.id)}
-          >
-            <span>{item.label}</span>
-            <strong>{counts[item.id] ?? 0}</strong>
-          </button>
-        ))}
-      </section>
-
-      <div className="ad-toolbar">
-        <div className="ad-tabs" role="tablist" aria-label="Form type">
+        <nav className="ad-nav" aria-label="Inbox">
           {TABS.map((item) => (
             <button
               key={item.id}
               type="button"
-              role="tab"
-              aria-selected={tab === item.id}
-              className={`ad-tab${tab === item.id ? ' is-active' : ''}`}
+              className={`ad-nav__item${tab === item.id ? ' is-active' : ''}`}
               onClick={() => setTab(item.id)}
             >
-              {item.label}
+              <NavIcon name={item.icon} />
+              <span>{item.label}</span>
+              <em>{counts[item.id] ?? 0}</em>
             </button>
           ))}
+        </nav>
+        <div className="ad-side__promo">
+          <p>Site notices appear in the header bell for every visitor.</p>
         </div>
-        <input
-          className="ad-search"
-          type="search"
-          placeholder="Search name, email, message…"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
+        <div className="ad-side__foot">
+          {canInstall && !standalone ? (
+            <button type="button" className="ad-side__link" onClick={promptInstall}>
+              Install app
+            </button>
+          ) : null}
+          <button type="button" className="ad-side__link" onClick={logout}>
+            Log out
+          </button>
+        </div>
+      </aside>
+
+      <div className="ad-shell">
+        <header className="ad-top">
+          <button type="button" className="ad-menu" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+            <span />
+            <span />
+          </button>
+          <div className="ad-pills" aria-hidden="true">
+            <span className="ad-pill is-on">{activeTab.label}</span>
+            <span className="ad-pill">{activeTab.hint}</span>
+          </div>
+          <label className="ad-search">
+            <SearchIcon />
+            <input
+              type="search"
+              placeholder="Search name, email, message…"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </label>
+          <div className="ad-user">
+            <span className="ad-user__avatar">EB</span>
+            <span>
+              <strong>Edison Biju</strong>
+              <small>@admin</small>
+            </span>
+          </div>
+        </header>
+
+        <div className="ad-layout">
+          <section className="ad-feed">
+            {tab === 'notifications' ? (
+              <form className="ad-card ad-compose" onSubmit={postNotice}>
+                <div className="ad-compose__head">
+                  <span className="ad-user__avatar">EB</span>
+                  <p>Post a site notice</p>
+                </div>
+                <input
+                  value={noticeTitle}
+                  onChange={(event) => setNoticeTitle(event.target.value)}
+                  placeholder="Headline"
+                  maxLength={160}
+                  required
+                />
+                <textarea
+                  value={noticeBody}
+                  onChange={(event) => setNoticeBody(event.target.value)}
+                  placeholder="What should people see in the bell popup?"
+                  rows={3}
+                  maxLength={2000}
+                  required
+                />
+                {noticeError ? (
+                  <p className="ad-error" role="alert">
+                    {noticeError}
+                  </p>
+                ) : null}
+                <div className="ad-compose__actions">
+                  <button type="submit" className="ad-primary" disabled={noticeStatus === 'saving'}>
+                    {noticeStatus === 'saving' ? 'Posting…' : noticeStatus === 'saved' ? 'Posted' : 'Create notice'}
+                  </button>
+                </div>
+              </form>
+            ) : null}
+
+            {!inbox ? (
+              <p className="ad-muted">Loading submissions…</p>
+            ) : (
+              <ul className="ad-feed__list">
+                {rows.length === 0 ? (
+                  <li className="ad-card ad-empty">
+                    {tab === 'notifications' ? 'No notices posted yet.' : 'No submissions in this list.'}
+                  </li>
+                ) : (
+                  rows.map((record) => (
+                    <li key={record._id}>
+                      <button type="button" className="ad-card ad-post" onClick={() => setOpenId(record._id)}>
+                        <div className="ad-post__head">
+                          <span className="ad-user__avatar">{initials(record.name || record.title)}</span>
+                          <span>
+                            <strong>{record.name || record.title || 'Untitled'}</strong>
+                            <small>{formatWhen(record.createdAt)}</small>
+                          </span>
+                        </div>
+                        <p className="ad-post__body">
+                          {record.body || record.message || record.details || record.email || 'Open to read the full submission.'}
+                        </p>
+                        <div className="ad-post__meta">
+                          <span>{record.email || record.subject || record.planName || record.productTitle || record.projectType || 'Inbox'}</span>
+                          <span>View</span>
+                        </div>
+                      </button>
+                    </li>
+                  ))
+                )}
+              </ul>
+            )}
+          </section>
+
+          <aside className="ad-rail">
+            <div className="ad-card">
+              <div className="ad-rail__title">
+                <h2>Overview</h2>
+              </div>
+              <ul className="ad-overview">
+                {TABS.map((item) => (
+                  <li key={item.id}>
+                    <span>{item.label}</span>
+                    <strong>{counts[item.id] ?? 0}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="ad-card ad-rail__note">
+              <h2>Suggested</h2>
+              <p>Post product updates and launch notes from Notices. They show in the public header bell.</p>
+            </div>
+          </aside>
+        </div>
       </div>
-
-      <p className="ad-hint">{TABS.find((item) => item.id === tab)?.hint}</p>
-
-      {!inbox ? (
-        <p className="ad-copy">Loading submissions…</p>
-      ) : (
-        <ul className="ad-list">
-          {rows.length === 0 ? (
-            <li className="ad-empty">No submissions in this list.</li>
-          ) : (
-            rows.map((record) => (
-              <li key={record._id}>
-                <button
-                  type="button"
-                  className={`ad-row${openId === record._id ? ' is-open' : ''}`}
-                  onClick={() => setOpenId(record._id)}
-                >
-                  <span className="ad-row__name">{record.name || 'Untitled'}</span>
-                  <span className="ad-row__meta">{record.email}</span>
-                  <span className="ad-row__meta">
-                    {record.planName || record.productTitle || record.subject || record.projectType || record.company || '—'}
-                  </span>
-                  <span className="ad-row__when">{formatWhen(record.createdAt)}</span>
-                </button>
-              </li>
-            ))
-          )}
-        </ul>
-      )}
 
       {selected ? (
         <div
@@ -348,55 +378,40 @@ export default function AdminPage() {
         >
           {confirmDelete ? (
             <article
-              className="ad-modal__dialog ad-modal__dialog--confirm"
+              className="ad-card ad-modal__panel"
               role="dialog"
               aria-modal="true"
               aria-labelledby="ad-confirm-title"
               onClick={(event) => event.stopPropagation()}
             >
               <p className="ad-kicker">Please confirm</p>
-              <h2 className="ad-detail__title font-gropled" id="ad-confirm-title">
-                Delete this submission?
+              <h2 className="ad-modal__title" id="ad-confirm-title">
+                Delete this {tab === 'notifications' ? 'notice' : 'submission'}?
               </h2>
-              <p className="ad-copy">This cannot be undone.</p>
+              <p className="ad-muted">This cannot be undone.</p>
               {deleteError ? (
                 <p className="ad-error" role="alert">
                   {deleteError}
                 </p>
               ) : null}
-              <div className="ad-confirm-actions">
-                <button
-                  type="button"
-                  className="ad-ghost"
-                  disabled={deleting}
-                  onClick={() => setConfirmDelete(false)}
-                >
+              <div className="ad-modal__actions">
+                <button type="button" className="ad-ghost" disabled={deleting} onClick={() => setConfirmDelete(false)}>
                   Cancel
                 </button>
-                <button
-                  type="button"
-                  className="ad-danger ad-danger--solid"
-                  disabled={deleting}
-                  onClick={() => removeRow(selected)}
-                >
+                <button type="button" className="ad-danger" disabled={deleting} onClick={() => removeRow(selected)}>
                   {deleting ? 'Deleting…' : 'Delete'}
                 </button>
               </div>
             </article>
           ) : (
             <article
-              className="ad-modal__dialog"
+              className="ad-card ad-modal__panel"
               role="dialog"
               aria-modal="true"
               aria-labelledby="ad-modal-title"
               onClick={(event) => event.stopPropagation()}
             >
-              <button
-                type="button"
-                className="ad-modal__close"
-                onClick={() => setOpenId(null)}
-                aria-label="Close"
-              >
+              <button type="button" className="ad-modal__close" onClick={() => setOpenId(null)} aria-label="Close">
                 <span />
                 <span />
               </button>
@@ -412,60 +427,65 @@ export default function AdminPage() {
           )}
         </div>
       ) : null}
-    </main>
+    </div>
   );
 }
 
 function SubmissionDetail({ tab, record, onDelete }) {
   const fields =
-    tab === 'workInquiries'
+    tab === 'notifications'
       ? [
-          ['Name', record.name],
-          ['Email', record.email],
-          ['Phone', record.phone],
-          ['Company', record.company],
-          ['Project type', record.projectType],
-          ['Budget', record.budget],
-          ['Timeline', record.timeline],
-          ['Details', record.details],
+          ['Title', record.title],
+          ['Message', record.body],
         ]
-      : tab === 'buildInquiries'
+      : tab === 'workInquiries'
         ? [
-            ['Product', record.productTitle],
-            ['Product URL', record.productUrl],
             ['Name', record.name],
             ['Email', record.email],
             ['Phone', record.phone],
             ['Company', record.company],
+            ['Project type', record.projectType],
             ['Budget', record.budget],
-            ['Message', record.message],
+            ['Timeline', record.timeline],
+            ['Details', record.details],
           ]
-      : tab === 'planInquiries'
-        ? [
-            ['Plan', record.planName],
-            ['Price shown', record.displayedPrice],
-            ['Currency', record.currency],
-            ['USD', record.priceUsd != null ? `$${record.priceUsd}` : ''],
-            ['INR', record.priceInr != null ? `₹${record.priceInr}` : ''],
-            ['Name', record.name],
-            ['Email', record.email],
-            ['Phone', record.phone],
-            ['Company', record.company],
-            ['Message', record.message],
-          ]
-      : [
-          ['Name', record.name],
-          ['Email', record.email],
-          ...(tab === 'contacts' ? [['Phone', record.phone], ['Source', record.source]] : []),
-          ['Subject', record.subject],
-          ['Message', record.message],
-        ];
+        : tab === 'buildInquiries'
+          ? [
+              ['Product', record.productTitle],
+              ['Product URL', record.productUrl],
+              ['Name', record.name],
+              ['Email', record.email],
+              ['Phone', record.phone],
+              ['Company', record.company],
+              ['Budget', record.budget],
+              ['Message', record.message],
+            ]
+          : tab === 'planInquiries'
+            ? [
+                ['Plan', record.planName],
+                ['Price shown', record.displayedPrice],
+                ['Currency', record.currency],
+                ['USD', record.priceUsd != null ? `$${record.priceUsd}` : ''],
+                ['INR', record.priceInr != null ? `₹${record.priceInr}` : ''],
+                ['Name', record.name],
+                ['Email', record.email],
+                ['Phone', record.phone],
+                ['Company', record.company],
+                ['Message', record.message],
+              ]
+            : [
+                ['Name', record.name],
+                ['Email', record.email],
+                ...(tab === 'contacts' ? [['Phone', record.phone], ['Source', record.source]] : []),
+                ['Subject', record.subject],
+                ['Message', record.message],
+              ];
 
   return (
     <>
       <p className="ad-kicker">{formatWhen(record.createdAt)}</p>
-      <h2 className="ad-detail__title font-gropled" id="ad-modal-title">
-        {record.name}
+      <h2 className="ad-modal__title" id="ad-modal-title">
+        {record.name || record.title}
       </h2>
       <dl className="ad-fields">
         {fields.map(([label, value]) => (
@@ -487,40 +507,73 @@ function SubmissionDetail({ tab, record, onDelete }) {
           </div>
         ))}
       </dl>
-      <button type="button" className="ad-danger" onClick={onDelete}>
-        Delete submission
+      <button type="button" className="ad-danger ad-danger--ghost" onClick={onDelete}>
+        {tab === 'notifications' ? 'Delete notice' : 'Delete submission'}
       </button>
     </>
   );
 }
 
-function EyeIcon() {
+function SearchIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M2.8 12s3.4-6.2 9.2-6.2S21.2 12 21.2 12s-3.4 6.2-9.2 6.2S2.8 12 2.8 12Z"
-      />
-      <circle cx="12" cy="12" r="2.4" fill="none" stroke="currentColor" strokeWidth="1.8" />
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M16 16.5L20 20.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   );
 }
 
-function EyeOffIcon() {
+function NavIcon({ name }) {
+  const common = {
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: '1.8',
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+  };
+  if (name === 'briefcase') {
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <rect x="3.5" y="7" width="17" height="13" rx="2" {...common} />
+        <path d="M8 7V5.8A1.8 1.8 0 0 1 9.8 4h4.4A1.8 1.8 0 0 1 16 5.8V7" {...common} />
+      </svg>
+    );
+  }
+  if (name === 'bag') {
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M6 8h12l-1 12H7L6 8Z" {...common} />
+        <path d="M9 8V7a3 3 0 0 1 6 0v1" {...common} />
+      </svg>
+    );
+  }
+  if (name === 'card') {
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <rect x="3" y="6" width="18" height="12" rx="2" {...common} />
+        <path d="M3 10h18" {...common} />
+      </svg>
+    );
+  }
+  if (name === 'chat') {
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M5 18.5 4 21l3.2-1.2A9 9 0 1 0 5 18.5Z" {...common} />
+      </svg>
+    );
+  }
+  if (name === 'bell') {
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z" {...common} />
+        <path d="M10 18.5a2 2 0 0 0 4 0" {...common} />
+      </svg>
+    );
+  }
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3 3l18 18M9.9 9.9A2.4 2.4 0 0 0 12 14.4M14.1 14.1A2.4 2.4 0 0 1 9.9 9.9M6.6 6.6C4.4 8 2.8 12 2.8 12s3.4 6.2 9.2 6.2c1.7 0 3.2-.4 4.5-1M17.4 17.4c2.2-1.4 3.8-5.4 3.8-5.4s-3.4-6.2-9.2-6.2c-.7 0-1.3.1-1.9.2"
-      />
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <rect x="3.5" y="5" width="17" height="14" rx="2" {...common} />
+      <path d="M3.5 9h17" {...common} />
     </svg>
   );
 }

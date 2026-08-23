@@ -262,6 +262,21 @@ function ClientsSection() {
       href: 'https://consoleonline.vercel.app/',
       src: '/clients/console.svg',
     },
+    {
+      name: 'Entri',
+      href: 'https://entri.app/',
+      src: 'https://cloudfront.entri.app/static/north_south/img/landing_2022/new_layout/footer-logo.svg',
+    },
+    {
+      name: 'Steyp',
+      href: 'https://steyp.com/in/',
+      src: '/clients/steyp.svg',
+    },
+    {
+      name: 'RISS',
+      href: 'https://www.risstechnologies.com/',
+      src: 'https://www.risstechnologies.com/wp-content/uploads/2016/10/logo-web.png',
+    },
   ];
 
   return (
@@ -273,30 +288,30 @@ function ClientsSection() {
           </h2>
           <p className="hp-clients__copy">
             From tech leadership at JPM and an internship at Irohub, to product work
-            on Console and operations at SBI. Teams I&apos;ve shipped with — and room
-            for the next one.
+            on Console, operations at SBI, and teams at Entri, Steyp, and RISS.
+            Places I&apos;ve shipped with — and room for the next one.
           </p>
         </div>
 
-        <ul className="hp-clients__row">
-          {clients.map((client) => (
-            <li key={client.name}>
-              <a
-                className={`hp-clients__brand hp-clients__brand--${client.name.toLowerCase()}`}
-                href={client.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={client.src} alt={client.name} referrerPolicy="no-referrer" />
-              </a>
-            </li>
-          ))}
-          <li>
-            <button type="button" className="hp-clients__next" onClick={openWork}>
-              You&apos;re next? <span aria-hidden="true">→</span>
-            </button>
-          </li>
-        </ul>
+        <div className="hp-clients__row">
+          <ul className="hp-clients__brands">
+            {clients.map((client) => (
+              <li key={client.name}>
+                <a
+                  className={`hp-clients__brand hp-clients__brand--${client.name.toLowerCase()}`}
+                  href={client.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={client.src} alt={client.name} referrerPolicy="no-referrer" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <button type="button" className="hp-clients__next" onClick={openWork}>
+            You&apos;re next? <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -406,6 +421,8 @@ function HomeFooter() {
             WhatsApp
           </a>
         </nav>
+
+        <p className="hp-foot__legal">© 2026 Edison Biju. All rights reserved.</p>
       </div>
     </footer>
   );

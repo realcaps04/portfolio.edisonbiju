@@ -69,6 +69,12 @@ export default defineSchema({
     .index("by_createdAt", ["createdAt"])
     .index("by_planId", ["planId"]),
 
+  notifications: defineTable({
+    title: v.string(),
+    body: v.string(),
+    createdAt: v.number(),
+  }).index("by_createdAt", ["createdAt"]),
+
   admins: defineTable({
     name: v.string(),
     email: v.string(),
