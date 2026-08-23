@@ -66,23 +66,12 @@ export default function BuildCard({ build, onOpen }) {
         </div>
 
         {isSale ? (
-          <div className="bp-card__actions">
-            <span className="pp-card__link">
-              Inquire to buy
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M2 11L11 2M11 2H5M11 2v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <a
-              href={build.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bp-card__live"
-              onClick={(event) => event.stopPropagation()}
-            >
-              View live
-            </a>
-          </div>
+          <span className="pp-card__link">
+            Inquire to buy
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M2 11L11 2M11 2H5M11 2v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
         ) : null}
 
         {isSoon ? <p className="bp-card__soon">Not for sale yet</p> : null}
