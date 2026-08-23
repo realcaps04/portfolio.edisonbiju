@@ -18,7 +18,7 @@ export default defineConfig({
         id: '/',
         name: 'Edison Biju',
         short_name: 'Edison',
-        description: 'Edison Biju — web developer. Designing and deploying things.',
+        description: 'Edison Biju is a freelance web developer in Idukki, Kerala. React, MERN, and custom websites and apps.',
         theme_color: '#000000',
         background_color: '#050505',
         display: 'standalone',

@@ -10,6 +10,8 @@ import SmoothScroll from './components/SmoothScroll';
 import { PwaProvider } from './components/PwaPrompts';
 import { ContactProvider } from './components/ContactModal';
 import { WorkProvider } from './components/WorkModal';
+import CoffeeButton from './components/CoffeeButton';
+import SeoHead from './components/SeoHead';
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
           <SmoothScroll />
           <CustomCursor />
           <RightClickGuard />
+          <CoffeeButton />
+          <SeoHead />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />

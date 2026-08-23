@@ -1,0 +1,33 @@
+.bmc-fab {
+  position: fixed;
+  right: 1.15rem;
+  bottom: 5.35rem;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 3.15rem;
+  height: 3.15rem;
+  border-radius: 50%;
+  background: #ffdd00;
+  color: #111;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bmc-fab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.46);
+}
+
+body.is-admin .bmc-fab {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .bmc-fab {
+    right: 0.9rem;
+    bottom: calc(5.85rem + env(safe-area-inset-bottom, 0px));
+    width: 2.85rem;
+    height: 2.85rem;
+  }
+}
