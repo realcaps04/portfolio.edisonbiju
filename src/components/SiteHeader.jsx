@@ -17,6 +17,7 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { openContact } = useContactModal();
   const { canInstall, promptInstall } = usePwa();
+  const activeIndex = NAV_LINKS.findIndex((link) => link.to === pathname);
 
   return (
     <header className={`hp-bar${menuOpen ? ' is-open' : ''}`}>
@@ -25,6 +26,11 @@ export default function SiteHeader() {
       </Link>
 
       <nav className="hp-bar__links" aria-label="Primary">
+        <span
+          className={`hp-bar__pill${activeIndex < 0 ? ' is-hidden' : ''}`}
+          style={{ '--pill-index': String(Math.max(0, activeIndex)) }}
+          aria-hidden="true"
+        />
         {NAV_LINKS.map(({ label, to }) => {
           const active = pathname === to;
           const className = `hp-bar__link${active ? ' is-active' : ''}`;
