@@ -162,19 +162,22 @@ export const inbox = query({
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
 
-    const [contacts, workInquiries, messages] = await Promise.all([
+    const [contacts, workInquiries, buildInquiries, messages] = await Promise.all([
       ctx.db.query("contacts").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("workInquiries").withIndex("by_createdAt").order("desc").take(300),
+      ctx.db.query("buildInquiries").withIndex("by_createdAt").order("desc").take(300),
       ctx.db.query("messages").order("desc").take(300),
     ]);
 
     return {
       contacts: contacts.map(stamp),
       workInquiries: workInquiries.map(stamp),
+      buildInquiries: buildInquiries.map(stamp),
       messages: messages.map(stamp),
       counts: {
         contacts: contacts.length,
         workInquiries: workInquiries.length,
+        buildInquiries: buildInquiries.length,
         messages: messages.length,
       },
     };
@@ -191,6 +194,14 @@ export const removeContact = mutation({
 
 export const removeWorkInquiry = mutation({
   args: { token: v.string(), id: v.id("workInquiries") },
+  handler: async (ctx, args) => {
+    await requireSession(ctx, args.token);
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const removeBuildInquiry = mutation({
+  args: { token: v.string(), id: v.id("buildInquiries") },
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
     await ctx.db.delete(args.id);

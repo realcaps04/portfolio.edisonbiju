@@ -8,6 +8,7 @@ const TOKEN_KEY = 'eb-admin-token';
 const TABS = [
   { id: 'contacts', label: 'Connect', hint: 'Get in touch' },
   { id: 'workInquiries', label: 'Work briefs', hint: "You're next" },
+  { id: 'buildInquiries', label: 'Build sales', hint: 'For sale' },
   { id: 'messages', label: 'Messages', hint: 'Older form' },
 ];
 
@@ -47,6 +48,7 @@ export default function AdminPage() {
   const logoutSession = useMutation(api.admin.logout);
   const removeContact = useMutation(api.admin.removeContact);
   const removeWork = useMutation(api.admin.removeWorkInquiry);
+  const removeBuild = useMutation(api.admin.removeBuildInquiry);
   const removeMessage = useMutation(api.admin.removeMessage);
 
   useEffect(() => {
@@ -140,6 +142,7 @@ export default function AdminPage() {
     try {
       if (tab === 'contacts') await removeContact({ token, id: record._id });
       if (tab === 'workInquiries') await removeWork({ token, id: record._id });
+      if (tab === 'buildInquiries') await removeBuild({ token, id: record._id });
       if (tab === 'messages') await removeMessage({ token, id: record._id });
       setOpenId(null);
     } catch (err) {
@@ -209,7 +212,7 @@ export default function AdminPage() {
     );
   }
 
-  const counts = inbox?.counts ?? { contacts: 0, workInquiries: 0, messages: 0 };
+  const counts = inbox?.counts ?? { contacts: 0, workInquiries: 0, buildInquiries: 0, messages: 0 };
   const selected = rows.find((row) => row._id === openId) ?? null;
 
   return (
@@ -291,7 +294,7 @@ export default function AdminPage() {
                     <span className="ad-row__name">{record.name || 'Untitled'}</span>
                     <span className="ad-row__meta">{record.email}</span>
                     <span className="ad-row__meta">
-                      {record.subject || record.projectType || record.company || '—'}
+                      {record.productTitle || record.subject || record.projectType || record.company || '—'}
                     </span>
                     <span className="ad-row__when">{formatWhen(record.createdAt)}</span>
                   </button>
@@ -326,6 +329,17 @@ function SubmissionDetail({ tab, record, onDelete }) {
           ['Timeline', record.timeline],
           ['Details', record.details],
         ]
+      : tab === 'buildInquiries'
+        ? [
+            ['Product', record.productTitle],
+            ['Product URL', record.productUrl],
+            ['Name', record.name],
+            ['Email', record.email],
+            ['Phone', record.phone],
+            ['Company', record.company],
+            ['Budget', record.budget],
+            ['Message', record.message],
+          ]
       : [
           ['Name', record.name],
           ['Email', record.email],
@@ -347,6 +361,10 @@ function SubmissionDetail({ tab, record, onDelete }) {
                 <a href={`mailto:${value}`}>{value}</a>
               ) : label === 'Phone' && value ? (
                 <a href={`tel:${String(value).replace(/\s/g, '')}`}>{value}</a>
+              ) : label === 'Product URL' && value ? (
+                <a href={value} target="_blank" rel="noopener noreferrer">
+                  {value}
+                </a>
               ) : (
                 value || '—'
               )}

@@ -35,6 +35,22 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_createdAt", ["createdAt"]),
 
+  buildInquiries: defineTable({
+    productId: v.string(),
+    productTitle: v.string(),
+    productUrl: v.string(),
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    company: v.string(),
+    budget: v.string(),
+    message: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_createdAt", ["createdAt"])
+    .index("by_productId", ["productId"]),
+
   admins: defineTable({
     name: v.string(),
     email: v.string(),
