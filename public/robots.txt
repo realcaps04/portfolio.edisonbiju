@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://portfolio-edisonbiju.vercel.app/sitemap.xml
+Sitemap: https://www.consoleprojectsbycaps.in/sitemap.xml

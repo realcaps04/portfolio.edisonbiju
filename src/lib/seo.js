@@ -6,7 +6,7 @@ export const SITE = {
     'Edison Biju is a freelance web developer in Idukki, Kerala, India. I design and ship React, MERN, and custom websites, web apps, and UI for businesses and startups.',
   keywords:
     'Edison Biju, Edison Biju web developer, freelance web developer Kerala, React developer India, MERN stack developer Idukki, website designer Kerala, custom web apps, portfolio, UI UX, Vercel, Node.js, JavaScript',
-  url: 'https://portfolio-edisonbiju.vercel.app',
+  url: 'https://www.consoleprojectsbycaps.in',
   image: '/profile.png',
   email: 'edisonbijumullappallil@gmail.com',
   phone: '+917907951080',

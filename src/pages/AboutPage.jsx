@@ -88,7 +88,7 @@ const WORK = [
   },
   {
     title: 'This Portfolio',
-    url: 'https://portfolio-edisonbiju.vercel.app/',
+    url: 'https://www.consoleprojectsbycaps.in/',
     blurb: 'Personal site for projects, skills, and MERN work, including Console and other web apps.',
   },
 ];
