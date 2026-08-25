@@ -54,7 +54,7 @@ export default defineConfig({
       devOptions: {
         enabled: true,
         type: 'module',
-        navigateFallbackAllowlist: [/^\/$/, /^\/admin/, /^\/about/, /^\/projects/, /^\/builds/, /^\/pricing/, /^\/free/],
+        navigateFallbackAllowlist: [/^\/$/, /^\/admin/, /^\/about/, /^\/projects/, /^\/builds/, /^\/pricing/, /^\/free/, /^\/support/],
       },
     }),
   ],

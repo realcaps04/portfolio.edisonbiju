@@ -420,6 +420,7 @@ function HomeFooter() {
             <WhatsAppIcon />
             WhatsApp
           </a>
+          <Link to="/support">Support</Link>
         </nav>
 
         <p className="hp-foot__legal">© 2026 Edison Biju. All rights reserved.</p>

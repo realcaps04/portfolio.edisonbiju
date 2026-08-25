@@ -1,0 +1,164 @@
+.sp-layout {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 0.5rem 1.25rem 5rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.sp-form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.35rem 1.25rem 1.4rem;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(12, 16, 24, 0.82);
+}
+
+.sp-form__row {
+  display: grid;
+  gap: 1rem;
+}
+
+.sp-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sp-field span {
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.sp-field input,
+.sp-field select,
+.sp-field textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(5, 8, 14, 0.9);
+  color: #f4f4f4;
+  font: inherit;
+  outline: none;
+}
+
+.sp-field textarea {
+  min-height: 9rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.sp-field input:focus,
+.sp-field select:focus,
+.sp-field textarea:focus {
+  border-color: rgba(204, 255, 0, 0.45);
+}
+
+.sp-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #94a3b8 50%),
+    linear-gradient(135deg, #94a3b8 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.15rem) 1.2rem,
+    calc(100% - 0.85rem) 1.2rem;
+  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+  background-repeat: no-repeat;
+  padding-right: 2.2rem;
+}
+
+.sp-note {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.sp-note--ok {
+  color: #ccff00;
+}
+
+.sp-note--err {
+  color: #f87171;
+}
+
+.sp-side {
+  padding: 0.2rem 0 0;
+}
+
+.sp-side__title {
+  margin: 0 0 1.15rem;
+  color: #fff;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.sp-faq {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.sp-faq li {
+  padding: 1rem 1.05rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(12, 16, 24, 0.7);
+}
+
+.sp-faq strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #fff;
+  font-size: 0.92rem;
+}
+
+.sp-faq p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.sp-side__mail {
+  color: #ccff00;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (min-width: 720px) {
+  .sp-layout {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+
+  .sp-form__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 980px) {
+  .sp-layout {
+    grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+    align-items: start;
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .sp-layout {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+  }
+}
+
+@media (max-width: 899px) {
+  .sp .pp-hero__title {
+    white-space: normal;
+  }
+}

@@ -55,6 +55,11 @@ export const PAGE_SEO = {
     description:
       'Free web tools by Edison Biju — invoice generator, open-source dashboard, and UI experiments you can open and use now.',
   },
+  '/support': {
+    title: 'Support | Edison Biju',
+    description:
+      'Open a support ticket for Cloak, free tools, builds, or the Edison Biju portfolio website. Tracked help for products by Caps.',
+  },
   '/admin': {
     title: "Edison's Dashboard — Sign in",
     description: 'Private admin login.',

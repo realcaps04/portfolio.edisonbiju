@@ -75,6 +75,23 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_createdAt", ["createdAt"]),
 
+  supportTickets: defineTable({
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    product: v.string(),
+    category: v.string(),
+    subject: v.string(),
+    message: v.string(),
+    status: v.string(),
+    source: v.string(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_status", ["status"])
+    .index("by_createdAt", ["createdAt"]),
+
   admins: defineTable({
     name: v.string(),
     email: v.string(),

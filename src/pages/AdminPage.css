@@ -604,6 +604,31 @@
   color: #93c5fd;
 }
 
+.ad-status {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0 0 1rem;
+}
+
+.ad-status span {
+  color: var(--ad-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ad-status select {
+  width: min(100%, 14rem);
+  min-height: 2.4rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(8, 12, 20, 0.95);
+  color: #fff;
+  font: inherit;
+}
+
 .ad-modal__actions {
   display: flex;
   justify-content: flex-end;

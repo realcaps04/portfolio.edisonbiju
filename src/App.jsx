@@ -5,6 +5,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import BuildsPage from './pages/BuildsPage';
 import PricingPage from './pages/PricingPage';
 import FreePage from './pages/FreePage';
+import SupportPage from './pages/SupportPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPage from './pages/AdminPage';
 import RightClickGuard from './components/RightClickGuard';
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="/builds" element={<BuildsPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/free" element={<FreePage />} />
+            <Route path="/support" element={<SupportPage />} />
             <Route path="/admin" element={<AdminLoginPage />} />
             <Route path="/admin/inbox" element={<AdminPage />} />
           </Routes>

@@ -193,6 +193,17 @@ export const inbox = query({
       ctx.db.query("messages").order("desc").take(300),
     ]);
 
+    let supportTickets = [];
+    try {
+      supportTickets = await ctx.db
+        .query("supportTickets")
+        .withIndex("by_createdAt")
+        .order("desc")
+        .take(300);
+    } catch {
+      supportTickets = [];
+    }
+
     const messages = allMessages.filter((row) => !isNoticeMessage(row));
     const noticeMessages = allMessages.filter(isNoticeMessage).map(asNotice);
 
@@ -216,6 +227,7 @@ export const inbox = query({
       workInquiries: workInquiries.map(stamp),
       buildInquiries: buildInquiries.map(stamp),
       planInquiries: planInquiries.map(stamp),
+      supportTickets: supportTickets.map(stamp),
       messages: messages.map(stamp),
       notifications: notices.map(stamp),
       counts: {
@@ -223,6 +235,7 @@ export const inbox = query({
         workInquiries: workInquiries.length,
         buildInquiries: buildInquiries.length,
         planInquiries: planInquiries.length,
+        supportTickets: supportTickets.length,
         messages: messages.length,
         notifications: notices.length,
       },
@@ -259,6 +272,38 @@ export const removePlanInquiry = mutation({
   handler: async (ctx, args) => {
     await requireSession(ctx, args.token);
     await ctx.db.delete(args.id);
+  },
+});
+
+export const removeSupportTicket = mutation({
+  args: { token: v.string(), id: v.id("supportTickets") },
+  handler: async (ctx, args) => {
+    await requireSession(ctx, args.token);
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const updateSupportTicketStatus = mutation({
+  args: {
+    token: v.string(),
+    id: v.id("supportTickets"),
+    status: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await requireSession(ctx, args.token);
+    const status = args.status.trim().toLowerCase();
+    const allowed = new Set(["open", "in_progress", "resolved", "closed"]);
+    if (!allowed.has(status)) {
+      fail("Invalid ticket status.");
+    }
+    const ticket = await ctx.db.get(args.id);
+    if (!ticket) {
+      fail("Ticket not found.");
+    }
+    await ctx.db.patch(args.id, {
+      status,
+      updatedAt: Date.now(),
+    });
   },
 });
 

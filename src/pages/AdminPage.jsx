@@ -11,6 +11,7 @@ const TABS = [
   { id: 'workInquiries', label: 'Work briefs', hint: "You're next", icon: 'briefcase' },
   { id: 'buildInquiries', label: 'Build sales', hint: 'For sale', icon: 'bag' },
   { id: 'planInquiries', label: 'Plan requests', hint: 'Pricing', icon: 'card' },
+  { id: 'supportTickets', label: 'Support', hint: '/support tickets', icon: 'life' },
   { id: 'messages', label: 'Messages', hint: 'Older form', icon: 'chat' },
   { id: 'notifications', label: 'Notices', hint: 'Shown in the site bell', icon: 'bell' },
 ];
@@ -78,6 +79,8 @@ export default function AdminPage() {
   const removeWork = useMutation(api.admin.removeWorkInquiry);
   const removeBuild = useMutation(api.admin.removeBuildInquiry);
   const removePlan = useMutation(api.admin.removePlanInquiry);
+  const removeSupportTicket = useMutation(api.admin.removeSupportTicket);
+  const updateSupportTicketStatus = useMutation(api.admin.updateSupportTicketStatus);
   const removeMessage = useMutation(api.admin.removeMessage);
   const createNotification = useMutation(api.admin.createNotification);
   const removeNotification = useMutation(api.admin.removeNotification);
@@ -164,6 +167,7 @@ export default function AdminPage() {
       if (tab === 'workInquiries') await removeWork({ token, id: record._id });
       if (tab === 'buildInquiries') await removeBuild({ token, id: record._id });
       if (tab === 'planInquiries') await removePlan({ token, id: record._id });
+      if (tab === 'supportTickets') await removeSupportTicket({ token, id: record._id });
       if (tab === 'messages') await removeMessage({ token, id: record._id });
       if (tab === 'notifications') await removeNotification({ token, id: record._id });
       setConfirmDelete(false);
@@ -208,6 +212,7 @@ export default function AdminPage() {
     workInquiries: inbox?.counts?.workInquiries ?? 0,
     buildInquiries: inbox?.counts?.buildInquiries ?? 0,
     planInquiries: inbox?.counts?.planInquiries ?? 0,
+    supportTickets: inbox?.counts?.supportTickets ?? 0,
     messages: (inbox?.messages ?? []).filter((row) => (row.email || '').toLowerCase() !== NOTICE_EMAIL).length,
     notifications:
       (inbox?.notifications ?? []).length +
@@ -316,10 +321,24 @@ export default function AdminPage() {
                           </span>
                         </div>
                         <p className="ad-post__body">
-                          {record.body || record.message || record.details || record.email || 'Open to read the full submission.'}
+                          {record.body ||
+                            record.message ||
+                            record.details ||
+                            record.subject ||
+                            record.email ||
+                            'Open to read the full submission.'}
                         </p>
                         <div className="ad-post__meta">
-                          <span>{record.email || record.subject || record.planName || record.productTitle || record.projectType || 'Inbox'}</span>
+                          <span>
+                            {record.status
+                              ? String(record.status).replace(/_/g, ' ')
+                              : record.email ||
+                                record.subject ||
+                                record.planName ||
+                                record.productTitle ||
+                                record.projectType ||
+                                'Inbox'}
+                          </span>
                           <span>View</span>
                         </div>
                       </button>
@@ -466,6 +485,13 @@ export default function AdminPage() {
               <SubmissionDetail
                 tab={tab}
                 record={selected}
+                onStatusChange={
+                  tab === 'supportTickets'
+                    ? async (status) => {
+                        await updateSupportTicketStatus({ token, id: selected._id, status });
+                      }
+                    : undefined
+                }
                 onDelete={() => {
                   setDeleteError('');
                   setConfirmDelete(true);
@@ -479,7 +505,10 @@ export default function AdminPage() {
   );
 }
 
-function SubmissionDetail({ tab, record, onDelete }) {
+function SubmissionDetail({ tab, record, onDelete, onStatusChange }) {
+  const [statusSaving, setStatusSaving] = useState(false);
+  const [statusError, setStatusError] = useState('');
+
   const fields =
     tab === 'notifications'
       ? [
@@ -521,20 +550,58 @@ function SubmissionDetail({ tab, record, onDelete }) {
                 ['Company', record.company],
                 ['Message', record.message],
               ]
-            : [
-                ['Name', record.name],
-                ['Email', record.email],
-                ...(tab === 'contacts' ? [['Phone', record.phone], ['Source', record.source]] : []),
-                ['Subject', record.subject],
-                ['Message', record.message],
-              ];
+            : tab === 'supportTickets'
+              ? [
+                  ['Name', record.name],
+                  ['Email', record.email],
+                  ['Phone', record.phone],
+                  ['Product', record.product],
+                  ['Category', record.category],
+                  ['Status', record.status],
+                  ['Subject', record.subject],
+                  ['Message', record.message],
+                  ['Source', record.source],
+                ]
+              : [
+                  ['Name', record.name],
+                  ['Email', record.email],
+                  ...(tab === 'contacts' ? [['Phone', record.phone], ['Source', record.source]] : []),
+                  ['Subject', record.subject],
+                  ['Message', record.message],
+                ];
+
+  const onStatus = async (event) => {
+    if (!onStatusChange) return;
+    const status = event.target.value;
+    setStatusSaving(true);
+    setStatusError('');
+    try {
+      await onStatusChange(status);
+    } catch (err) {
+      setStatusError(errorMessage(err, 'Could not update status.'));
+    } finally {
+      setStatusSaving(false);
+    }
+  };
 
   return (
     <>
       <p className="ad-kicker">{formatWhen(record.createdAt)}</p>
       <h2 className="ad-modal__title" id="ad-modal-title">
-        {record.name || record.title}
+        {record.subject || record.name || record.title}
       </h2>
+      {tab === 'supportTickets' && onStatusChange ? (
+        <label className="ad-status">
+          <span>Ticket status</span>
+          <select value={record.status || 'open'} onChange={onStatus} disabled={statusSaving}>
+            <option value="open">Open</option>
+            <option value="in_progress">In progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </label>
+      ) : null}
+      {statusError ? <p className="ad-error">{statusError}</p> : null}
       <dl className="ad-fields">
         {fields.map(([label, value]) => (
           <div key={label}>
@@ -615,6 +682,14 @@ function NavIcon({ name }) {
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
         <path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z" {...common} />
         <path d="M10 18.5a2 2 0 0 0 4 0" {...common} />
+      </svg>
+    );
+  }
+  if (name === 'life') {
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <circle cx="12" cy="12" r="8.2" {...common} />
+        <path d="M12 8v8M8 12h8" {...common} />
       </svg>
     );
   }
