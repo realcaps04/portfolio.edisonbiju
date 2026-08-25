@@ -3,13 +3,33 @@ import './BuildCard.css';
 import './FreeToolCard.css';
 
 export default function FreeToolCard({ tool }) {
-  const Icon = ICONS[tool.icon] || SoonIcon;
+  const hero = tool.hero;
 
   return (
     <article className="pp-card bp-card is-soon fp-card">
       <div className="pp-card__visual">
-        <div className="bp-card__art fp-card__art" aria-hidden="true">
-          <Icon />
+        <div className={`fp-hero fp-hero--${hero?.tone || tool.icon}`} aria-hidden="true">
+          <div className="fp-hero__nav">
+            <span className="fp-hero__brand">{hero?.brand || tool.title}</span>
+            <span className="fp-hero__nav-links">
+              <i />
+              <i />
+              <i />
+            </span>
+            <span className="fp-hero__nav-cta">{hero?.cta || 'Open'}</span>
+          </div>
+
+          <div className="fp-hero__body">
+            <div className="fp-hero__copy">
+              <p className="fp-hero__kicker">{hero?.kicker}</p>
+              <h3 className="fp-hero__headline">{hero?.headline}</h3>
+              <p className="fp-hero__sub">{hero?.sub}</p>
+              <span className="fp-hero__btn">{hero?.cta || 'Open free'}</span>
+            </div>
+            <div className="fp-hero__stage">
+              <HeroStage tone={hero?.tone || tool.icon} />
+            </div>
+          </div>
         </div>
         <span className="pp-card__badge bp-card__badge--soon">Upcoming</span>
         <span className="pp-card__year">{tool.year}</span>
@@ -33,99 +53,88 @@ export default function FreeToolCard({ tool }) {
   );
 }
 
-function SoonIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52">
-      <circle cx="32" cy="34" r="20" fill="none" stroke="currentColor" strokeWidth="2.4" />
-      <path d="M32 22v14l9 5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-    </svg>
-  );
+function HeroStage({ tone }) {
+  switch (tone) {
+    case 'pdf':
+      return (
+        <div className="fp-stage fp-stage--pdf">
+          <div className="fp-stage__doc">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="fp-stage__doc is-back">
+            <span />
+            <span />
+          </div>
+        </div>
+      );
+    case 'img':
+      return (
+        <div className="fp-stage fp-stage--img">
+          <div className="fp-stage__frame">
+            <div className="fp-stage__photo" />
+            <div className="fp-stage__sun" />
+          </div>
+        </div>
+      );
+    case 'compress':
+      return (
+        <div className="fp-stage fp-stage--compress">
+          <div className="fp-stage__drop">
+            <b>Drop files</b>
+            <em>PDF · IMG · ZIP</em>
+          </div>
+          <div className="fp-stage__meter">
+            <i style={{ width: '72%' }} />
+          </div>
+        </div>
+      );
+    case 'background':
+      return (
+        <div className="fp-stage fp-stage--bg">
+          <div className="fp-stage__check" />
+          <div className="fp-stage__cutout" />
+        </div>
+      );
+    case 'convert':
+      return (
+        <div className="fp-stage fp-stage--convert">
+          <div className="fp-stage__chip">PDF</div>
+          <div className="fp-stage__arrow">→</div>
+          <div className="fp-stage__chip is-out">JPG</div>
+        </div>
+      );
+    case 'qr':
+      return (
+        <div className="fp-stage fp-stage--qr">
+          <div className="fp-stage__qr">
+            <i />
+            <i />
+            <i />
+            <i />
+            <span />
+          </div>
+        </div>
+      );
+    case 'meeting':
+      return (
+        <div className="fp-stage fp-stage--meeting">
+          <div className="fp-stage__call">
+            <div className="fp-stage__avatar" />
+            <div className="fp-stage__avatar is-2" />
+            <div className="fp-stage__avatar is-3" />
+            <div className="fp-stage__avatar is-4" />
+          </div>
+          <div className="fp-stage__bar">
+            <i />
+            <i />
+            <i />
+          </div>
+        </div>
+      );
+    default:
+      return <div className="fp-stage" />;
+  }
 }
-
-function PdfIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-      <path
-        d="M18 12h20l12 12v28a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4Z"
-        stroke="currentColor"
-        strokeWidth="2.4"
-      />
-      <path d="M38 12v10h10" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" />
-      <path
-        d="M32 30.5c1.7-2.4 5.2-2.2 6.2.4 1 2.7-1.2 5.3-4.4 6.2-2.4.7-5 .2-6.2-1.6"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function ImgIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-      <rect x="12" y="16" width="40" height="32" rx="5" stroke="currentColor" strokeWidth="2.4" />
-      <circle cx="24" cy="28" r="4" stroke="currentColor" strokeWidth="2.2" />
-      <path d="M14 42l12-10 8 7 6-5 10 8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path
-        d="M44 18c1.4-1.8 4.2-1.6 5 .4.8 2.1-1 4.2-3.5 4.9"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function CompressIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-      <rect x="18" y="14" width="28" height="36" rx="4" stroke="currentColor" strokeWidth="2.4" />
-      <path d="M26 8v8M38 8v8M26 48v8M38 48v8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M26 32h12M32 26v12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function BackgroundIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-      <rect x="12" y="14" width="40" height="36" rx="5" stroke="currentColor" strokeWidth="2.4" />
-      <circle cx="32" cy="28" r="6" stroke="currentColor" strokeWidth="2.2" />
-      <path d="M20 46c3.4-7 20.6-7 24 0" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M42 18l8-6M46 22l8-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ConvertIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-      <rect x="10" y="18" width="20" height="26" rx="3" stroke="currentColor" strokeWidth="2.4" />
-      <rect x="34" y="18" width="20" height="26" rx="3" stroke="currentColor" strokeWidth="2.4" />
-      <path d="M24 52h16M32 46v12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M28 31h8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function QrIcon() {
-  return (
-    <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-      <rect x="12" y="12" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2.4" />
-      <rect x="36" y="12" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2.4" />
-      <rect x="12" y="36" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2.4" />
-      <path d="M18 18h4v4h-4zM42 18h4v4h-4zM18 42h4v4h-4z" fill="currentColor" />
-      <path d="M36 36h6v6M48 36v12h-8M42 48h6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const ICONS = {
-  pdf: PdfIcon,
-  img: ImgIcon,
-  compress: CompressIcon,
-  background: BackgroundIcon,
-  convert: ConvertIcon,
-  qr: QrIcon,
-};
