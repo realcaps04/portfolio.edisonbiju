@@ -36,6 +36,11 @@
   background: rgba(37, 99, 235, 0.82);
 }
 
+.bp-card__badge--live {
+  background: #ccff00;
+  color: #111;
+}
+
 .bp-card__badge--custom {
   background: rgba(204, 255, 0, 0.92);
   color: #111;

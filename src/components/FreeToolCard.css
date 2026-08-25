@@ -2,8 +2,20 @@
   transform: translateY(-6px);
 }
 
+.pp-card.fp-card.is-live {
+  cursor: default;
+}
+
 .fp-heart {
   color: #ff2442;
+}
+
+.fp-card__banner {
+  object-position: center top;
+}
+
+.pp-card.fp-card:hover .fp-card__banner {
+  transform: scale(1.04);
 }
 
 .fp-card .pp-card__visual {

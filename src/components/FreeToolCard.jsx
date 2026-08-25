@@ -4,30 +4,65 @@ import './FreeToolCard.css';
 
 export default function FreeToolCard({ tool }) {
   const hero = tool.hero;
+  const isLive = tool.status === 'live' && Boolean(tool.url);
 
   return (
-    <article className="pp-card bp-card is-soon fp-card">
+    <article className={`pp-card bp-card fp-card${isLive ? ' is-action is-live' : ' is-soon'}`}>
       <div className="pp-card__visual">
-        <div className={`fp-hero fp-hero--${hero?.tone || tool.icon}`} aria-hidden="true">
-          <div className="fp-hero__chrome">
-            <span />
-            <span />
-            <span />
-          </div>
+        {tool.banner ? (
+          <img
+            src={tool.banner}
+            alt={`${tool.title} banner`}
+            className="pp-card__screenshot fp-card__banner"
+            loading="lazy"
+          />
+        ) : (
+          <div className={`fp-hero fp-hero--${hero?.tone || tool.icon}`} aria-hidden="true">
+            <div className="fp-hero__chrome">
+              <span />
+              <span />
+              <span />
+            </div>
 
-          <div className="fp-hero__body">
-            <div className="fp-hero__copy">
-              <p className="fp-hero__brand">
-                <TitleWithHeart text={hero?.brand || tool.title} />
-              </p>
-              <h3 className="fp-hero__headline">{hero?.headline}</h3>
-            </div>
-            <div className="fp-hero__stage">
-              <HeroStage tone={hero?.tone || tool.icon} />
+            <div className="fp-hero__body">
+              <div className="fp-hero__copy">
+                <p className="fp-hero__brand">
+                  <TitleWithHeart text={hero?.brand || tool.title} />
+                </p>
+                <h3 className="fp-hero__headline">{hero?.headline}</h3>
+              </div>
+              <div className="fp-hero__stage">
+                <HeroStage tone={hero?.tone || tool.icon} />
+              </div>
             </div>
           </div>
-        </div>
-        <span className="pp-card__badge bp-card__badge--soon">Upcoming</span>
+        )}
+
+        {isLive ? (
+          <div className="pp-card__overlay">
+            <a
+              href={tool.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-card__view"
+            >
+              Open live
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path
+                  d="M2 11L11 2M11 2H5M11 2v6"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        ) : null}
+
+        <span className={`pp-card__badge${isLive ? ' bp-card__badge--live' : ' bp-card__badge--soon'}`}>
+          {isLive ? 'Live' : 'Upcoming'}
+        </span>
         <span className="pp-card__year">{tool.year}</span>
       </div>
 
@@ -45,7 +80,27 @@ export default function FreeToolCard({ tool }) {
           ))}
         </div>
 
-        <p className="bp-card__soon">Coming soon</p>
+        {isLive ? (
+          <a
+            href={tool.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pp-card__link"
+          >
+            Open tool
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path
+                d="M2 11L11 2M11 2H5M11 2v6"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        ) : (
+          <p className="bp-card__soon">Coming soon</p>
+        )}
       </div>
     </article>
   );

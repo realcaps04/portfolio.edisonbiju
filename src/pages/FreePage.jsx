@@ -21,7 +21,7 @@ export default function FreePage() {
             <span className="pp-hero__lime">use for free</span>
           </h1>
           <p className="pp-hero__sub">
-            Browser tools for PDFs, images, and files. No payment, no signup — they open here when they are ready.
+            Free tools and apps you can open in the browser — starting with Cloak. More are on the way.
           </p>
           <div className="pp-hero__actions">
             <button type="button" className="pp-cta" onClick={() => openContact('free-hero')}>
@@ -35,7 +35,7 @@ export default function FreePage() {
         </div>
       </section>
 
-      <section className="pp-grid-section" aria-label="Upcoming free tools">
+      <section className="pp-grid-section" aria-label="Free to use tools">
         <div className="pp-grid">
           {FREE_TOOLS.map((tool) => (
             <FreeToolCard key={tool.id} tool={tool} />

@@ -1,10 +1,32 @@
 export const FREE_TOOLS = [
   {
+    id: 'cloak',
+    icon: 'cloak',
+    title: 'Cloak',
+    category: 'Live',
+    year: '2026',
+    status: 'live',
+    url: 'https://cloakbycaps.vercel.app/',
+    description:
+      'FiveM server connector that keeps IP links inside the app. If someone copies or tries to share the join link publicly, Cloak captures it and alerts the admin right away.',
+    tags: ['FiveM', 'Security', 'App', 'Admin alert'],
+    banner: '/cloak-banner.jpg',
+    hero: {
+      brand: 'Cloak',
+      kicker: 'FiveM connector',
+      headline: 'Join without leaking IPs',
+      sub: 'App-only · Capture · Alert',
+      cta: 'Protect server',
+      tone: 'cloak',
+    },
+  },
+  {
     id: 'my-pdf',
     icon: 'pdf',
     title: 'my♡pdf',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Merge, split, compress, and convert PDFs in the browser. No signup.',
     tags: ['PDF', 'Merge', 'Compress', 'Free'],
     hero: {
@@ -22,6 +44,7 @@ export const FREE_TOOLS = [
     title: 'my♡img',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Compress, resize, and convert images without leaving the page.',
     tags: ['Image', 'Compress', 'Convert', 'Free'],
     hero: {
@@ -39,6 +62,7 @@ export const FREE_TOOLS = [
     title: 'All in one compressor',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'One drop zone for files, images, and PDFs. Shrink them fast, keep them usable.',
     tags: ['Zip', 'Files', 'Images', 'Free'],
     hero: {
@@ -56,6 +80,7 @@ export const FREE_TOOLS = [
     title: 'Remove background',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Cut the background off a photo in one click and download a clean PNG.',
     tags: ['Image', 'PNG', 'Cutout', 'Free'],
     hero: {
@@ -73,6 +98,7 @@ export const FREE_TOOLS = [
     title: 'File converter',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Switch between PDF, JPG, PNG, and more without installing an app.',
     tags: ['Convert', 'PDF', 'Image', 'Free'],
     hero: {
@@ -90,6 +116,7 @@ export const FREE_TOOLS = [
     title: 'QR maker',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Make a QR code for a link, text, or Wi-Fi and download it instantly.',
     tags: ['QR', 'Share', 'Download', 'Free'],
     hero: {
@@ -107,6 +134,7 @@ export const FREE_TOOLS = [
     title: 'Mymeeting',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'A new website and app for scheduling, hosting, and joining meetings in one place.',
     tags: ['Meetings', 'Web', 'App', 'Free'],
     hero: {
@@ -124,6 +152,7 @@ export const FREE_TOOLS = [
     title: 'Spices Market',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Buy and sell spices online — listings, orders, and local sellers in one marketplace.',
     tags: ['Marketplace', 'Spices', 'Buy', 'Sell'],
     hero: {
@@ -141,6 +170,7 @@ export const FREE_TOOLS = [
     title: 'Ritual',
     category: 'Upcoming',
     year: '2026',
+    status: 'soon',
     description: 'Build daily routines, track habits, and keep your streak without the clutter.',
     tags: ['Habits', 'Routines', 'Streaks', 'Free'],
     hero: {
@@ -150,24 +180,6 @@ export const FREE_TOOLS = [
       sub: 'Habits · Streaks · Focus',
       cta: 'Start free',
       tone: 'ritual',
-    },
-  },
-  {
-    id: 'cloak',
-    icon: 'cloak',
-    title: 'Cloak',
-    category: 'Upcoming',
-    year: '2026',
-    description:
-      'FiveM server connector that keeps IP links inside the app. If someone copies or tries to share the join link publicly, Cloak captures it and alerts the admin right away.',
-    tags: ['FiveM', 'Security', 'App', 'Admin alert'],
-    hero: {
-      brand: 'Cloak',
-      kicker: 'FiveM connector',
-      headline: 'Join without leaking IPs',
-      sub: 'App-only · Capture · Alert',
-      cta: 'Protect server',
-      tone: 'cloak',
     },
   },
 ];
