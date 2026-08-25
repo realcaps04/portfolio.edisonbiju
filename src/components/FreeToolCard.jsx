@@ -9,22 +9,18 @@ export default function FreeToolCard({ tool }) {
     <article className="pp-card bp-card is-soon fp-card">
       <div className="pp-card__visual">
         <div className={`fp-hero fp-hero--${hero?.tone || tool.icon}`} aria-hidden="true">
-          <div className="fp-hero__nav">
-            <span className="fp-hero__brand">{hero?.brand || tool.title}</span>
-            <span className="fp-hero__nav-links">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span className="fp-hero__nav-cta">{hero?.cta || 'Open'}</span>
+          <div className="fp-hero__chrome">
+            <span />
+            <span />
+            <span />
           </div>
 
           <div className="fp-hero__body">
             <div className="fp-hero__copy">
-              <p className="fp-hero__kicker">{hero?.kicker}</p>
+              <p className="fp-hero__brand">
+                <TitleWithHeart text={hero?.brand || tool.title} />
+              </p>
               <h3 className="fp-hero__headline">{hero?.headline}</h3>
-              <p className="fp-hero__sub">{hero?.sub}</p>
-              <span className="fp-hero__btn">{hero?.cta || 'Open free'}</span>
             </div>
             <div className="fp-hero__stage">
               <HeroStage tone={hero?.tone || tool.icon} />
@@ -36,7 +32,9 @@ export default function FreeToolCard({ tool }) {
       </div>
 
       <div className="pp-card__body">
-        <h2 className="pp-card__title">{tool.title}</h2>
+        <h2 className="pp-card__title">
+          <TitleWithHeart text={tool.title} />
+        </h2>
         <p className="pp-card__desc">{tool.description}</p>
 
         <div className="pp-card__tags">
@@ -50,6 +48,21 @@ export default function FreeToolCard({ tool }) {
         <p className="bp-card__soon">Coming soon</p>
       </div>
     </article>
+  );
+}
+
+function TitleWithHeart({ text }) {
+  const value = String(text || '');
+  if (!value.includes('♡')) return value;
+
+  return value.split(/(♡)/).map((part, index) =>
+    part === '♡' ? (
+      <span className="fp-heart" key={`heart-${index}`}>
+        ♡
+      </span>
+    ) : (
+      part
+    ),
   );
 }
 
@@ -83,8 +96,7 @@ function HeroStage({ tone }) {
       return (
         <div className="fp-stage fp-stage--compress">
           <div className="fp-stage__drop">
-            <b>Drop files</b>
-            <em>PDF · IMG · ZIP</em>
+            <b>Drop</b>
           </div>
           <div className="fp-stage__meter">
             <i style={{ width: '72%' }} />
@@ -132,6 +144,45 @@ function HeroStage({ tone }) {
             <i />
             <i />
           </div>
+        </div>
+      );
+    case 'spices':
+      return (
+        <div className="fp-stage fp-stage--spices">
+          <div className="fp-stage__jar is-1" />
+          <div className="fp-stage__jar is-2" />
+          <div className="fp-stage__jar is-3" />
+          <div className="fp-stage__price">₹</div>
+        </div>
+      );
+    case 'ritual':
+      return (
+        <div className="fp-stage fp-stage--ritual">
+          <div className="fp-stage__habit is-done">
+            <i />
+            <span />
+          </div>
+          <div className="fp-stage__habit is-done">
+            <i />
+            <span />
+          </div>
+          <div className="fp-stage__habit">
+            <i />
+            <span />
+          </div>
+          <div className="fp-stage__streak">7</div>
+        </div>
+      );
+    case 'cloak':
+      return (
+        <div className="fp-stage fp-stage--cloak">
+          <div className="fp-stage__ip">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="fp-stage__shield" />
+          <div className="fp-stage__alert">!</div>
         </div>
       );
     default:

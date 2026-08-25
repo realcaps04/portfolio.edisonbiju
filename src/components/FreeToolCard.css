@@ -2,8 +2,12 @@
   transform: translateY(-6px);
 }
 
+.fp-heart {
+  color: #ff2442;
+}
+
 .fp-card .pp-card__visual {
-  min-height: 12.5rem;
+  min-height: 13.5rem;
 }
 
 .fp-hero {
@@ -11,7 +15,7 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  padding: 0.7rem 0.75rem 0.65rem;
+  padding: 2.55rem 0.9rem 0.75rem;
   overflow: hidden;
   color: #e8eef7;
   background: #0b1220;
@@ -28,13 +32,13 @@
 }
 
 .fp-hero--pdf {
-  background: linear-gradient(145deg, #0c1424 0%, #1a1020 55%, #0a0f18 100%);
+  background: linear-gradient(145deg, #1a080e 0%, #2a0c16 55%, #10060a 100%);
 }
 
 .fp-hero--pdf::before {
   background:
-    radial-gradient(ellipse 50% 45% at 85% 15%, rgba(239, 68, 68, 0.28), transparent 58%),
-    radial-gradient(ellipse 45% 40% at 10% 90%, rgba(251, 146, 60, 0.14), transparent 55%);
+    radial-gradient(ellipse 52% 48% at 82% 18%, rgba(255, 36, 66, 0.42), transparent 58%),
+    radial-gradient(ellipse 42% 40% at 12% 88%, rgba(255, 45, 85, 0.18), transparent 55%);
 }
 
 .fp-hero--img {
@@ -97,7 +101,27 @@
     radial-gradient(ellipse 42% 40% at 15% 85%, rgba(45, 212, 191, 0.14), transparent 55%);
 }
 
-.fp-hero__nav,
+.fp-hero--spices {
+  background: linear-gradient(150deg, #1a100c 0%, #2a1810 52%, #100a08 100%);
+}
+
+.fp-hero--spices::before {
+  background:
+    radial-gradient(ellipse 50% 48% at 78% 18%, rgba(234, 88, 12, 0.32), transparent 58%),
+    radial-gradient(ellipse 42% 40% at 15% 85%, rgba(202, 138, 4, 0.18), transparent 55%);
+}
+
+.fp-hero--ritual {
+  background: linear-gradient(150deg, #0c1420 0%, #152433 52%, #080e16 100%);
+}
+
+.fp-hero--ritual::before {
+  background:
+    radial-gradient(ellipse 50% 48% at 78% 18%, rgba(99, 102, 241, 0.32), transparent 58%),
+    radial-gradient(ellipse 42% 40% at 15% 85%, rgba(204, 255, 0, 0.12), transparent 55%);
+}
+
+.fp-hero__chrome,
 .fp-hero__body,
 .fp-hero__copy,
 .fp-hero__stage {
@@ -105,52 +129,25 @@
   z-index: 1;
 }
 
-.fp-hero__nav {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-bottom: 0.55rem;
-}
-
-.fp-hero__brand {
-  color: #fff;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-}
-
-.fp-hero__nav-links {
+.fp-hero__chrome {
   display: flex;
   gap: 0.28rem;
-  margin-left: 0.35rem;
-  opacity: 0.45;
+  margin-bottom: 0.55rem;
+  opacity: 0.35;
 }
 
-.fp-hero__nav-links i {
+.fp-hero__chrome span {
   display: block;
-  width: 0.7rem;
-  height: 0.16rem;
+  width: 0.85rem;
+  height: 0.22rem;
   border-radius: 99px;
   background: currentColor;
 }
 
-.fp-hero__nav-cta {
-  margin-left: auto;
-  padding: 0.18rem 0.42rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  font-size: 0.48rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
 .fp-hero__body {
   display: grid;
-  grid-template-columns: 1.15fr 0.95fr;
-  gap: 0.45rem;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 0.55rem;
   flex: 1;
   min-height: 0;
   align-items: center;
@@ -158,69 +155,35 @@
 
 .fp-hero__copy {
   display: grid;
-  gap: 0.22rem;
+  gap: 0.3rem;
   align-content: center;
+  min-width: 0;
 }
 
-.fp-hero__kicker {
+.fp-hero__brand {
   margin: 0;
-  color: #ccff00;
-  font-size: 0.42rem;
+  color: #fff;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  word-break: break-word;
 }
-
-.fp-hero--pdf .fp-hero__kicker { color: #fb923c; }
-.fp-hero--img .fp-hero__kicker { color: #7dd3fc; }
-.fp-hero--compress .fp-hero__kicker { color: #ccff00; }
-.fp-hero--background .fp-hero__kicker { color: #d8b4fe; }
-.fp-hero--convert .fp-hero__kicker { color: #93c5fd; }
-.fp-hero--qr .fp-hero__kicker { color: #fde047; }
-.fp-hero--meeting .fp-hero__kicker { color: #5eead4; }
 
 .fp-hero__headline {
   margin: 0;
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
-
-.fp-hero__sub {
-  margin: 0;
-  color: rgba(226, 232, 240, 0.72);
-  font-size: 0.46rem;
-  line-height: 1.35;
-}
-
-.fp-hero__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  margin-top: 0.15rem;
-  padding: 0.22rem 0.5rem;
-  border-radius: 0.35rem;
-  background: #2563eb;
-  color: #fff;
-  font-size: 0.46rem;
-  font-weight: 700;
-}
-
-.fp-hero--pdf .fp-hero__btn { background: #ef4444; }
-.fp-hero--img .fp-hero__btn { background: #0ea5e9; }
-.fp-hero--compress .fp-hero__btn { background: #ccff00; color: #111; }
-.fp-hero--background .fp-hero__btn { background: #a855f7; }
-.fp-hero--convert .fp-hero__btn { background: #2563eb; }
-.fp-hero--qr .fp-hero__btn { background: #ccff00; color: #111; }
-.fp-hero--meeting .fp-hero__btn { background: #14b8a6; }
 
 .fp-hero__stage {
   display: grid;
   place-items: center;
   min-height: 100%;
+  transition: transform 0.45s ease;
 }
 
 .fp-stage {
@@ -262,7 +225,7 @@
 .fp-stage__doc span:first-child {
   width: 42%;
   height: 0.28rem;
-  background: #ef4444;
+  background: #ff2442;
 }
 
 .fp-stage--img .fp-stage__frame {
@@ -313,14 +276,8 @@
 
 .fp-stage__drop b {
   color: #ccff00;
-  font-size: 0.52rem;
+  font-size: 0.7rem;
   font-weight: 700;
-}
-
-.fp-stage__drop em {
-  color: rgba(226, 232, 240, 0.65);
-  font-size: 0.4rem;
-  font-style: normal;
 }
 
 .fp-stage__meter {
@@ -379,13 +336,13 @@
 }
 
 .fp-stage__chip {
-  min-width: 2.1rem;
-  padding: 0.55rem 0.4rem;
+  min-width: 2.3rem;
+  padding: 0.55rem 0.45rem;
   border-radius: 0.45rem;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(148, 163, 184, 0.28);
   color: #e2e8f0;
-  font-size: 0.55rem;
+  font-size: 0.68rem;
   font-weight: 800;
   text-align: center;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
@@ -508,11 +465,128 @@
   background: #ef4444;
 }
 
-.pp-card.fp-card:hover .fp-hero__stage {
-  transform: scale(1.03);
-  transition: transform 0.45s ease;
+.fp-stage--spices {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.28rem;
+  width: 5.8rem;
+  height: 4.2rem;
+  padding-bottom: 0.2rem;
 }
 
-.fp-hero__stage {
-  transition: transform 0.45s ease;
+.fp-stage__jar {
+  position: relative;
+  width: 1.35rem;
+  height: 2.6rem;
+  border-radius: 0.28rem 0.28rem 0.35rem 0.35rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
+.fp-stage__jar::before {
+  content: '';
+  position: absolute;
+  top: -0.28rem;
+  left: 50%;
+  width: 1.05rem;
+  height: 0.35rem;
+  transform: translateX(-50%);
+  border-radius: 0.15rem;
+  background: #78350f;
+}
+
+.fp-stage__jar.is-1 {
+  height: 2.35rem;
+  background: linear-gradient(180deg, #fb923c 0%, #c2410c 100%);
+}
+
+.fp-stage__jar.is-2 {
+  height: 3rem;
+  background: linear-gradient(180deg, #facc15 0%, #a16207 100%);
+}
+
+.fp-stage__jar.is-3 {
+  height: 2.5rem;
+  background: linear-gradient(180deg, #ef4444 0%, #991b1b 100%);
+}
+
+.fp-stage__price {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.1rem;
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: #ea580c;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.fp-stage--ritual {
+  position: relative;
+  display: grid;
+  gap: 0.28rem;
+  width: 5.6rem;
+  padding: 0.45rem 0.4rem;
+  border-radius: 0.55rem;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.fp-stage__habit {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.fp-stage__habit i {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 0.15rem;
+  border: 1.5px solid rgba(165, 180, 252, 0.55);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.fp-stage__habit.is-done i {
+  border-color: #ccff00;
+  background: #ccff00;
+  box-shadow: inset 0 0 0 1px #111;
+}
+
+.fp-stage__habit span {
+  flex: 1;
+  height: 0.28rem;
+  border-radius: 99px;
+  background: rgba(148, 163, 184, 0.35);
+}
+
+.fp-stage__habit.is-done span {
+  background: rgba(204, 255, 0, 0.45);
+}
+
+.fp-stage__streak {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.25rem;
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: #6366f1;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.pp-card.fp-card:hover .fp-hero__stage {
+  transform: scale(1.03);
 }
