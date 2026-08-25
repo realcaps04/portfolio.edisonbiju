@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { label: 'About', to: '/about' },
   { label: 'Builds', to: '/builds' },
   { label: 'Pricing', to: '/pricing' },
+  { label: 'Free to use', short: 'Free', to: '/free' },
 ];
 
 export default function SiteHeader() {
@@ -35,9 +36,9 @@ export default function SiteHeader() {
           style={{ '--pill-index': String(Math.max(0, activeIndex)) }}
           aria-hidden="true"
         />
-        {NAV_LINKS.map(({ label, to }) => {
+        {NAV_LINKS.map(({ label, short, to }) => {
           const active = pathname === to;
-          const className = `hp-bar__link${active ? ' is-active' : ''}`;
+          const className = `hp-bar__link${active ? ' is-active' : ''}${short ? ' has-short' : ''}`;
           return (
             <Link
               key={label}
@@ -48,7 +49,8 @@ export default function SiteHeader() {
                 scrollToTop();
               }}
             >
-              {label}
+              <span className="hp-bar__label-full">{label}</span>
+              {short ? <span className="hp-bar__label-short">{short}</span> : null}
             </Link>
           );
         })}

@@ -50,6 +50,11 @@ export const PAGE_SEO = {
     description:
       'Starting prices for landing pages, business websites, e-commerce, and custom React / MERN web apps by Edison Biju in Kerala, India.',
   },
+  '/free': {
+    title: 'Free to Use | Tools by Edison Biju',
+    description:
+      'Free web tools by Edison Biju — invoice generator, open-source dashboard, and UI experiments you can open and use now.',
+  },
   '/admin': {
     title: "Edison's Dashboard — Sign in",
     description: 'Private admin login.',

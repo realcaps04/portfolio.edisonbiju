@@ -1,0 +1,11 @@
+.pp-card.fp-card:hover {
+  transform: translateY(-6px);
+}
+
+.fp-card__art {
+  color: #ccff00;
+  background:
+    radial-gradient(circle at 70% 28%, rgba(204, 255, 0, 0.16), transparent 52%),
+    radial-gradient(circle at 28% 78%, rgba(37, 99, 235, 0.24), transparent 55%),
+    linear-gradient(160deg, #12180c 0%, #070b12 100%);
+}
