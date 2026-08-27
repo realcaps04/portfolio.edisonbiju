@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -8,6 +8,7 @@ import FreePage from './pages/FreePage';
 import SupportPage from './pages/SupportPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPage from './pages/AdminPage';
+import RequireAdminAuth from './components/RequireAdminAuth';
 import RightClickGuard from './components/RightClickGuard';
 import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
@@ -36,7 +37,15 @@ export default function App() {
             <Route path="/free" element={<FreePage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="/admin" element={<AdminLoginPage />} />
-            <Route path="/admin/inbox" element={<AdminPage />} />
+            <Route
+              path="/admin/inbox"
+              element={
+                <RequireAdminAuth>
+                  <AdminPage />
+                </RequireAdminAuth>
+              }
+            />
+            <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
           </Routes>
         </WorkProvider>
       </ContactProvider>

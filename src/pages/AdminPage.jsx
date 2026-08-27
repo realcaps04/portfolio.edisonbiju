@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useConvex, useMutation, useQuery } from 'convex/react';
 import { usePwa } from '../components/pwaContext';
 import { api } from '../../convex/_generated/api';
@@ -204,7 +204,7 @@ export default function AdminPage() {
   };
 
   if (!token) {
-    return <Navigate to="/admin" replace />;
+    return null;
   }
 
   const counts = {

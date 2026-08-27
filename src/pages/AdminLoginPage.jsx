@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useMutation } from 'convex/react';
+import { useConvex, useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { usePwa } from '../components/pwaContext';
-import { getAdminToken, setAdminToken } from '../lib/adminAuth';
+import { clearAdminToken, getAdminToken, setAdminToken } from '../lib/adminAuth';
 import './AdminPage.css';
 
 export default function AdminLoginPage() {
   const navigate = useNavigate();
+  const convex = useConvex();
   const { canInstall, standalone, promptInstall } = usePwa();
   const login = useMutation(api.admin.login);
   const seedAdmin = useMutation(api.admin.seed);
-  const existingToken = getAdminToken();
+  const [authState, setAuthState] = useState(() => (getAdminToken() ? 'checking' : 'guest'));
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -34,7 +35,36 @@ export default function AdminLoginPage() {
     };
   }, [seedAdmin]);
 
-  if (existingToken) {
+  useEffect(() => {
+    const token = getAdminToken();
+    if (!token) {
+      setAuthState('guest');
+      return undefined;
+    }
+
+    let cancelled = false;
+    convex
+      .query(api.admin.verify, { token })
+      .then(() => {
+        if (!cancelled) setAuthState('authed');
+      })
+      .catch(() => {
+        if (!cancelled) {
+          clearAdminToken();
+          setAuthState('guest');
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [convex]);
+
+  if (authState === 'checking') {
+    return null;
+  }
+
+  if (authState === 'authed') {
     return <Navigate to="/admin/inbox" replace />;
   }
 
