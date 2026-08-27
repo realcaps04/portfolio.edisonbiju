@@ -44,6 +44,8 @@
 
 .ad-title {
   margin: 0 0 0.7rem;
+  color: #f8fafc;
+  font-family: 'Space Grotesk', Inter, system-ui, sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   font-weight: 400;
   letter-spacing: -0.03em;
@@ -71,8 +73,44 @@
   font-weight: 600;
 }
 
-.ad-copy + .ad-label {
+.ad-copy + .ad-label,
+.ad-copy + .ad-field {
   margin-top: 1.1rem;
+}
+
+.ad-field {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0 0 0.85rem;
+}
+
+.ad-field__label {
+  color: #d4d4d8;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.ad-field__input {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.78rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: #0f131a;
+  color: #fff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.ad-field__input:focus {
+  border-color: rgba(59, 130, 246, 0.65);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+.ad-field__input::placeholder {
+  color: #64748b;
 }
 
 .ad-label input,
@@ -100,7 +138,8 @@
   display: block;
 }
 
-.ad-password input {
+.ad-password input,
+.ad-password .ad-field__input {
   padding-right: 2.8rem;
 }
 

@@ -60,14 +60,6 @@ export default function AdminLoginPage() {
     };
   }, [convex]);
 
-  if (authState === 'checking') {
-    return null;
-  }
-
-  if (authState === 'authed') {
-    return <Navigate to="/admin/inbox" replace />;
-  }
-
   const onLogin = async (event) => {
     event.preventDefault();
     const nextEmail = email.trim();
@@ -92,35 +84,51 @@ export default function AdminLoginPage() {
     }
   };
 
+  if (authState === 'checking') {
+    return null;
+  }
+
+  if (authState === 'authed') {
+    return <Navigate to="/admin/inbox" replace />;
+  }
+
   return (
     <main className="ad ad--login">
       <form className="ad-login" onSubmit={onLogin} noValidate>
         <p className="ad-kicker">Edison&apos;s Dashboard</p>
-        <h1 className="ad-title font-gropled">
+        <h1 className="ad-title">
           Sign <span>in</span>
         </h1>
         <p className="ad-copy">Use your admin email and password to open the inbox.</p>
-        <label className="ad-label" htmlFor="admin-email">
-          Email
+        <div className="ad-field">
+          <label className="ad-field__label" htmlFor="admin-email">
+            Email
+          </label>
           <input
             id="admin-email"
+            className="ad-field__input"
             type="email"
             name="admin-email"
             inputMode="email"
             autoComplete="username"
             autoFocus
+            placeholder="you@example.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-        </label>
-        <label className="ad-label" htmlFor="admin-password">
-          Password
+        </div>
+        <div className="ad-field">
+          <label className="ad-field__label" htmlFor="admin-password">
+            Password
+          </label>
           <span className="ad-password">
             <input
               id="admin-password"
+              className="ad-field__input"
               type={showPassword ? 'text' : 'password'}
               name="admin-password"
               autoComplete="current-password"
+              placeholder="Your password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
@@ -134,7 +142,7 @@ export default function AdminLoginPage() {
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
           </span>
-        </label>
+        </div>
         {loginError ? (
           <p className="ad-error" role="alert">
             {loginError}
