@@ -143,6 +143,16 @@
     radial-gradient(ellipse 42% 40% at 15% 85%, rgba(16, 185, 129, 0.14), transparent 55%);
 }
 
+.fp-hero--serene {
+  background: linear-gradient(150deg, #1a1433 0%, #2d2458 52%, #120f24 100%);
+}
+
+.fp-hero--serene::before {
+  background:
+    radial-gradient(ellipse 50% 48% at 78% 18%, rgba(139, 124, 246, 0.38), transparent 58%),
+    radial-gradient(ellipse 42% 40% at 15% 85%, rgba(255, 125, 136, 0.22), transparent 55%);
+}
+
 .fp-hero__chrome,
 .fp-hero__body,
 .fp-hero__copy,
@@ -670,6 +680,44 @@
   font-size: 0.7rem;
   font-weight: 800;
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.45);
+}
+
+.fp-stage--serene {
+  position: relative;
+  width: 5.4rem;
+  height: 4.2rem;
+  display: grid;
+  place-items: center;
+}
+
+.fp-stage__orb {
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 125, 136, 0.85), transparent 52%),
+    radial-gradient(circle at 68% 72%, rgba(139, 124, 246, 0.9), transparent 48%),
+    radial-gradient(circle at 50% 50%, rgba(75, 92, 246, 0.75), rgba(45, 36, 88, 0.95));
+  box-shadow: 0 10px 24px rgba(139, 124, 246, 0.35);
+}
+
+.fp-stage__mood {
+  position: relative;
+  z-index: 1;
+  font-size: 1.15rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.fp-stage__wave {
+  position: absolute;
+  bottom: 0.15rem;
+  width: 4.2rem;
+  height: 0.45rem;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(110, 200, 255, 0.5), rgba(126, 208, 189, 0.55));
+  opacity: 0.75;
 }
 
 .pp-card.fp-card:hover .fp-hero__stage {

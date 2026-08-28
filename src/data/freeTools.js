@@ -21,6 +21,26 @@ export const FREE_TOOLS = [
     },
   },
   {
+    id: 'serene',
+    icon: 'serene',
+    title: 'Serene',
+    category: 'Upcoming',
+    year: '2026',
+    status: 'soon',
+    description:
+      'Mindfulness AI companion for mood tracking, journaling, breathing exercises, and everyday wellbeing — private, calm, and always there.',
+    tags: ['Mindfulness', 'AI', 'Mobile', 'Wellbeing'],
+    banner: '/serene-banner.jpg',
+    hero: {
+      brand: 'Serene',
+      kicker: 'Mindfulness · AI companion',
+      headline: 'Your mind. Your space.',
+      sub: 'Mood · Journal · Breathe',
+      cta: 'Find calm',
+      tone: 'serene',
+    },
+  },
+  {
     id: 'my-pdf',
     icon: 'pdf',
     title: 'my♡pdf',

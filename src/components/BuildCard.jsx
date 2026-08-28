@@ -35,6 +35,13 @@ export default function BuildCard({ build, onOpen }) {
             className="pp-card__screenshot"
             loading="lazy"
           />
+        ) : build.banner ? (
+          <img
+            src={build.banner}
+            alt={`${build.title} preview`}
+            className="pp-card__screenshot"
+            loading="lazy"
+          />
         ) : (
           <div className={`bp-card__art${isCustom ? ' bp-card__art--custom' : ''}`} aria-hidden="true">
             {isCustom ? <PlusMark /> : <SoonMark />}

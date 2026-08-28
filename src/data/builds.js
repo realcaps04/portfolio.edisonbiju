@@ -60,13 +60,15 @@ export const BUILDS = [
     url: 'https://eaze-me.vercel.app/',
   },
   {
-    id: 'launching-soon',
+    id: 'serene',
     kind: 'soon',
-    title: 'Launching soon',
-    category: 'Coming up',
+    title: 'Serene',
+    category: 'Mobile App',
     year: '2026',
-    description: 'A new product is in the works. Check back shortly — or get in touch if you want first access.',
-    tags: ['Soon'],
+    description:
+      'AI-powered mindfulness companion — mood tracking, journaling, breathing, and chat support in one calm mobile app.',
+    tags: ['Flutter', 'AI', 'Wellbeing', 'Mobile'],
+    banner: '/serene-banner.jpg',
   },
   {
     id: 'build-yours',

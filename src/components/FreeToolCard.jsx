@@ -240,6 +240,14 @@ function HeroStage({ tone }) {
           <div className="fp-stage__alert">!</div>
         </div>
       );
+    case 'serene':
+      return (
+        <div className="fp-stage fp-stage--serene">
+          <div className="fp-stage__orb" />
+          <div className="fp-stage__mood">🙂</div>
+          <div className="fp-stage__wave" />
+        </div>
+      );
     default:
       return <div className="fp-stage" />;
   }
