@@ -72,6 +72,17 @@ export const BUILDS = [
     banner: '/serene-banner.jpg',
   },
   {
+    id: 'expensia',
+    kind: 'live',
+    title: 'Expensia',
+    category: 'Live',
+    year: '2026',
+    description:
+      'AI expense tracking app — log spending, organize categories, and stay on top of your budget in one place.',
+    tags: ['Finance', 'AI', 'Budget', 'Web'],
+    url: 'https://expensia-ai.vercel.app/',
+  },
+  {
     id: 'build-yours',
     kind: 'custom',
     title: 'Need yours built?',

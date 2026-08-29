@@ -248,6 +248,19 @@ function HeroStage({ tone }) {
           <div className="fp-stage__wave" />
         </div>
       );
+    case 'expensia':
+      return (
+        <div className="fp-stage fp-stage--expensia">
+          <div className="fp-stage__wallet" />
+          <div className="fp-stage__bars">
+            <i style={{ height: '55%' }} />
+            <i style={{ height: '78%' }} />
+            <i style={{ height: '42%' }} />
+            <i style={{ height: '68%' }} />
+          </div>
+          <div className="fp-stage__coin">₹</div>
+        </div>
+      );
     default:
       return <div className="fp-stage" />;
   }

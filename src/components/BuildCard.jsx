@@ -43,6 +43,13 @@ export default function BuildCard({ build, onOpen }) {
             className="pp-card__screenshot"
             loading="lazy"
           />
+        ) : isLive && build.url ? (
+          <img
+            src={screenshotUrl(build.url)}
+            alt={`Preview of ${build.title}`}
+            className="pp-card__screenshot"
+            loading="lazy"
+          />
         ) : (
           <div className={`bp-card__art${isCustom ? ' bp-card__art--custom' : ''}`} aria-hidden="true">
             {isCustom ? <PlusMark /> : <SoonMark />}

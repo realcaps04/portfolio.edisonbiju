@@ -42,6 +42,26 @@ export const FREE_TOOLS = [
     },
   },
   {
+    id: 'expensia',
+    icon: 'expensia',
+    title: 'Expensia',
+    category: 'Live',
+    year: '2026',
+    status: 'live',
+    url: 'https://expensia-ai.vercel.app/',
+    description:
+      'Track daily spending, sort expenses by category, and see where your money goes — with a clean AI-assisted expense dashboard.',
+    tags: ['Finance', 'Expenses', 'AI', 'Budget'],
+    hero: {
+      brand: 'Expensia',
+      kicker: 'Expense tracker',
+      headline: 'Know every rupee',
+      sub: 'Track · Categorize · Save',
+      cta: 'Track spending',
+      tone: 'expensia',
+    },
+  },
+  {
     id: 'my-pdf',
     icon: 'pdf',
     title: 'my♡pdf',
