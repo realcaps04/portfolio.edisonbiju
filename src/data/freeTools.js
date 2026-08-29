@@ -24,9 +24,10 @@ export const FREE_TOOLS = [
     id: 'serene',
     icon: 'serene',
     title: 'Serene',
-    category: 'Upcoming',
+    category: 'Live',
     year: '2026',
-    status: 'soon',
+    status: 'live',
+    url: 'https://serene-ai.vercel.app/',
     description:
       'Mindfulness AI companion for mood tracking, journaling, breathing exercises, and everyday wellbeing — private, calm, and always there.',
     tags: ['Mindfulness', 'AI', 'Mobile', 'Wellbeing'],

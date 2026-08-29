@@ -4,11 +4,12 @@ import './BuildCard.css';
 
 export default function BuildCard({ build, onOpen }) {
   const isSale = build.kind === 'sale';
+  const isLive = build.kind === 'live' && Boolean(build.url);
   const isSoon = build.kind === 'soon';
   const isCustom = build.kind === 'custom';
 
   const onActivate = () => {
-    if (isSoon) return;
+    if (isSoon || isLive) return;
     onOpen(build);
   };
 
@@ -21,7 +22,7 @@ export default function BuildCard({ build, onOpen }) {
 
   return (
     <article
-      className={`pp-card bp-card${isSoon ? ' is-soon' : ''}${isCustom ? ' is-custom' : ''}${isSale || isCustom ? ' is-action' : ''}`}
+      className={`pp-card bp-card${isSoon ? ' is-soon' : ''}${isCustom ? ' is-custom' : ''}${isLive ? ' is-action is-live' : ''}${isSale || isCustom ? ' is-action' : ''}`}
       role={isSale || isCustom ? 'button' : undefined}
       tabIndex={isSale || isCustom ? 0 : undefined}
       onClick={onActivate}
@@ -54,8 +55,32 @@ export default function BuildCard({ build, onOpen }) {
           </div>
         ) : null}
 
-        <span className={`pp-card__badge${isSoon ? ' bp-card__badge--soon' : ''}${isCustom ? ' bp-card__badge--custom' : ''}`}>
-          {isSale ? 'For sale' : build.category}
+        {isLive ? (
+          <div className="pp-card__overlay">
+            <a
+              href={build.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-card__view"
+            >
+              Open live
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path
+                  d="M2 11L11 2M11 2H5M11 2v6"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        ) : null}
+
+        <span
+          className={`pp-card__badge${isSoon ? ' bp-card__badge--soon' : ''}${isLive ? ' bp-card__badge--live' : ''}${isCustom ? ' bp-card__badge--custom' : ''}`}
+        >
+          {isSale ? 'For sale' : isLive ? 'Live' : build.category}
         </span>
         <span className="pp-card__year">{build.year}</span>
       </div>
@@ -79,6 +104,21 @@ export default function BuildCard({ build, onOpen }) {
               <path d="M2 11L11 2M11 2H5M11 2v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
+        ) : null}
+
+        {isLive ? (
+          <a href={build.url} target="_blank" rel="noopener noreferrer" className="pp-card__link">
+            Open live
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path
+                d="M2 11L11 2M11 2H5M11 2v6"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
         ) : null}
 
         {isSoon ? <p className="bp-card__soon">Not for sale yet</p> : null}

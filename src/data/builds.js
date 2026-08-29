@@ -61,13 +61,14 @@ export const BUILDS = [
   },
   {
     id: 'serene',
-    kind: 'soon',
+    kind: 'live',
     title: 'Serene',
-    category: 'Mobile App',
+    category: 'Live',
     year: '2026',
     description:
-      'AI-powered mindfulness companion — mood tracking, journaling, breathing, and chat support in one calm mobile app.',
-    tags: ['Flutter', 'AI', 'Wellbeing', 'Mobile'],
+      'AI-powered mindfulness companion — mood tracking, journaling, breathing, and chat support in one calm app.',
+    tags: ['AI', 'Wellbeing', 'Web', 'Mobile'],
+    url: 'https://serene-ai.vercel.app/',
     banner: '/serene-banner.jpg',
   },
   {

@@ -52,7 +52,7 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/api/, /convex\.cloud/],
       },
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: 'module',
         navigateFallbackAllowlist: [/^\/$/, /^\/admin/, /^\/about/, /^\/projects/, /^\/builds/, /^\/pricing/, /^\/free/, /^\/support/],
       },
